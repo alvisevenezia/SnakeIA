@@ -1,25 +1,27 @@
 package fr.alvisevenezia.GUI;
 
 import javax.swing.*;
+import java.awt.*;
 
 public class MainGUI extends JFrame {
 
-    private final int x = 900;
-    private final int y = 900;
+    private final double x = GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds().getWidth();
+    private final double y = GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds().getHeight();
+
+    private JPanel panel = new JPanel();
 
     public MainGUI(){
 
-        this.setSize(x,y);
+        this.setSize((int)x,(int)y);
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+        this.setTitle("SnakeIA");
 
-    }
+        JButton button = new JButton();
+        button.setText("Nouvelle IA");
 
-    public boolean closeFrame(){
+        panel.add(button);
 
-        this.closeFrame();
-
-        return true;
-
+        this.setContentPane(panel);
     }
 
     public boolean openFrame(){
