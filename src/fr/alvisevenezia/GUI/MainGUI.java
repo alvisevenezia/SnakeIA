@@ -1,5 +1,7 @@
 package fr.alvisevenezia.GUI;
 
+import fr.alvisevenezia.GUI.listener.NewIAListener;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -18,6 +20,7 @@ public class MainGUI extends JFrame {
 
         JButton button = new JButton();
         button.setText("Nouvelle IA");
+        button.addActionListener(new NewIAListener(this));
 
         panel.add(button);
 
