@@ -1,6 +1,7 @@
 package fr.alvisevenezia.GUI;
 
 import fr.alvisevenezia.GUI.snake.SnakePanel;
+import fr.alvisevenezia.SNAKE.GlobalManager;
 import fr.alvisevenezia.SNAKE.SnakeManager;
 
 import javax.swing.*;
@@ -18,16 +19,13 @@ public class MainGUI extends JFrame implements ActionListener {
     private MainPanel main;
     private SnakePanel snake;
 
-    public MainGUI(){
+    private GlobalManager globalManager;
 
-        main = new MainPanel();
-        main.setBounds(100,150,300,(int)(y-300));
-        main.setBackground(Color.YELLOW);
+    public MainGUI(GlobalManager globalManager){
 
-        JLabel label = new JLabel("coucou");
-        label.setFont(new java.awt.Font(Font.SERIF,Font.BOLD,15));;
+        this.globalManager = globalManager;
 
-        main.add(label);
+        main = new MainPanel(globalManager);
 
         this.setSize((int)x,(int)y);
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -37,7 +35,7 @@ public class MainGUI extends JFrame implements ActionListener {
         this.getContentPane().setLayout(null);
         this.getContentPane().add(main);
 
-        snake = new SnakePanel();
+        snake = new SnakePanel(globalManager);
 
         snake.setBounds(600,75,500,500);
         snake.setBackground(Color.GRAY);
@@ -61,4 +59,19 @@ public class MainGUI extends JFrame implements ActionListener {
 
     }
 
+    public MainPanel getMain() {
+        return main;
+    }
+
+    public void setMain(MainPanel main) {
+        this.main = main;
+    }
+
+    public SnakePanel getSnake() {
+        return snake;
+    }
+
+    public void setSnake(SnakePanel snake) {
+        this.snake = snake;
+    }
 }

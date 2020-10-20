@@ -20,18 +20,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b47c8c9f-8d01-4202-b47c-47d3d3332f87" name="Default Changelist" comment="test">
-      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/fr/alvisevenezia/GUI/MainPanel.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/fr/alvisevenezia/GUI/snake/Body.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/fr/alvisevenezia/GUI/snake/SnakePanel.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/fr/alvisevenezia/SNAKE/GlobalManager.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/fr/alvisevenezia/SNAKE/SnakeManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/fr/alvisevenezia/IA/IAIteration.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/fr/alvisevenezia/SNAKE/SnakeMouvement.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/fr/alvisevenezia/SNAKE/SnakeRunnable.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/fr/alvisevenezia/GUI/IAGUI.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/fr/alvisevenezia/GUI/MainGUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/fr/alvisevenezia/GUI/MainGUI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/fr/alvisevenezia/GUI/listener/NewIAListener.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/fr/alvisevenezia/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/fr/alvisevenezia/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/fr/alvisevenezia/GUI/MainPanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/fr/alvisevenezia/GUI/MainPanel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/fr/alvisevenezia/GUI/snake/SnakePanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/fr/alvisevenezia/GUI/snake/SnakePanel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/fr/alvisevenezia/SNAKE/GlobalManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/fr/alvisevenezia/SNAKE/GlobalManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/fr/alvisevenezia/SNAKE/SnakeManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/fr/alvisevenezia/SNAKE/SnakeManager.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -42,6 +39,7 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Class" />
+        <option value="Enum" />
       </list>
     </option>
   </component>
@@ -85,13 +83,15 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
+    <configuration default="true" type="ArquillianTestNG" factoryName="" nameIsGenerated="true">
       <option name="arquillianRunConfiguration">
         <value>
           <option name="containerStateName" value="" />
         </value>
       </option>
-      <option name="TEST_OBJECT" value="class" />
+      <option name="TEST_OBJECT" value="CLASS" />
+      <properties />
+      <listeners />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -122,6 +122,7 @@
       <workItem from="1602071162529" duration="7580000" />
       <workItem from="1602672158981" duration="752000" />
       <workItem from="1603133803418" duration="3350000" />
+      <workItem from="1603179166823" duration="9909000" />
     </task>
     <task id="LOCAL-00001" summary="test">
       <created>1601975774640</created>
@@ -181,10 +182,10 @@
     <option name="LAST_COMMIT_MESSAGE" value="test" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="446" y="47" key="#com.intellij.ide.util.MemberChooser" timestamp="1603134778807">
+    <state x="446" y="47" key="#com.intellij.ide.util.MemberChooser" timestamp="1603210311336">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="446" y="47" key="#com.intellij.ide.util.MemberChooser/0.0.1280.680@0.0.1280.680" timestamp="1603134778807" />
+    <state x="446" y="47" key="#com.intellij.ide.util.MemberChooser/0.0.1280.680@0.0.1280.680" timestamp="1603210311336" />
     <state x="371" y="88" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1602074782089">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
@@ -193,22 +194,22 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="585" y="114" key="CommitChangelistDialog2/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1601974905974" />
-    <state width="1237" height="111" key="GridCell.Tab.0.bottom" timestamp="1603137007625">
+    <state width="1237" height="482" key="GridCell.Tab.0.bottom" timestamp="1603214700350">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1237" height="111" key="GridCell.Tab.0.bottom/0.0.1280.680@0.0.1280.680" timestamp="1603137007625" />
-    <state width="1237" height="111" key="GridCell.Tab.0.center" timestamp="1603137007625">
+    <state width="1237" height="482" key="GridCell.Tab.0.bottom/0.0.1280.680@0.0.1280.680" timestamp="1603214700350" />
+    <state width="1237" height="482" key="GridCell.Tab.0.center" timestamp="1603214700350">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1237" height="111" key="GridCell.Tab.0.center/0.0.1280.680@0.0.1280.680" timestamp="1603137007625" />
-    <state width="1237" height="111" key="GridCell.Tab.0.left" timestamp="1603137007625">
+    <state width="1237" height="482" key="GridCell.Tab.0.center/0.0.1280.680@0.0.1280.680" timestamp="1603214700350" />
+    <state width="1237" height="482" key="GridCell.Tab.0.left" timestamp="1603214700350">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1237" height="111" key="GridCell.Tab.0.left/0.0.1280.680@0.0.1280.680" timestamp="1603137007625" />
-    <state width="1237" height="111" key="GridCell.Tab.0.right" timestamp="1603137007625">
+    <state width="1237" height="482" key="GridCell.Tab.0.left/0.0.1280.680@0.0.1280.680" timestamp="1603214700350" />
+    <state width="1237" height="482" key="GridCell.Tab.0.right" timestamp="1603214700350">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1237" height="111" key="GridCell.Tab.0.right/0.0.1280.680@0.0.1280.680" timestamp="1603137007625" />
+    <state width="1237" height="482" key="GridCell.Tab.0.right/0.0.1280.680@0.0.1280.680" timestamp="1603214700350" />
     <state width="1237" height="204" key="GridCell.Tab.1.bottom" timestamp="1602672915935">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
@@ -243,9 +244,9 @@
       <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state x="473" y="153" width="932" height="476" key="dock-window-1/0.0.1280.680@0.0.1280.680" timestamp="1602073823484" />
-    <state x="303" y="1" width="672" height="678" key="search.everywhere.popup" timestamp="1602076096679">
+    <state x="303" y="1" width="672" height="678" key="search.everywhere.popup" timestamp="1603186325085">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="303" y="1" width="672" height="678" key="search.everywhere.popup/0.0.1280.680@0.0.1280.680" timestamp="1602076096679" />
+    <state x="303" y="1" width="672" height="678" key="search.everywhere.popup/0.0.1280.680@0.0.1280.680" timestamp="1603186325085" />
   </component>
 </project>
