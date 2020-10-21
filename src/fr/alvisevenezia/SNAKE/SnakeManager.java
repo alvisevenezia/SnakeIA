@@ -32,6 +32,23 @@ public class SnakeManager {
         this.globalManager = globalManager;
     }
 
+    public int[] getQueuePos(){
+
+        for(int i = 0;i< 50;i++){
+
+            for(int i2 = 0;i < 50;i++){
+
+                if(getSnake(i,i2) == currentbody){
+
+                    return new int[]{i, i2};
+                }
+
+            }
+        }
+
+        return null;
+    }
+
     public void startRunnable(){
 
         timer = new Timer();
@@ -175,6 +192,7 @@ public class SnakeManager {
         setSnake(25,25,1);
         setSnake(26,25,2);
         updateSnake();
+
     }
 
     public void createBodyPart(boolean isHead){
@@ -238,5 +256,33 @@ public class SnakeManager {
 
     public void setSnakeRunnable(SnakeRunnable snakeRunnable) {
         this.snakeRunnable = snakeRunnable;
+    }
+
+    public int getAppleDistance(int i3, int i4) {
+
+        int min = 10000000;
+
+        for(int i = 0;i< 50;i++){
+
+            for(int i2 = 0;i<50;i++){
+
+                if(isApple(i,i2)){
+
+                    int da = (int)Math.sqrt(((i3-i)*(i3-i))+((i4-i2)*(i4-i2)));
+
+                    if(da < min){
+
+                        min = da;
+
+                    }
+
+                }
+
+            }
+
+        }
+
+        return min;
+
     }
 }

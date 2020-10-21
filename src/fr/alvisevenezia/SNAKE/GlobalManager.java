@@ -19,6 +19,7 @@ public class GlobalManager implements ActionListener {
     private boolean isStarted = false;
     private Timer timer;
     private HashMap<IAIteration,SnakeManager> managers;
+    private int iterationcount = 0;
 
     public GlobalManager(){
 
@@ -31,10 +32,11 @@ public class GlobalManager implements ActionListener {
 
     public SnakeManager getBestSnake(){
 
-        int max = 0;
-        SnakeManager best;
+        int max = -1;
+        SnakeManager best = null;
 
         for(SnakeManager snakeManager : managers.values()){
+
 
             if(snakeManager.getScore() > max){
 
@@ -45,7 +47,7 @@ public class GlobalManager implements ActionListener {
 
         }
 
-        return snakeManager;
+        return best;
 
     }
 
@@ -92,12 +94,17 @@ public class GlobalManager implements ActionListener {
 
         while (i != 0){
 
-            IAIteration iaIteration = new IAIteration();
+            IAIteration iaIteration = new IAIteration(this,iterationcount);
             SnakeManager snakeManager = new SnakeManager(this);
             snakeManager.createSnake();
             snakeManager.initilizeApple();
             snakeManager.startRunnable();
+            iaIteration.setSnakeManager(snakeManager);
             managers.put(iaIteration,snakeManager);
+
+            iterationcount++;
+
+            i--;
 
         }
 

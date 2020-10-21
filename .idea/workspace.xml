@@ -19,14 +19,11 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b47c8c9f-8d01-4202-b47c-47d3d3332f87" name="Default Changelist" comment="bug quand le serpent va vers le bas">
+    <list default="true" id="b47c8c9f-8d01-4202-b47c-47d3d3332f87" name="Default Changelist" comment="animation serpent finie, début d'implementation de la gestion de plusieurs serpents en simultané, beaucoups de bugs">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/fr/alvisevenezia/GUI/MainPanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/fr/alvisevenezia/GUI/MainPanel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/fr/alvisevenezia/GUI/snake/SnakePanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/fr/alvisevenezia/GUI/snake/SnakePanel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/fr/alvisevenezia/IA/IAIteration.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/fr/alvisevenezia/IA/IAIteration.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/fr/alvisevenezia/SNAKE/GlobalManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/fr/alvisevenezia/SNAKE/GlobalManager.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/fr/alvisevenezia/SNAKE/SnakeManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/fr/alvisevenezia/SNAKE/SnakeManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/fr/alvisevenezia/SNAKE/SnakeMouvement.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/fr/alvisevenezia/SNAKE/SnakeMouvement.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/fr/alvisevenezia/SNAKE/SnakeRunnable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/fr/alvisevenezia/SNAKE/SnakeRunnable.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -108,7 +105,9 @@
       <workItem from="1602672158981" duration="752000" />
       <workItem from="1603133803418" duration="3350000" />
       <workItem from="1603179166823" duration="9960000" />
-      <workItem from="1603276761818" duration="4638000" />
+      <workItem from="1603276761818" duration="5314000" />
+      <workItem from="1603290834458" duration="3122000" />
+      <workItem from="1603300496704" duration="597000" />
     </task>
     <task id="LOCAL-00001" summary="test">
       <created>1601975774640</created>
@@ -152,7 +151,14 @@
       <option name="project" value="LOCAL" />
       <updated>1603214747850</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="animation serpent finie, début d'implementation de la gestion de plusieurs serpents en simultané, beaucoups de bugs">
+      <created>1603281963039</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1603281963039</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -173,7 +179,8 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="test" />
     <MESSAGE value="bug quand le serpent va vers le bas" />
-    <option name="LAST_COMMIT_MESSAGE" value="bug quand le serpent va vers le bas" />
+    <MESSAGE value="animation serpent finie, début d'implementation de la gestion de plusieurs serpents en simultané, beaucoups de bugs" />
+    <option name="LAST_COMMIT_MESSAGE" value="animation serpent finie, début d'implementation de la gestion de plusieurs serpents en simultané, beaucoups de bugs" />
   </component>
   <component name="WindowStateProjectService">
     <state x="446" y="47" key="#com.intellij.ide.util.MemberChooser" timestamp="1603280660983">
@@ -192,47 +199,47 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="585" y="114" key="CommitChangelistDialog2/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1601974905974" />
-    <state width="1237" height="342" key="GridCell.Tab.0.bottom" timestamp="1603281394573">
+    <state width="1237" height="210" key="GridCell.Tab.0.bottom" timestamp="1603291361145">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1237" height="342" key="GridCell.Tab.0.bottom/0.0.1280.680@0.0.1280.680" timestamp="1603281394573" />
-    <state width="1237" height="342" key="GridCell.Tab.0.center" timestamp="1603281394573">
+    <state width="1237" height="210" key="GridCell.Tab.0.bottom/0.0.1280.680@0.0.1280.680" timestamp="1603291361145" />
+    <state width="1237" height="210" key="GridCell.Tab.0.center" timestamp="1603291361145">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1237" height="342" key="GridCell.Tab.0.center/0.0.1280.680@0.0.1280.680" timestamp="1603281394573" />
-    <state width="1237" height="342" key="GridCell.Tab.0.left" timestamp="1603281394573">
+    <state width="1237" height="210" key="GridCell.Tab.0.center/0.0.1280.680@0.0.1280.680" timestamp="1603291361145" />
+    <state width="1237" height="210" key="GridCell.Tab.0.left" timestamp="1603291361145">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1237" height="342" key="GridCell.Tab.0.left/0.0.1280.680@0.0.1280.680" timestamp="1603281394573" />
-    <state width="1237" height="342" key="GridCell.Tab.0.right" timestamp="1603281394573">
+    <state width="1237" height="210" key="GridCell.Tab.0.left/0.0.1280.680@0.0.1280.680" timestamp="1603291361145" />
+    <state width="1237" height="210" key="GridCell.Tab.0.right" timestamp="1603291361145">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1237" height="342" key="GridCell.Tab.0.right/0.0.1280.680@0.0.1280.680" timestamp="1603281394573" />
-    <state width="1237" height="204" key="GridCell.Tab.1.bottom" timestamp="1603278699298">
+    <state width="1237" height="210" key="GridCell.Tab.0.right/0.0.1280.680@0.0.1280.680" timestamp="1603291361145" />
+    <state width="1237" height="204" key="GridCell.Tab.1.bottom" timestamp="1603282115300">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1237" height="204" key="GridCell.Tab.1.bottom/0.0.1280.680@0.0.1280.680" timestamp="1603278699298" />
-    <state width="1237" height="204" key="GridCell.Tab.1.center" timestamp="1603278699298">
+    <state width="1237" height="204" key="GridCell.Tab.1.bottom/0.0.1280.680@0.0.1280.680" timestamp="1603282115300" />
+    <state width="1237" height="204" key="GridCell.Tab.1.center" timestamp="1603282115300">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1237" height="204" key="GridCell.Tab.1.center/0.0.1280.680@0.0.1280.680" timestamp="1603278699298" />
-    <state width="1237" height="204" key="GridCell.Tab.1.left" timestamp="1603278699298">
+    <state width="1237" height="204" key="GridCell.Tab.1.center/0.0.1280.680@0.0.1280.680" timestamp="1603282115300" />
+    <state width="1237" height="204" key="GridCell.Tab.1.left" timestamp="1603282115300">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1237" height="204" key="GridCell.Tab.1.left/0.0.1280.680@0.0.1280.680" timestamp="1603278699298" />
-    <state width="1237" height="204" key="GridCell.Tab.1.right" timestamp="1603278699298">
+    <state width="1237" height="204" key="GridCell.Tab.1.left/0.0.1280.680@0.0.1280.680" timestamp="1603282115300" />
+    <state width="1237" height="204" key="GridCell.Tab.1.right" timestamp="1603282115300">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1237" height="204" key="GridCell.Tab.1.right/0.0.1280.680@0.0.1280.680" timestamp="1603278699298" />
+    <state width="1237" height="204" key="GridCell.Tab.1.right/0.0.1280.680@0.0.1280.680" timestamp="1603282115300" />
     <state x="242" y="0" key="SettingsEditor" timestamp="1603135200570">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state x="242" y="0" key="SettingsEditor/0.0.1280.680@0.0.1280.680" timestamp="1603135200570" />
     <state x="440" y="94" key="SettingsEditor/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1601974880179" />
-    <state x="233" y="74" key="Vcs.Push.Dialog.v2" timestamp="1603214750729">
+    <state x="233" y="74" key="Vcs.Push.Dialog.v2" timestamp="1603281989564">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="233" y="74" key="Vcs.Push.Dialog.v2/0.0.1280.680@0.0.1280.680" timestamp="1603214750729" />
+    <state x="233" y="74" key="Vcs.Push.Dialog.v2/0.0.1280.680@0.0.1280.680" timestamp="1603281989564" />
     <state x="513" y="285" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1601976789682">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
