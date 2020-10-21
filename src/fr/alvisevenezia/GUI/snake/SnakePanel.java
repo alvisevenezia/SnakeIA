@@ -28,7 +28,7 @@ public class SnakePanel extends JPanel {
                     g.setColor(Color.BLACK);
                     g.drawRect(i * 10, i2 * 10, 10, 10);
                     if (globalManager.isStarted()) {
-                        switch (globalManager.getSnakeManager().getSnake(i, i2)) {
+                        switch (globalManager.getBestSnake().getSnake(i, i2)) {
 
                             case 1:
                                 g.setColor(Color.RED);
@@ -37,6 +37,13 @@ public class SnakePanel extends JPanel {
                                 break;
 
                             case 0:
+
+                                if(globalManager.getBestSnake().isApple(i,i2)){
+
+                                    g.setColor(Color.GREEN);
+                                    g.fillRect(i * 10, i2 * 10, 10, 10);
+                                    break;
+                                }
                                 g.setColor(Color.BLACK);
                                 g.drawRect(i * 10, i2 * 10, 10, 10);
 

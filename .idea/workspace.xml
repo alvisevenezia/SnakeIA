@@ -19,16 +19,14 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b47c8c9f-8d01-4202-b47c-47d3d3332f87" name="Default Changelist" comment="test">
-      <change afterPath="$PROJECT_DIR$/src/fr/alvisevenezia/IA/IAIteration.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/fr/alvisevenezia/SNAKE/SnakeMouvement.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/fr/alvisevenezia/SNAKE/SnakeRunnable.java" afterDir="false" />
+    <list default="true" id="b47c8c9f-8d01-4202-b47c-47d3d3332f87" name="Default Changelist" comment="bug quand le serpent va vers le bas">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/fr/alvisevenezia/GUI/MainGUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/fr/alvisevenezia/GUI/MainGUI.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/fr/alvisevenezia/GUI/MainPanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/fr/alvisevenezia/GUI/MainPanel.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/fr/alvisevenezia/GUI/snake/SnakePanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/fr/alvisevenezia/GUI/snake/SnakePanel.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/fr/alvisevenezia/SNAKE/GlobalManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/fr/alvisevenezia/SNAKE/GlobalManager.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/fr/alvisevenezia/SNAKE/SnakeManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/fr/alvisevenezia/SNAKE/SnakeManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/fr/alvisevenezia/SNAKE/SnakeMouvement.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/fr/alvisevenezia/SNAKE/SnakeMouvement.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/fr/alvisevenezia/SNAKE/SnakeRunnable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/fr/alvisevenezia/SNAKE/SnakeRunnable.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -83,19 +81,6 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration default="true" type="ArquillianTestNG" factoryName="" nameIsGenerated="true">
-      <option name="arquillianRunConfiguration">
-        <value>
-          <option name="containerStateName" value="" />
-        </value>
-      </option>
-      <option name="TEST_OBJECT" value="CLASS" />
-      <properties />
-      <listeners />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <recent_temporary>
       <list>
         <item itemvalue="Application.Main" />
@@ -122,7 +107,8 @@
       <workItem from="1602071162529" duration="7580000" />
       <workItem from="1602672158981" duration="752000" />
       <workItem from="1603133803418" duration="3350000" />
-      <workItem from="1603179166823" duration="9909000" />
+      <workItem from="1603179166823" duration="9960000" />
+      <workItem from="1603276761818" duration="4638000" />
     </task>
     <task id="LOCAL-00001" summary="test">
       <created>1601975774640</created>
@@ -159,7 +145,14 @@
       <option name="project" value="LOCAL" />
       <updated>1602019367678</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="bug quand le serpent va vers le bas">
+      <created>1603214747850</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1603214747850</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -179,13 +172,18 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="test" />
-    <option name="LAST_COMMIT_MESSAGE" value="test" />
+    <MESSAGE value="bug quand le serpent va vers le bas" />
+    <option name="LAST_COMMIT_MESSAGE" value="bug quand le serpent va vers le bas" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="446" y="47" key="#com.intellij.ide.util.MemberChooser" timestamp="1603210311336">
+    <state x="446" y="47" key="#com.intellij.ide.util.MemberChooser" timestamp="1603280660983">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="446" y="47" key="#com.intellij.ide.util.MemberChooser/0.0.1280.680@0.0.1280.680" timestamp="1603210311336" />
+    <state x="446" y="47" key="#com.intellij.ide.util.MemberChooser/0.0.1280.680@0.0.1280.680" timestamp="1603280660983" />
+    <state x="345" y="118" key="#com.intellij.refactoring.encapsulateFields.EncalpsulateFieldsDialog" timestamp="1603279602524">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state x="345" y="118" key="#com.intellij.refactoring.encapsulateFields.EncalpsulateFieldsDialog/0.0.1280.680@0.0.1280.680" timestamp="1603279602524" />
     <state x="371" y="88" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1602074782089">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
@@ -194,47 +192,47 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="585" y="114" key="CommitChangelistDialog2/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1601974905974" />
-    <state width="1237" height="482" key="GridCell.Tab.0.bottom" timestamp="1603214700350">
+    <state width="1237" height="342" key="GridCell.Tab.0.bottom" timestamp="1603281394573">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1237" height="482" key="GridCell.Tab.0.bottom/0.0.1280.680@0.0.1280.680" timestamp="1603214700350" />
-    <state width="1237" height="482" key="GridCell.Tab.0.center" timestamp="1603214700350">
+    <state width="1237" height="342" key="GridCell.Tab.0.bottom/0.0.1280.680@0.0.1280.680" timestamp="1603281394573" />
+    <state width="1237" height="342" key="GridCell.Tab.0.center" timestamp="1603281394573">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1237" height="482" key="GridCell.Tab.0.center/0.0.1280.680@0.0.1280.680" timestamp="1603214700350" />
-    <state width="1237" height="482" key="GridCell.Tab.0.left" timestamp="1603214700350">
+    <state width="1237" height="342" key="GridCell.Tab.0.center/0.0.1280.680@0.0.1280.680" timestamp="1603281394573" />
+    <state width="1237" height="342" key="GridCell.Tab.0.left" timestamp="1603281394573">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1237" height="482" key="GridCell.Tab.0.left/0.0.1280.680@0.0.1280.680" timestamp="1603214700350" />
-    <state width="1237" height="482" key="GridCell.Tab.0.right" timestamp="1603214700350">
+    <state width="1237" height="342" key="GridCell.Tab.0.left/0.0.1280.680@0.0.1280.680" timestamp="1603281394573" />
+    <state width="1237" height="342" key="GridCell.Tab.0.right" timestamp="1603281394573">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1237" height="482" key="GridCell.Tab.0.right/0.0.1280.680@0.0.1280.680" timestamp="1603214700350" />
-    <state width="1237" height="204" key="GridCell.Tab.1.bottom" timestamp="1602672915935">
+    <state width="1237" height="342" key="GridCell.Tab.0.right/0.0.1280.680@0.0.1280.680" timestamp="1603281394573" />
+    <state width="1237" height="204" key="GridCell.Tab.1.bottom" timestamp="1603278699298">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1237" height="204" key="GridCell.Tab.1.bottom/0.0.1280.680@0.0.1280.680" timestamp="1602672915935" />
-    <state width="1237" height="204" key="GridCell.Tab.1.center" timestamp="1602672915935">
+    <state width="1237" height="204" key="GridCell.Tab.1.bottom/0.0.1280.680@0.0.1280.680" timestamp="1603278699298" />
+    <state width="1237" height="204" key="GridCell.Tab.1.center" timestamp="1603278699298">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1237" height="204" key="GridCell.Tab.1.center/0.0.1280.680@0.0.1280.680" timestamp="1602672915935" />
-    <state width="1237" height="204" key="GridCell.Tab.1.left" timestamp="1602672915935">
+    <state width="1237" height="204" key="GridCell.Tab.1.center/0.0.1280.680@0.0.1280.680" timestamp="1603278699298" />
+    <state width="1237" height="204" key="GridCell.Tab.1.left" timestamp="1603278699298">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1237" height="204" key="GridCell.Tab.1.left/0.0.1280.680@0.0.1280.680" timestamp="1602672915935" />
-    <state width="1237" height="204" key="GridCell.Tab.1.right" timestamp="1602672915935">
+    <state width="1237" height="204" key="GridCell.Tab.1.left/0.0.1280.680@0.0.1280.680" timestamp="1603278699298" />
+    <state width="1237" height="204" key="GridCell.Tab.1.right" timestamp="1603278699298">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1237" height="204" key="GridCell.Tab.1.right/0.0.1280.680@0.0.1280.680" timestamp="1602672915935" />
+    <state width="1237" height="204" key="GridCell.Tab.1.right/0.0.1280.680@0.0.1280.680" timestamp="1603278699298" />
     <state x="242" y="0" key="SettingsEditor" timestamp="1603135200570">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state x="242" y="0" key="SettingsEditor/0.0.1280.680@0.0.1280.680" timestamp="1603135200570" />
     <state x="440" y="94" key="SettingsEditor/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1601974880179" />
-    <state x="233" y="74" key="Vcs.Push.Dialog.v2" timestamp="1602019372218">
+    <state x="233" y="74" key="Vcs.Push.Dialog.v2" timestamp="1603214750729">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="233" y="74" key="Vcs.Push.Dialog.v2/0.0.1280.680@0.0.1280.680" timestamp="1602019372218" />
+    <state x="233" y="74" key="Vcs.Push.Dialog.v2/0.0.1280.680@0.0.1280.680" timestamp="1603214750729" />
     <state x="513" y="285" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1601976789682">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
@@ -244,9 +242,12 @@
       <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state x="473" y="153" width="932" height="476" key="dock-window-1/0.0.1280.680@0.0.1280.680" timestamp="1602073823484" />
-    <state x="303" y="1" width="672" height="678" key="search.everywhere.popup" timestamp="1603186325085">
+    <state x="303" y="1" width="672" height="678" key="search.everywhere.popup" timestamp="1603280637472">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="303" y="1" width="672" height="678" key="search.everywhere.popup/0.0.1280.680@0.0.1280.680" timestamp="1603186325085" />
+    <state x="303" y="1" width="672" height="678" key="search.everywhere.popup/0.0.1280.680@0.0.1280.680" timestamp="1603280637472" />
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/SnakeIA$Main.ic" NAME="Main Coverage Results" MODIFIED="1603279705867" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
   </component>
 </project>

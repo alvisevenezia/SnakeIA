@@ -4,13 +4,20 @@ import fr.alvisevenezia.GUI.snake.Body;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Timer;
 
 public class SnakeManager {
 
     private int bodyStart = 2;
     private int currentbody = 2;
     private int newbody = 2;
-    private SnakeMouvement currentmouvement = SnakeMouvement.UP;
+    private boolean headmooved = false;
+    private SnakeMouvement currentmouvement = SnakeMouvement.STAY;
+    private SnakeRunnable snakeRunnable;
+    private Timer timer;
+
+    private int score = 0;
+    private int max = 500;
 
     private GlobalManager globalManager;
 
@@ -25,72 +32,126 @@ public class SnakeManager {
         this.globalManager = globalManager;
     }
 
-    public void moovSnake(SnakeMouvement snakeMouvement){
+    public void startRunnable(){
 
-        currentmouvement = snakeMouvement;
+        timer = new Timer();
+        timer.schedule(new SnakeRunnable(globalManager),1000,1000);
+
+    }
+
+    public void stopRunnable(){
+
+        timer.cancel();
+
+    }
+
+    public void moovSnake(SnakeMouvement snakeMouvement){
 
         for(int i = 0;i<50;i++) {
 
             for (int i2 = 0; i2 < 50; i2++) {
 
-                if(getSnake(i,i2) == 1){
+                switch (getSnake(i,i2)){
 
-                    System.out.println("HEAD: "+i+","+i2);
-                    System.out.println("NEXT: "+(i+snakeMouvement.getX())+","+(i2+snakeMouvement.getY())+": "+getSnake(i+snakeMouvement.getX(),i2+snakeMouvement.getY()));
-                    System.out.println("OLD:"+(i+snakeMouvement.getX())+","+(i2+snakeMouvement.getY())+": "+currentsnake[i+snakeMouvement.getX()][i2+snakeMouvement.getY()]);
-                    if(i+snakeMouvement.getX() < 50 && i2+snakeMouvement.getY() < 50 && i+snakeMouvement.getX() >= 0 && i2+snakeMouvement.getY() >= 0){
+                    case 0:
 
-                        if(getSnake(i+snakeMouvement.getX(),i2+snakeMouvement.getY()) != 0){
+                        setSnake(i,i2,0);
 
-                            globalManager.stopRunnable();
-                            System.out.println("GAME OVER: "+i+","+i2);
-                            System.out.println("TU AS MANGE TON SERPENT");
-                            break;
-
-                        }else {
-
-                            newsnake[i + snakeMouvement.getX()][i2 + snakeMouvement.getY()] = 1;
-                         //   setSnake(i + snakeMouvement.getX(), i2 + snakeMouvement.getY(), 1);
-                            setSnake(i, i2, 2);
-                        }
-                    }else{
-
-                        globalManager.stopRunnable();
-                        System.out.println("GAME OVER: "+i+","+i2);
                         break;
 
-                    }
+                    case 1:
+
+                        System.out.println(getSnake(i + snakeMouvement.getX(), i2 + snakeMouvement.getY()));
 
 
+                        if(getSnake(i + snakeMouvement.getX(), i2 + snakeMouvement.getY()) != 0 || ((currentmouvement.getY()+snakeMouvement.getY() == 0)&& (currentmouvement.getX()+snakeMouvement.getX() == 0)&& currentmouvement != SnakeMouvement.STAY)){
 
-                }else if(getSnake(i,i2) <currentbody && getSnake(i,i2) != 0){
+                            System.out.println("Ton serpent s'est mangé lui même");
+                            stopRunnable();
+                            break;
 
-                    setSnake(i,i2,getSnake(i,i2)+1);
+                        }else if(!isHeadmooved()) {
 
-                }else if(getSnake(i,i2) == currentbody ){
 
-                    if(currentbody == newbody){
+                            if(isApple(i + snakeMouvement.getX(), i2 + snakeMouvement.getY())){
 
-                        setSnake(i, i2, 0);
+                                newbody = currentbody+1;
+                                score += 20;
+                                max += 150;
 
-                    }else {
+                            }
+                            setSnake(i + snakeMouvement.getX(), i2 + snakeMouvement.getY(), 1);
+                            setSnake(i, i2, 2);
+                            setHeadmooved(true);
+                            score += 10;
+                            max -= 10;
+                        }
 
-                        setSnake(i, i2, getSnake(i, i2) + 1);
-                        System.out.println("NOUVEAU CORPS EN " + i + "," + i2);
+                        break;
 
-                    }
+                    default:
 
-                }else if(getSnake(i,i2) == 0){
+                        if(getSnake(i,i2) == currentbody) {
 
-                    setSnake(i,i2,0);
+                            if(currentbody != newbody) {
+
+                                setSnake(i, i2, getSnake(i, i2) + 1);
+
+                            }else{
+
+                                setSnake(i,i2,0);
+
+                            }
+
+                        }else{
+
+
+                            setSnake(i, i2, getSnake(i, i2) + 1);
+
+                        }
+                        break;
                 }
 
             }
         }
-
         updateBody();
         updateSnake();
         globalManager.getMainGUI().getSnake().repaint();
+        currentmouvement = snakeMouvement;
+
+        setHeadmooved(false);
+
+    }
+
+    public void initilizeApple(){
+
+        for(int i = 0;i < 50;i++){
+
+            for(int i2 = 0;i< 50;i++){
+
+                setApple(i,i2,0);
+
+            }
+
+        }
+
+    }
+
+    public void setApple(int i,int i2,int i3){
+
+        pommes[i][i2] = i3;
+
+    }
+
+    public boolean isApple(int i,int i2){
+
+        if(pommes[i][i2] == 1){
+
+            return true;
+
+        }
+
+        return false;
 
     }
 
@@ -147,5 +208,35 @@ public class SnakeManager {
         this.newbody = newbody;
     }
 
+    public boolean isHeadmooved() {
+        return headmooved;
+    }
 
+    public void setHeadmooved(boolean headmooved) {
+        this.headmooved = headmooved;
+    }
+
+    public int getScore() {
+        return score;
+    }
+
+    public void setScore(int score) {
+        this.score = score;
+    }
+
+    public int getMax() {
+        return max;
+    }
+
+    public void setMax(int max) {
+        this.max = max;
+    }
+
+    public SnakeRunnable getSnakeRunnable() {
+        return snakeRunnable;
+    }
+
+    public void setSnakeRunnable(SnakeRunnable snakeRunnable) {
+        this.snakeRunnable = snakeRunnable;
+    }
 }
