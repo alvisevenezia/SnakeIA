@@ -19,10 +19,11 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b47c8c9f-8d01-4202-b47c-47d3d3332f87" name="Default Changelist" comment="animation serpent finie, début d'implementation de la gestion de plusieurs serpents en simultané, beaucoups de bugs">
+    <list default="true" id="b47c8c9f-8d01-4202-b47c-47d3d3332f87" name="Default Changelist" comment="premier layer fait et début des layers suivants">
+      <change afterPath="$PROJECT_DIR$/src/fr/alvisevenezia/IA/NN/ComputeLayer.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/fr/alvisevenezia/IA/NN/FirstLayer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/fr/alvisevenezia/IA/IAIteration.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/fr/alvisevenezia/IA/IAIteration.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/fr/alvisevenezia/SNAKE/GlobalManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/fr/alvisevenezia/SNAKE/GlobalManager.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/fr/alvisevenezia/SNAKE/SnakeManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/fr/alvisevenezia/SNAKE/SnakeManager.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -33,8 +34,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Class" />
         <option value="Enum" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -78,6 +79,17 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
+      <option name="arquillianRunConfiguration">
+        <value>
+          <option name="containerStateName" value="" />
+        </value>
+      </option>
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <recent_temporary>
       <list>
         <item itemvalue="Application.Main" />
@@ -108,6 +120,8 @@
       <workItem from="1603276761818" duration="5314000" />
       <workItem from="1603290834458" duration="3122000" />
       <workItem from="1603300496704" duration="597000" />
+      <workItem from="1603307675511" duration="714000" />
+      <workItem from="1603441915722" duration="5931000" />
     </task>
     <task id="LOCAL-00001" summary="test">
       <created>1601975774640</created>
@@ -158,7 +172,14 @@
       <option name="project" value="LOCAL" />
       <updated>1603281963039</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="bug multi-snake réglé et préparation de l'implémentation de l'IA">
+      <created>1603307763390</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1603307763390</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -180,13 +201,15 @@
     <MESSAGE value="test" />
     <MESSAGE value="bug quand le serpent va vers le bas" />
     <MESSAGE value="animation serpent finie, début d'implementation de la gestion de plusieurs serpents en simultané, beaucoups de bugs" />
-    <option name="LAST_COMMIT_MESSAGE" value="animation serpent finie, début d'implementation de la gestion de plusieurs serpents en simultané, beaucoups de bugs" />
+    <MESSAGE value="bug multi-snake réglé et préparation de l'implémentation de l'IA" />
+    <MESSAGE value="premier layer fait et début des layers suivants" />
+    <option name="LAST_COMMIT_MESSAGE" value="premier layer fait et début des layers suivants" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="446" y="47" key="#com.intellij.ide.util.MemberChooser" timestamp="1603280660983">
+    <state x="446" y="47" key="#com.intellij.ide.util.MemberChooser" timestamp="1603446870144">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="446" y="47" key="#com.intellij.ide.util.MemberChooser/0.0.1280.680@0.0.1280.680" timestamp="1603280660983" />
+    <state x="446" y="47" key="#com.intellij.ide.util.MemberChooser/0.0.1280.680@0.0.1280.680" timestamp="1603446870144" />
     <state x="345" y="118" key="#com.intellij.refactoring.encapsulateFields.EncalpsulateFieldsDialog" timestamp="1603279602524">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
@@ -236,10 +259,10 @@
     </state>
     <state x="242" y="0" key="SettingsEditor/0.0.1280.680@0.0.1280.680" timestamp="1603135200570" />
     <state x="440" y="94" key="SettingsEditor/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1601974880179" />
-    <state x="233" y="74" key="Vcs.Push.Dialog.v2" timestamp="1603281989564">
+    <state x="233" y="74" key="Vcs.Push.Dialog.v2" timestamp="1603307768825">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="233" y="74" key="Vcs.Push.Dialog.v2/0.0.1280.680@0.0.1280.680" timestamp="1603281989564" />
+    <state x="233" y="74" key="Vcs.Push.Dialog.v2/0.0.1280.680@0.0.1280.680" timestamp="1603307768825" />
     <state x="513" y="285" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1601976789682">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
@@ -249,10 +272,14 @@
       <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state x="473" y="153" width="932" height="476" key="dock-window-1/0.0.1280.680@0.0.1280.680" timestamp="1602073823484" />
-    <state x="303" y="1" width="672" height="678" key="search.everywhere.popup" timestamp="1603280637472">
+    <state x="297" y="151" key="run.anything.popup" timestamp="1603446983400">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="303" y="1" width="672" height="678" key="search.everywhere.popup/0.0.1280.680@0.0.1280.680" timestamp="1603280637472" />
+    <state x="297" y="151" key="run.anything.popup/0.0.1280.680@0.0.1280.680" timestamp="1603446983400" />
+    <state x="303" y="1" width="672" height="678" key="search.everywhere.popup" timestamp="1603443724124">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state x="303" y="1" width="672" height="678" key="search.everywhere.popup/0.0.1280.680@0.0.1280.680" timestamp="1603443724124" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/SnakeIA$Main.ic" NAME="Main Coverage Results" MODIFIED="1603279705867" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />

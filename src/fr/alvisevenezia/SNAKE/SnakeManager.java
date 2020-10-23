@@ -49,6 +49,26 @@ public class SnakeManager {
         return null;
     }
 
+    public int[] getHeadPos(){
+
+        for(int i = 0;i< 50;i++){
+
+            for(int i2 = 0;i<50;i++){
+
+                if(getSnake(i,i2) == 1){
+
+                    return new int[]{i,i2};
+
+                }
+
+            }
+
+        }
+
+        return null;
+
+    }
+
     public void startRunnable(){
 
         timer = new Timer();
