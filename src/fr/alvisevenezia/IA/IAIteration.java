@@ -1,9 +1,15 @@
 package fr.alvisevenezia.IA;
 
+import fr.alvisevenezia.IA.NN.ComputeLayer;
+import fr.alvisevenezia.IA.NN.DecisionLayer;
+import fr.alvisevenezia.IA.NN.FirstLayer;
+import fr.alvisevenezia.IA.NN.Layer;
 import fr.alvisevenezia.SNAKE.GlobalManager;
 import fr.alvisevenezia.SNAKE.SnakeManager;
+import fr.alvisevenezia.SNAKE.SnakeMouvement;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 public class IAIteration {
 
@@ -13,7 +19,7 @@ public class IAIteration {
     private int firstLayerSize;
     private int secondLayerSize;
 
-    private ArrayList<Object>layers;
+    private ArrayList<Layer>layers;
 
     public IAIteration(GlobalManager globalManager,int i){
 
@@ -23,7 +29,91 @@ public class IAIteration {
 
     }
 
-    public Object getLayer(int id){
+    public SnakeMouvement getMouvement(){
+
+        DecisionLayer layer = (DecisionLayer) getLayer(layers.size()-1);
+
+        float[] input = layer.getOutput();
+
+        if(input[0] > input[1] && input[0] > input[2] && input[0] > input[3]){
+
+            return SnakeMouvement.LEFT;
+
+        }else if(input[1] > input[0] && input[1] > input[2] && input[1] > input[3]){
+
+            return SnakeMouvement.UP;
+
+        }else if(input[2] > input[0] && input[2] > input[1] && input[2] > input[3]){
+
+            return SnakeMouvement.RIGHT;
+
+        }else if(input[3] > input[0] && input[3] > input[1] && input[3] > input[2]){
+
+            return SnakeMouvement.DOWN;
+
+        }
+
+        return SnakeMouvement.UP;
+
+    }
+
+    public void createIA(boolean first,boolean random){
+
+        if(first){
+
+            FirstLayer firstLayer = new FirstLayer(24,this);
+            firstLayer.generateRandomWeights();
+            addLayer(firstLayer);
+
+            ComputeLayer computeLayer1 = new ComputeLayer(24,this);
+            computeLayer1.generateRandomWeights();
+            addLayer(computeLayer1);
+
+            ComputeLayer computeLayer2 = new ComputeLayer(24,this);
+            computeLayer2.generateRandomWeights();
+            addLayer(computeLayer2);
+
+            DecisionLayer decisionLayer = new DecisionLayer(4,this);
+            decisionLayer.generateRamdomWeights();
+            addLayer(decisionLayer);
+        }else{
+
+           ArrayList<IAIteration>ias = globalManager.getIaIterations(globalManager.getBestSnakes(10));
+
+            Random r = new Random();
+            IAIteration ia1 = ias.get(r.nextInt(10));
+            IAIteration ia2 = ias.get(r.nextInt(10));
+
+            FirstLayer firstLayer = (FirstLayer) getLayer(0);
+            firstLayer.mergeWeights(((FirstLayer)ia1.getLayer(0)).getWeights(),((FirstLayer)ia2.getLayer(0)).getWeights(),true);
+            addLayer(firstLayer);
+
+            for(int id = 0;id<24;id++) {
+
+                ComputeLayer computeLayer1 = (ComputeLayer) getLayer(1);
+                computeLayer1.mergeWeight(id,((ComputeLayer) ia1.getLayer(1)).getWeights(id), ((ComputeLayer) ia2.getLayer(1)).getWeights(id), true);
+                addLayer(computeLayer1);
+            }
+
+            for(int id = 0;id<24;id++) {
+
+                ComputeLayer computeLayer2= (ComputeLayer) getLayer(2);
+                computeLayer2.mergeWeight(id,((ComputeLayer) ia1.getLayer(2)).getWeights(id), ((ComputeLayer) ia2.getLayer(2)).getWeights(id), true);
+                addLayer(computeLayer2);
+            }
+
+            for(int id = 0;id<24;id++) {
+
+                DecisionLayer decisionLayer= (DecisionLayer) getLayer(3);
+                decisionLayer.mergeWeight(id,((DecisionLayer) ia1.getLayer(3)).getWeights(id), ((DecisionLayer) ia2.getLayer(3)).getWeights(id), true);
+                addLayer(decisionLayer);
+            }
+
+        }
+
+    }
+
+    public Layer getLayer(int id){
 
         return layers.get(id);
 
@@ -46,13 +136,13 @@ public class IAIteration {
 
         return 0;
     }
-    public ArrayList<Object> getLayers() {
+    public ArrayList<Layer> getLayers() {
         return layers;
     }
 
-    public void addLayer(Object o){
+    public void addLayer(Layer layer){
 
-        layers.add(o);
+        layers.add(layer);
 
     }
 

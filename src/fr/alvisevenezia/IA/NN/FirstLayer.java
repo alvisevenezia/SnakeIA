@@ -4,7 +4,7 @@ import fr.alvisevenezia.IA.IAIteration;
 
 import java.util.Random;
 
-public class FirstLayer {
+public class FirstLayer extends Layer{
 
     private int size;
     private float[] weights;
@@ -32,10 +32,7 @@ public class FirstLayer {
 
     }
 
-    public int getSize() {
-        return size;
-    }
-
+    @Override
     public float[] getOutput() {
         return output;
     }
@@ -97,4 +94,8 @@ public class FirstLayer {
 
     }
 
+    @Override
+    public int getSize() {
+        return size;
+    }
 }

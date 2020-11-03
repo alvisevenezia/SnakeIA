@@ -20,11 +20,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b47c8c9f-8d01-4202-b47c-47d3d3332f87" name="Default Changelist" comment="premier layer fait et début des layers suivants">
-      <change afterPath="$PROJECT_DIR$/src/fr/alvisevenezia/IA/NN/ComputeLayer.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/fr/alvisevenezia/IA/NN/FirstLayer.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/fr/alvisevenezia/IA/NN/DecisionLayer.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/fr/alvisevenezia/IA/NN/Layer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/fr/alvisevenezia/IA/IAIteration.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/fr/alvisevenezia/IA/IAIteration.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/fr/alvisevenezia/SNAKE/SnakeManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/fr/alvisevenezia/SNAKE/SnakeManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/fr/alvisevenezia/IA/NN/ComputeLayer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/fr/alvisevenezia/IA/NN/ComputeLayer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/fr/alvisevenezia/IA/NN/FirstLayer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/fr/alvisevenezia/IA/NN/FirstLayer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/fr/alvisevenezia/SNAKE/GlobalManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/fr/alvisevenezia/SNAKE/GlobalManager.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -35,6 +37,7 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Enum" />
+        <option value="Interface" />
         <option value="Class" />
       </list>
     </option>
@@ -68,6 +71,11 @@
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="settings.editor.selected.configurable" value="File.Encoding" />
   </component>
+  <component name="RecentsManager">
+    <key name="CreateClassDialog.RecentsKey">
+      <recent name="fr.alvisevenezia.IA.NN" />
+    </key>
+  </component>
   <component name="RunManager">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true">
       <option name="MAIN_CLASS_NAME" value="fr.alvisevenezia.Main" />
@@ -75,17 +83,6 @@
       <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
       <RunnerSettings RunnerId="Run" />
       <ConfigurationWrapper RunnerId="Run" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
-      <option name="arquillianRunConfiguration">
-        <value>
-          <option name="containerStateName" value="" />
-        </value>
-      </option>
-      <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -121,7 +118,11 @@
       <workItem from="1603290834458" duration="3122000" />
       <workItem from="1603300496704" duration="597000" />
       <workItem from="1603307675511" duration="714000" />
-      <workItem from="1603441915722" duration="5931000" />
+      <workItem from="1603441915722" duration="5973000" />
+      <workItem from="1604224813714" duration="2813000" />
+      <workItem from="1604258804474" duration="642000" />
+      <workItem from="1604319499474" duration="5233000" />
+      <workItem from="1604426607472" duration="1165000" />
     </task>
     <task id="LOCAL-00001" summary="test">
       <created>1601975774640</created>
@@ -179,7 +180,14 @@
       <option name="project" value="LOCAL" />
       <updated>1603307763390</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="premier layer fait et début des layers suivants">
+      <created>1603447897400</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1603447897400</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -206,38 +214,42 @@
     <option name="LAST_COMMIT_MESSAGE" value="premier layer fait et début des layers suivants" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="446" y="47" key="#com.intellij.ide.util.MemberChooser" timestamp="1603446870144">
+    <state x="96" y="0" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1604225464807">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="446" y="47" key="#com.intellij.ide.util.MemberChooser/0.0.1280.680@0.0.1280.680" timestamp="1603446870144" />
+    <state x="96" y="0" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1280.680@0.0.1280.680" timestamp="1604225464807" />
+    <state x="446" y="47" key="#com.intellij.ide.util.MemberChooser" timestamp="1604320770719">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state x="446" y="47" key="#com.intellij.ide.util.MemberChooser/0.0.1280.680@0.0.1280.680" timestamp="1604320770719" />
     <state x="345" y="118" key="#com.intellij.refactoring.encapsulateFields.EncalpsulateFieldsDialog" timestamp="1603279602524">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state x="345" y="118" key="#com.intellij.refactoring.encapsulateFields.EncalpsulateFieldsDialog/0.0.1280.680@0.0.1280.680" timestamp="1603279602524" />
-    <state x="371" y="88" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1602074782089">
+    <state x="371" y="88" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1604225444988">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="371" y="88" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1280.680@0.0.1280.680" timestamp="1602074782089" />
+    <state x="371" y="88" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1280.680@0.0.1280.680" timestamp="1604225444988" />
     <state x="585" y="114" key="CommitChangelistDialog2" timestamp="1601974905974">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="585" y="114" key="CommitChangelistDialog2/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1601974905974" />
-    <state width="1237" height="210" key="GridCell.Tab.0.bottom" timestamp="1603291361145">
+    <state width="1237" height="210" key="GridCell.Tab.0.bottom" timestamp="1604227646098">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1237" height="210" key="GridCell.Tab.0.bottom/0.0.1280.680@0.0.1280.680" timestamp="1603291361145" />
-    <state width="1237" height="210" key="GridCell.Tab.0.center" timestamp="1603291361145">
+    <state width="1237" height="210" key="GridCell.Tab.0.bottom/0.0.1280.680@0.0.1280.680" timestamp="1604227646098" />
+    <state width="1237" height="210" key="GridCell.Tab.0.center" timestamp="1604227646098">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1237" height="210" key="GridCell.Tab.0.center/0.0.1280.680@0.0.1280.680" timestamp="1603291361145" />
-    <state width="1237" height="210" key="GridCell.Tab.0.left" timestamp="1603291361145">
+    <state width="1237" height="210" key="GridCell.Tab.0.center/0.0.1280.680@0.0.1280.680" timestamp="1604227646098" />
+    <state width="1237" height="210" key="GridCell.Tab.0.left" timestamp="1604227646098">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1237" height="210" key="GridCell.Tab.0.left/0.0.1280.680@0.0.1280.680" timestamp="1603291361145" />
-    <state width="1237" height="210" key="GridCell.Tab.0.right" timestamp="1603291361145">
+    <state width="1237" height="210" key="GridCell.Tab.0.left/0.0.1280.680@0.0.1280.680" timestamp="1604227646098" />
+    <state width="1237" height="210" key="GridCell.Tab.0.right" timestamp="1604227646098">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1237" height="210" key="GridCell.Tab.0.right/0.0.1280.680@0.0.1280.680" timestamp="1603291361145" />
+    <state width="1237" height="210" key="GridCell.Tab.0.right/0.0.1280.680@0.0.1280.680" timestamp="1604227646098" />
     <state width="1237" height="204" key="GridCell.Tab.1.bottom" timestamp="1603282115300">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
@@ -259,10 +271,10 @@
     </state>
     <state x="242" y="0" key="SettingsEditor/0.0.1280.680@0.0.1280.680" timestamp="1603135200570" />
     <state x="440" y="94" key="SettingsEditor/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1601974880179" />
-    <state x="233" y="74" key="Vcs.Push.Dialog.v2" timestamp="1603307768825">
+    <state x="233" y="74" key="Vcs.Push.Dialog.v2" timestamp="1603447901425">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="233" y="74" key="Vcs.Push.Dialog.v2/0.0.1280.680@0.0.1280.680" timestamp="1603307768825" />
+    <state x="233" y="74" key="Vcs.Push.Dialog.v2/0.0.1280.680@0.0.1280.680" timestamp="1603447901425" />
     <state x="513" y="285" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1601976789682">
       <screen x="0" y="0" width="1280" height="680" />
     </state>

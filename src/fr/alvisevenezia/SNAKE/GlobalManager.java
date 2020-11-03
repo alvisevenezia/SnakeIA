@@ -7,6 +7,7 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Timer;
 
@@ -28,6 +29,79 @@ public class GlobalManager implements ActionListener {
         currentFrame = mainGUI;
         mainGUI.openFrame();
 
+    }
+
+    public ArrayList<IAIteration>  getIaIterations(ArrayList<SnakeManager> snakeManagers){
+
+        ArrayList<IAIteration> ia = new ArrayList<>();
+
+        for(int i = 0;i<snakeManagers.size();i++) {
+
+            for (IAIteration iaIteration : managers.keySet()) {
+
+                if (iaIteration.getSnakeManager() == snakeManagers.get(i)) {
+
+                    ia.add(iaIteration);
+
+                }
+
+            }
+        }
+
+        return ia;
+
+    }
+
+    public IAIteration getIaIteration(SnakeManager snakeManager){
+
+        for (IAIteration iaIteration : managers.keySet()) {
+
+            if (iaIteration.getSnakeManager() == snakeManager) {
+
+                return iaIteration;
+
+            }
+
+        }
+
+        return null;
+
+    }
+
+    public ArrayList<SnakeManager> getBestSnakes(int i){
+
+        ArrayList<SnakeManager> bests = new ArrayList<>();
+        Collection<SnakeManager> snakemanagers = managers.values();
+
+
+        for(int i2 = 0;i2 <= i;i2++);{
+
+            int max = -1;
+            SnakeManager best = null;
+
+            if(snakemanagers.isEmpty()){
+
+                return bests;
+
+            }
+
+            for(SnakeManager snakeManager : snakemanagers){
+
+
+                if(snakeManager.getScore() > max){
+
+                    max = snakeManager.getScore();
+                    best = snakeManager;
+
+                }
+
+            }
+
+            bests.add(best);
+            snakemanagers.remove(best);
+
+        }
+        return bests;
     }
 
     public SnakeManager getBestSnake(){

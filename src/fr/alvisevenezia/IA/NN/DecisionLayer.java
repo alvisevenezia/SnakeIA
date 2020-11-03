@@ -2,39 +2,22 @@ package fr.alvisevenezia.IA.NN;
 
 import fr.alvisevenezia.IA.IAIteration;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Random;
 
-public class ComputeLayer extends Layer{
+public class DecisionLayer extends Layer{
 
     private int size;
     private IAIteration iaIteration;
     private float[] output;
-    private HashMap<Integer,float[]>weights;
+    private HashMap<Integer,float[]> weights;
 
-    public ComputeLayer(int size,IAIteration iaIteration){
+    public DecisionLayer(int size,IAIteration iaIteration){
 
         this.iaIteration = iaIteration;
         this.size = size;
         output = new float[size];
         weights = new HashMap<>();
-
-    }
-
-    public void compute(){
-
-        float[] input = iaIteration.getLayer(iaIteration.getLayerID(this)-1).getOutput();
-
-        for(int i = 0;i < size;i++){
-
-            for(int i2 = 0;i < iaIteration.getLayer(iaIteration.getLayerID(this)-1).getSize();i++) {
-
-                output[i2] = (float) (1 / (1 + (Math.exp((float) (weights.get(i)[i2] * input[i2])))));
-
-            }
-        }
 
     }
 
@@ -44,8 +27,7 @@ public class ComputeLayer extends Layer{
 
     }
 
-
-    public void generateRandomWeights() {
+    public void generateRamdomWeights(){
 
         Random r = new Random();
 
@@ -95,15 +77,28 @@ public class ComputeLayer extends Layer{
 
     }
 
-    public float[] getOutput(){
+    public void compute(){
 
-        return output;
+        float[] input = iaIteration.getLayer(iaIteration.getLayerID(this)-1).getOutput();
+
+        for(int i = 0;i < size;i++){
+
+            for(int i2 = 0;i < iaIteration.getLayer(iaIteration.getLayerID(this)-1).getSize();i++) {
+
+                output[i2] = (float) (1 / (1 + (Math.exp((float) (weights.get(i)[i2] * input[i2])))));
+
+            }
+        }
 
     }
-
 
     @Override
     public int getSize() {
         return size;
+    }
+
+    @Override
+    public float[] getOutput() {
+        return output;
     }
 }
