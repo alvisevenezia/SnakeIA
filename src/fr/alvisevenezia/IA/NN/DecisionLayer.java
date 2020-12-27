@@ -33,9 +33,9 @@ public class DecisionLayer extends Layer{
 
         for(int i = 0;i < size;i++){
 
-            float[] w = new float[iaIteration.getLayer(iaIteration.getLayerID(this)-1).getSize()];
+            float[] w = new float[iaIteration.getLayer(iaIteration.getLayerID(this)).getSize()];
 
-            for(int i2 = 0;i<= iaIteration.getLayer(iaIteration.getLayerID(this)-1).getSize();i++){
+            for(int i2 = 0;i2< iaIteration.getLayer(iaIteration.getLayerID(this)).getSize();i2++){
 
                 w[i2] = r.nextFloat();
 
@@ -83,7 +83,7 @@ public class DecisionLayer extends Layer{
 
         for(int i = 0;i < size;i++){
 
-            for(int i2 = 0;i < iaIteration.getLayer(iaIteration.getLayerID(this)-1).getSize();i++) {
+            for(int i2 = 0;i2 < (iaIteration.getLayer(iaIteration.getLayerID(this)).getSize());i2++) {
 
                 output[i2] = (float) (1 / (1 + (Math.exp((float) (weights.get(i)[i2] * input[i2])))));
 

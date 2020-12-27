@@ -6,4 +6,6 @@ public abstract class Layer {
 
     public abstract float[] getOutput();
 
+    public abstract  void compute();
+
 }

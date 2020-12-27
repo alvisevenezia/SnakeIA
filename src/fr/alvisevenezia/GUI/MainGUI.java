@@ -1,6 +1,7 @@
 package fr.alvisevenezia.GUI;
 
 import fr.alvisevenezia.GUI.snake.SnakePanel;
+import fr.alvisevenezia.GUI.stats.StatPanel;
 import fr.alvisevenezia.SNAKE.GlobalManager;
 import fr.alvisevenezia.SNAKE.SnakeManager;
 
@@ -8,8 +9,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.geom.Line2D;
-import java.util.GregorianCalendar;
 
 public class MainGUI extends JFrame implements ActionListener {
 
@@ -18,12 +17,14 @@ public class MainGUI extends JFrame implements ActionListener {
 
     private MainPanel main;
     private SnakePanel snake;
+    private StatPanel statPanel;
 
     private GlobalManager globalManager;
 
     public MainGUI(GlobalManager globalManager){
 
         this.globalManager = globalManager;
+        statPanel = new StatPanel(globalManager,0,0,0);
 
         main = new MainPanel(globalManager);
 
@@ -41,6 +42,20 @@ public class MainGUI extends JFrame implements ActionListener {
         snake.setBackground(Color.GRAY);
 
         this.getContentPane().add(snake);
+
+        updateStats(0,0,0);
+
+    }
+
+    public void updateStats(int nbr,int bs,int a){
+
+        statPanel.setVisible(false);
+        statPanel = new StatPanel(globalManager,nbr,bs,a);
+
+        statPanel.setBounds(100, 75, 300,100);
+        statPanel.setBackground(Color.YELLOW);
+
+        this.getContentPane().add(statPanel);
 
     }
 

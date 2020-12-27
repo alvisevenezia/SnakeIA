@@ -57,7 +57,7 @@ public class IAIteration {
 
     }
 
-    public void createIA(boolean first,boolean random){
+    public void createIA(boolean first){
 
         if(first){
 
@@ -78,7 +78,7 @@ public class IAIteration {
             addLayer(decisionLayer);
         }else{
 
-           ArrayList<IAIteration>ias = globalManager.getIaIterations(globalManager.getBestSnakes(10));
+           ArrayList<IAIteration>ias = globalManager.getIaIterations(globalManager.getWinner());
 
             Random r = new Random();
             IAIteration ia1 = ias.get(r.nextInt(10));
@@ -173,22 +173,43 @@ public class IAIteration {
 
     }
 
-    public int[] getSnakeInfo(int i,int i2){//i --> posX i2 --> posY
+    public int getBorderDistance(int i,int i2){
 
-        int[] data = new int[24];
+        if(i  == 50||i2==50||i==-1||i2==-1)return 100;
+
+        int d1 = 0;
+        int d2 = 0;
+
+        if(i<25) d1 = i+1;
+
+        else d1 = 50 - i;
+
+        if(i2<25)d2 = i2+1;
+
+        else d2 = 50 - i2;
+
+        if(d2 < d1) d1 = d2;
+
+        return d1;
+
+    }
+
+    public float[] getSnakeInfo(int i,int i2){//i --> posX i2 --> posY
+
+        float[] data = new float[24];
         int count = 0;
         //data:
         //distance bordure
         //distance queue
         //distance pomme la plus proche
 
-        for(int i3 = -1;i3<2;i3++){
+        for(int i4 = -1;i4<2;i4++){
 
-            for(int i4 = -1;i4<2;i4++){
+            for(int i3 = -1;i3<2;i3++){
 
-                if(i3 != 0 && i4 != 0){
+                if(!(i3 == 0 && i4 == 0)){
 
-                    if(i-i3 < 0 || i-i3 >49 || i2-i4 < 0 || i2-i4 >49){
+                   /* if(i-i3 < 0 || i-i3 >49 || i2-i4 < 0 || i2-i4 >49){
 
                             data[count*3] = 0;
 
@@ -217,14 +238,16 @@ public class IAIteration {
                             }
                         }
 
-                    }
+                    }*/
 
-                    int[] qpos = snakeManager.getQueuePos();
-                    int qd = (int)Math.sqrt(((i-qpos[0])*(i-qpos[0]))+((i2-qpos[1])*(i2-qpos[1])));
+                    data[count*3] = getBorderDistance(i-i3,i2-i4);
+
+                    float[] qpos = snakeManager.getQueuePos();
+                    float qd = (float)Math.sqrt(((i-qpos[0])*(i-qpos[0]))+((i2-qpos[1])*(i2-qpos[1])));
 
                     data[(count*3)+1] = qd;
 
-                    data[(count*3)+2] = snakeManager.getAppleDistance(i3,i4);
+                    data[(count*3)+2] = snakeManager.getAppleDistance(i-i3,i2-i4);
 
                   count++;
                 }

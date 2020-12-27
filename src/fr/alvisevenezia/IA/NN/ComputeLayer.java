@@ -2,6 +2,7 @@ package fr.alvisevenezia.IA.NN;
 
 import fr.alvisevenezia.IA.IAIteration;
 
+import java.awt.desktop.SystemSleepEvent;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.HashMap;
@@ -25,11 +26,11 @@ public class ComputeLayer extends Layer{
 
     public void compute(){
 
-        float[] input = iaIteration.getLayer(iaIteration.getLayerID(this)-1).getOutput();
+        float[] input = iaIteration.getLayer(iaIteration.getLayerID(this)).getOutput();
 
         for(int i = 0;i < size;i++){
 
-            for(int i2 = 0;i < iaIteration.getLayer(iaIteration.getLayerID(this)-1).getSize();i++) {
+            for(int i2 = 0;i2 < iaIteration.getLayer(iaIteration.getLayerID(this)).getSize();i2++) {
 
                 output[i2] = (float) (1 / (1 + (Math.exp((float) (weights.get(i)[i2] * input[i2])))));
 
@@ -51,9 +52,9 @@ public class ComputeLayer extends Layer{
 
         for(int i = 0;i < size;i++){
 
-            float[] w = new float[iaIteration.getLayer(iaIteration.getLayerID(this)-1).getSize()];
+            float[] w = new float[iaIteration.getLayer(iaIteration.getLayerID(this)).getSize()];
 
-            for(int i2 = 0;i<= iaIteration.getLayer(iaIteration.getLayerID(this)-1).getSize();i++){
+            for(int i2 = 0;i2< iaIteration.getLayer(iaIteration.getLayerID(this)).getSize();i2++){
 
                 w[i2] = r.nextFloat();
 

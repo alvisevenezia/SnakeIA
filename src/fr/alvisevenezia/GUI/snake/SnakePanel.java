@@ -1,6 +1,7 @@
 package fr.alvisevenezia.GUI.snake;
 
 import fr.alvisevenezia.SNAKE.GlobalManager;
+import fr.alvisevenezia.SNAKE.SnakeManager;
 
 import javax.swing.*;
 import java.awt.*;
@@ -19,6 +20,8 @@ public class SnakePanel extends JPanel {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
 
+        SnakeManager manager = globalManager.getBestSnake();
+
         for(int i = 0;i<50;i++){
 
             for(int i2 = 0;i2<50;i2++){
@@ -28,7 +31,7 @@ public class SnakePanel extends JPanel {
                     g.setColor(Color.BLACK);
                     g.drawRect(i * 10, i2 * 10, 10, 10);
                     if (globalManager.isStarted()) {
-                        switch (globalManager.getBestSnake().getSnake(i, i2)) {
+                        switch (manager.getSnake(i, i2)) {
 
                             case 1:
                                 g.setColor(Color.RED);
@@ -38,7 +41,7 @@ public class SnakePanel extends JPanel {
 
                             case 0:
 
-                                if(globalManager.getBestSnake().isApple(i,i2)){
+                                if(manager.isApple(i,i2)){
 
                                     g.setColor(Color.GREEN);
                                     g.fillRect(i * 10, i2 * 10, 10, 10);
@@ -52,6 +55,7 @@ public class SnakePanel extends JPanel {
                             default:
 
                                 g.setColor(Color.BLACK);
+
                                 g.fillRect(i * 10, i2 * 10, 10, 10);
 
                                 break;
@@ -59,6 +63,7 @@ public class SnakePanel extends JPanel {
                     }
 
                     g.setColor(Color.BLACK);
+
                     g.drawRect(i * 10, i2 * 10, 10, 10);
                 }
             }

@@ -22,14 +22,54 @@ public class FirstLayer extends Layer{
 
     public void compute(){
 
-        int[] input = iaIteration.getSnakeInfo(iaIteration.getSnakeManager().getHeadPos()[0],iaIteration.getSnakeManager().getHeadPos()[1]);
+        float[] input = iaIteration.getSnakeInfo(iaIteration.getSnakeManager().getHeadPos()[0],iaIteration.getSnakeManager().getHeadPos()[1]);
 
-        for(int i = 0;i<size;i++){
+     /*   for(int i = 0;i<size;i++){
+
+           // System.out.println("Pos Queue "+i+" "+iaIteration.getSnakeManager().getQueuePos()[0]+" "+iaIteration.getSnakeManager().getQueuePos()[1]);
+           // System.out.println("Pos Head "+i+" "+iaIteration.getSnakeManager().getHeadPos()[0]+" "+iaIteration.getSnakeManager().getHeadPos()[1]);
+            //  System.out.println("Input "+i+" "+input[i]);
+
+            if(i % 3 == 0){
+
+                if(i != 6 && i != 9 && i !=12 && i != 21)System.out.print(input[i]+" ");
+                else if(i == 9)System.out.print(input[i]+"      ");
+                else System.out.println(input[i]+" ");
+            }
+
 
             output[i] = (float)(1/(1+(Math.exp((float)(weights[i]*input[i])))));
 
+
         }
 
+        System.out.println("");
+
+        for(int i = 0;i<size;i++){
+
+            if(i % 3 == 1){
+
+                if(i != 7 && i != 10 && i !=13 && i != 22)System.out.print(input[i]+" ");
+                else if(i == 10)System.out.print(input[i]+"      ");
+                else System.out.println(input[i]+" ");
+            }
+
+        }
+
+        System.out.println("");
+
+        for(int i = 0;i<size;i++){
+
+            if(i % 3 == 2){
+
+                if(i != 8 && i != 11 && i !=14 && i != 23)System.out.print(input[i]+" ");
+                else if(i == 11)System.out.print(input[i]+"      ");
+                else System.out.println(input[i]+" ");
+            }
+
+        }*/
+
+        System.out.println();
     }
 
     @Override
@@ -80,6 +120,8 @@ public class FirstLayer extends Layer{
         }
 
 
+
+
     }
 
     public void generateRandomWeights(){
@@ -91,6 +133,8 @@ public class FirstLayer extends Layer{
             setWeight(i,r.nextFloat());
 
         }
+
+
 
     }
 

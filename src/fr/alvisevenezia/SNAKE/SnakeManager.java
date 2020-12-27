@@ -1,9 +1,11 @@
 package fr.alvisevenezia.SNAKE;
 
 import fr.alvisevenezia.GUI.snake.Body;
+import fr.alvisevenezia.IA.IAIteration;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.Timer;
 
 public class SnakeManager {
@@ -11,10 +13,12 @@ public class SnakeManager {
     private int bodyStart = 2;
     private int currentbody = 2;
     private int newbody = 2;
+    private int currentapple = 0;
     private boolean headmooved = false;
     private SnakeMouvement currentmouvement = SnakeMouvement.STAY;
     private SnakeRunnable snakeRunnable;
     private Timer timer;
+    private IAIteration iaIteration;
 
     private int score = 0;
     private int max = 500;
@@ -26,21 +30,22 @@ public class SnakeManager {
     private int[][] newsnake = new int[50][50];
     private ArrayList<Body> parts = new ArrayList<>();
 
-    public SnakeManager(GlobalManager globalManager){
+    public SnakeManager(GlobalManager globalManager,IAIteration iaIteration){
 
         setCurrentbody(bodyStart);
         this.globalManager = globalManager;
+        this.iaIteration = iaIteration;
     }
 
-    public int[] getQueuePos(){
+    public float[] getQueuePos(){
 
         for(int i = 0;i< 50;i++){
 
-            for(int i2 = 0;i < 50;i++){
+            for(int i2 = 0;i2 < 50;i2++){
 
                 if(getSnake(i,i2) == currentbody){
 
-                    return new int[]{i, i2};
+                    return new float[]{i, i2};
                 }
 
             }
@@ -53,7 +58,7 @@ public class SnakeManager {
 
         for(int i = 0;i< 50;i++){
 
-            for(int i2 = 0;i<50;i++){
+            for(int i2 = 0;i2<50;i2++){
 
                 if(getSnake(i,i2) == 1){
 
@@ -72,12 +77,13 @@ public class SnakeManager {
     public void startRunnable(){
 
         timer = new Timer();
-        timer.schedule(new SnakeRunnable(globalManager),1000,1000);
+        timer.schedule(new SnakeRunnable(globalManager,iaIteration),1000,1000);
 
     }
 
     public void stopRunnable(){
 
+        globalManager.removeManager(this);
         timer.cancel();
 
     }
@@ -98,12 +104,19 @@ public class SnakeManager {
 
                     case 1:
 
-                        System.out.println(getSnake(i + snakeMouvement.getX(), i2 + snakeMouvement.getY()));
+                        if(i + snakeMouvement.getX() > 49 || i + snakeMouvement.getX() < 0 || i2 + snakeMouvement.getY() > 49 || i2 + snakeMouvement.getY() < 0){
 
+                            System.out.println("Ton serpent dépasse");
+                            globalManager.setSnakeAliveQuantity(globalManager.getSnakeAliveQuantity()-1);
+                            stopRunnable();
+                            break;
+
+                        }
 
                         if(getSnake(i + snakeMouvement.getX(), i2 + snakeMouvement.getY()) != 0 || ((currentmouvement.getY()+snakeMouvement.getY() == 0)&& (currentmouvement.getX()+snakeMouvement.getX() == 0)&& currentmouvement != SnakeMouvement.STAY)){
 
                             System.out.println("Ton serpent s'est mangé lui même");
+                            globalManager.setSnakeAliveQuantity(globalManager.getSnakeAliveQuantity()-1);
                             stopRunnable();
                             break;
 
@@ -177,6 +190,16 @@ public class SnakeManager {
     public void setApple(int i,int i2,int i3){
 
         pommes[i][i2] = i3;
+
+    }
+
+
+
+    public void generateApple(){
+
+        Random r = new Random();
+        setApple(r.nextInt(49),r.nextInt(49),1);
+        currentapple++;
 
     }
 
@@ -270,6 +293,14 @@ public class SnakeManager {
         this.max = max;
     }
 
+    public int getCurrentapple() {
+        return currentapple;
+    }
+
+    public void setCurrentapple(int currentapple) {
+        this.currentapple = currentapple;
+    }
+
     public SnakeRunnable getSnakeRunnable() {
         return snakeRunnable;
     }
@@ -278,17 +309,17 @@ public class SnakeManager {
         this.snakeRunnable = snakeRunnable;
     }
 
-    public int getAppleDistance(int i3, int i4) {
+    public float getAppleDistance(int i3, int i4) {
 
-        int min = 10000000;
+        float min = 10000000;
 
         for(int i = 0;i< 50;i++){
 
-            for(int i2 = 0;i<50;i++){
+            for(int i2 = 0;i2<50;i2++){
 
                 if(isApple(i,i2)){
 
-                    int da = (int)Math.sqrt(((i3-i)*(i3-i))+((i4-i2)*(i4-i2)));
+                    float da = (float)Math.sqrt(((i3-i)*(i3-i))+((i4-i2)*(i4-i2)));
 
                     if(da < min){
 
