@@ -16,12 +16,12 @@ public class GlobalRunnable extends TimerTask {
     public void run() {
 
         globalManager.getMainGUI().updateStats(globalManager.getSnakeQuantity(),globalManager.getBestSnake().getScore(),globalManager.getSnakeAliveQuantity());
-        globalManager.setWinner(globalManager.getBestSnakes(10));
 
         if(globalManager.getSnakeQuantity() > 0 && globalManager.getSnakeAliveQuantity() < 10){
 
             globalManager.stopRunnables();
-            globalManager.setWinner(globalManager.getBestSnakes(10));
+            globalManager.setWinner(globalManager.getBestSnakes());
+            System.out.println("WInnbr: "+globalManager.getWinner().size());
             globalManager.startIA(globalManager.getSnakeQuantity());
 
         }

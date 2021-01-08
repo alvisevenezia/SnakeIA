@@ -32,6 +32,10 @@ public class ComputeLayer extends Layer{
 
             for(int i2 = 0;i2 < iaIteration.getLayer(iaIteration.getLayerID(this)).getSize();i2++) {
 
+                System.out.println("CL: "+i);
+                System.out.println("CL: "+i2);
+                System.out.println("CL2: "+weights.size());
+                System.out.println("CL3: "+weights.get(i)[i2]);
                 output[i2] = (float) (1 / (1 + (Math.exp((float) (weights.get(i)[i2] * input[i2])))));
 
             }

@@ -83,12 +83,19 @@ public class SnakeManager {
 
     public void stopRunnable(){
 
-        globalManager.removeManager(this);
+        globalManager.removeOneSnake();
         timer.cancel();
 
     }
 
     public void moovSnake(SnakeMouvement snakeMouvement){
+
+        if(max <= 0){
+
+            stopRunnable();
+            return;
+
+        }
 
         for(int i = 0;i<50;i++) {
 
@@ -106,8 +113,6 @@ public class SnakeManager {
 
                         if(i + snakeMouvement.getX() > 49 || i + snakeMouvement.getX() < 0 || i2 + snakeMouvement.getY() > 49 || i2 + snakeMouvement.getY() < 0){
 
-                            System.out.println("Ton serpent dépasse");
-                            globalManager.setSnakeAliveQuantity(globalManager.getSnakeAliveQuantity()-1);
                             stopRunnable();
                             break;
 
@@ -115,8 +120,6 @@ public class SnakeManager {
 
                         if(getSnake(i + snakeMouvement.getX(), i2 + snakeMouvement.getY()) != 0 || ((currentmouvement.getY()+snakeMouvement.getY() == 0)&& (currentmouvement.getX()+snakeMouvement.getX() == 0)&& currentmouvement != SnakeMouvement.STAY)){
 
-                            System.out.println("Ton serpent s'est mangé lui même");
-                            globalManager.setSnakeAliveQuantity(globalManager.getSnakeAliveQuantity()-1);
                             stopRunnable();
                             break;
 

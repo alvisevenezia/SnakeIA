@@ -18,7 +18,7 @@ public class SnakeRunnable extends TimerTask {
     }
 
     @Override
-    public void run() {
+    public void run() throws NullPointerException {
 
         Random r = new Random();
         int n = r.nextInt(3);

@@ -7,9 +7,8 @@ import jdk.dynalink.StandardNamespace;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
+import java.rmi.server.ServerNotActiveException;
+import java.util.*;
 import java.util.Timer;
 
 public class GlobalManager implements ActionListener {
@@ -36,6 +35,10 @@ public class GlobalManager implements ActionListener {
 
     }
 
+    public HashMap<IAIteration, SnakeManager> getManagers() {
+        return managers;
+    }
+
     public void startGlobalRunnale(){
 
         runnable = new Timer();
@@ -55,23 +58,31 @@ public class GlobalManager implements ActionListener {
 
     }
 
-    public ArrayList<IAIteration>  getIaIterations(ArrayList<SnakeManager> snakeManagers){
+    public ArrayList<IAIteration> getIaIterations(ArrayList<SnakeManager> snakeManagers){
 
+        Collection<IAIteration> manager = managers.keySet();
         ArrayList<IAIteration> ia = new ArrayList<>();
+
+        System.out.println("GI: "+snakeManagers.size());
+        System.out.println("GI: "+manager.size());
 
         for(int i = 0;i<snakeManagers.size();i++) {
 
-            for (IAIteration iaIteration : managers.keySet()) {
+            System.out.println("GI: "+i);
+
+            for (IAIteration iaIteration : manager) {
 
                 if (iaIteration.getSnakeManager() == snakeManagers.get(i)) {
 
                     ia.add(iaIteration);
+                    System.out.println("GI: Trouvé");
 
                 }
 
             }
         }
 
+        System.out.println("GI2: "+ia.size());
         return ia;
 
     }
@@ -110,29 +121,29 @@ public class GlobalManager implements ActionListener {
 
     }
 
-    public ArrayList<SnakeManager> getBestSnakes(int i){
+    public ArrayList<SnakeManager> getBestSnakes(){
 
         ArrayList<SnakeManager> bests = new ArrayList<>();
-        Collection<SnakeManager> snakemanagers = managers.values();
+        ArrayList<SnakeManager> snakemanagers =  new ArrayList<>(managers.values());
+        Collection<SnakeManager>azdecd = managers.values();
+
+        System.out.println("BS: "+snakemanagers.size());
 
 
-        for(int i2 = 0;i2 <= i;i2++);{
+        for(int i = 0;i < 10;i++){
 
-            int max = -1;
+            System.out.println("BS: "+i);
+
             SnakeManager best = null;
 
-            if(snakemanagers.isEmpty()){
+            for(SnakeManager m : snakemanagers){
 
-                return bests;
+                int max = -1;
 
-            }
+                if(m.getScore() > max){
 
-            for(SnakeManager snakeManager : snakemanagers){
-
-                if(snakeManager.getScore() >= max){
-
-                    max = snakeManager.getScore();
-                    best = snakeManager;
+                    max = m.getScore();
+                    best = m;
 
                 }
 
@@ -140,8 +151,13 @@ public class GlobalManager implements ActionListener {
 
             bests.add(best);
             snakemanagers.remove(best);
+            System.out.println("BS2: "+managers.size());
+            System.out.println("BS3: "+snakemanagers.size());
 
         }
+
+        System.out.println("BS: "+bests.size());
+        System.out.println("BS: "+managers.size());
         return bests;
     }
 
@@ -201,9 +217,23 @@ public class GlobalManager implements ActionListener {
         }
     }
 
+    public int getIterationcount() {
+        return iterationcount;
+    }
+
+    public void setIterationcount(int iterationcount) {
+        this.iterationcount = iterationcount;
+    }
+
     public void startIA(int quantite){
 
-        managers.clear();
+        for(SnakeManager m : managers.values()){
+
+            m.stopRunnable();
+
+        }
+
+        HashMap<IAIteration, SnakeManager>list = new HashMap<>();
 
         setSnakeQuantity(quantite);
         setSnakeAliveQuantity(quantite);
@@ -219,7 +249,7 @@ public class GlobalManager implements ActionListener {
 
             iaIteration.createIA(false);
 
-            managers.put(iaIteration,snakeManager);
+            list.put(iaIteration,snakeManager);
 
             iterationcount++;
 
@@ -227,7 +257,11 @@ public class GlobalManager implements ActionListener {
 
         }
 
+        managers = list;
+
     }
+
+
 
     public void createFirstGeneration(int i){
 
@@ -283,5 +317,11 @@ public class GlobalManager implements ActionListener {
 
     public void setSnakeQuantity(int snakeQuantity) {
         this.snakeQuantity = snakeQuantity;
+    }
+
+    public void removeOneSnake(){
+
+        setSnakeAliveQuantity(getSnakeAliveQuantity()-1);
+
     }
 }

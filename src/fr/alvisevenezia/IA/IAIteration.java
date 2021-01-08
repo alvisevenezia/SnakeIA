@@ -21,7 +21,11 @@ public class IAIteration {
 
     private ArrayList<Layer>layers;
 
-    public IAIteration(GlobalManager globalManager,int i){
+    public int getIterationnbr() {
+        return iterationnbr;
+    }
+
+    public IAIteration(GlobalManager globalManager, int i){
 
         this.globalManager = globalManager;
         this.iterationnbr = i;
@@ -84,30 +88,36 @@ public class IAIteration {
             IAIteration ia1 = ias.get(r.nextInt(10));
             IAIteration ia2 = ias.get(r.nextInt(10));
 
-            FirstLayer firstLayer = (FirstLayer) getLayer(0);
+            FirstLayer firstLayer = new FirstLayer(24,this);
             firstLayer.mergeWeights(((FirstLayer)ia1.getLayer(0)).getWeights(),((FirstLayer)ia2.getLayer(0)).getWeights(),true);
             addLayer(firstLayer);
 
+            System.out.println("First fait");
+
             for(int id = 0;id<24;id++) {
 
-                ComputeLayer computeLayer1 = (ComputeLayer) getLayer(1);
+                ComputeLayer computeLayer1 = new ComputeLayer(24,this);
                 computeLayer1.mergeWeight(id,((ComputeLayer) ia1.getLayer(1)).getWeights(id), ((ComputeLayer) ia2.getLayer(1)).getWeights(id), true);
                 addLayer(computeLayer1);
             }
 
+            System.out.println("Compute1 fait");
+
             for(int id = 0;id<24;id++) {
 
-                ComputeLayer computeLayer2= (ComputeLayer) getLayer(2);
+                ComputeLayer computeLayer2= new ComputeLayer(24,this);
                 computeLayer2.mergeWeight(id,((ComputeLayer) ia1.getLayer(2)).getWeights(id), ((ComputeLayer) ia2.getLayer(2)).getWeights(id), true);
                 addLayer(computeLayer2);
             }
+            System.out.println("Compute2 fait");
 
-            for(int id = 0;id<24;id++) {
+            for(int id = 0;id<4;id++) {
 
-                DecisionLayer decisionLayer= (DecisionLayer) getLayer(3);
+                DecisionLayer decisionLayer  = new DecisionLayer(4,this);
                 decisionLayer.mergeWeight(id,((DecisionLayer) ia1.getLayer(3)).getWeights(id), ((DecisionLayer) ia2.getLayer(3)).getWeights(id), true);
                 addLayer(decisionLayer);
             }
+            System.out.println("Decision fait");
 
         }
 
