@@ -90,6 +90,7 @@ public class FirstLayer extends Layer{
 
     public void setWeight(int i,float f){
 
+        weights[i] = f;
 
     }
 

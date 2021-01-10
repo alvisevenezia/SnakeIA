@@ -2,12 +2,10 @@ package fr.alvisevenezia.SNAKE;
 
 import fr.alvisevenezia.GUI.MainGUI;
 import fr.alvisevenezia.IA.IAIteration;
-import jdk.dynalink.StandardNamespace;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.rmi.server.ServerNotActiveException;
 import java.util.*;
 import java.util.Timer;
 
@@ -63,26 +61,19 @@ public class GlobalManager implements ActionListener {
         Collection<IAIteration> manager = managers.keySet();
         ArrayList<IAIteration> ia = new ArrayList<>();
 
-        System.out.println("GI: "+snakeManagers.size());
-        System.out.println("GI: "+manager.size());
-
         for(int i = 0;i<snakeManagers.size();i++) {
-
-            System.out.println("GI: "+i);
 
             for (IAIteration iaIteration : manager) {
 
                 if (iaIteration.getSnakeManager() == snakeManagers.get(i)) {
 
                     ia.add(iaIteration);
-                    System.out.println("GI: Trouvé");
 
                 }
 
             }
         }
 
-        System.out.println("GI2: "+ia.size());
         return ia;
 
     }
@@ -127,12 +118,7 @@ public class GlobalManager implements ActionListener {
         ArrayList<SnakeManager> snakemanagers =  new ArrayList<>(managers.values());
         Collection<SnakeManager>azdecd = managers.values();
 
-        System.out.println("BS: "+snakemanagers.size());
-
-
         for(int i = 0;i < 10;i++){
-
-            System.out.println("BS: "+i);
 
             SnakeManager best = null;
 
@@ -151,13 +137,9 @@ public class GlobalManager implements ActionListener {
 
             bests.add(best);
             snakemanagers.remove(best);
-            System.out.println("BS2: "+managers.size());
-            System.out.println("BS3: "+snakemanagers.size());
 
         }
 
-        System.out.println("BS: "+bests.size());
-        System.out.println("BS: "+managers.size());
         return bests;
     }
 
@@ -194,7 +176,6 @@ public class GlobalManager implements ActionListener {
                 button.setText("Arreter IA");
                 createFirstGeneration(200);
                 mainGUI.getSnake().repaint();
-                startGlobalRunnale();
 
 
             }else if(button.getText().equalsIgnoreCase("Arreter IA")){
@@ -227,12 +208,15 @@ public class GlobalManager implements ActionListener {
 
     public void startIA(int quantite){
 
-        for(SnakeManager m : managers.values()){
+        setStarted(false);
+
+ /*       for(SnakeManager m : managers.values()){
 
             m.stopRunnable();
 
-        }
+        }*/
 
+        ArrayList<IAIteration>ias = getIaIterations(getWinner());
         HashMap<IAIteration, SnakeManager>list = new HashMap<>();
 
         setSnakeQuantity(quantite);
@@ -241,13 +225,15 @@ public class GlobalManager implements ActionListener {
         while (quantite != 0){
 
             IAIteration iaIteration = new IAIteration(this,iterationcount);
+            iaIteration.createIA(false,ias);
             SnakeManager snakeManager = new SnakeManager(this,iaIteration);
             snakeManager.createSnake();
             snakeManager.initilizeApple();
-            snakeManager.startRunnable();
+            snakeManager.setAlive(true);
+            //snakeManager.startRunnable();
             iaIteration.setSnakeManager(snakeManager);
 
-            iaIteration.createIA(false);
+
 
             list.put(iaIteration,snakeManager);
 
@@ -259,9 +245,9 @@ public class GlobalManager implements ActionListener {
 
         managers = list;
 
+        setStarted(true);
+
     }
-
-
 
     public void createFirstGeneration(int i){
 
@@ -271,12 +257,13 @@ public class GlobalManager implements ActionListener {
         while (i != 0){
 
             IAIteration iaIteration = new IAIteration(this,iterationcount);
-            iaIteration.createIA(true);
+            iaIteration.createIA(true,null);
 
             SnakeManager snakeManager = new SnakeManager(this,iaIteration);
             snakeManager.createSnake();
             snakeManager.initilizeApple();
-            snakeManager.startRunnable();
+            snakeManager.setAlive(true);
+            //snakeManager.startRunnable();
             iaIteration.setSnakeManager(snakeManager);
 
             managers.put(iaIteration,snakeManager);
@@ -288,6 +275,7 @@ public class GlobalManager implements ActionListener {
         }
 
         setStarted(true);
+        startGlobalRunnale();
 
     }
 

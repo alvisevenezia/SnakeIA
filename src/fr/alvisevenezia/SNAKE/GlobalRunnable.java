@@ -1,5 +1,8 @@
 package fr.alvisevenezia.SNAKE;
 
+import fr.alvisevenezia.IA.IAIteration;
+
+import java.util.Random;
 import java.util.TimerTask;
 
 public class GlobalRunnable extends TimerTask {
@@ -15,14 +18,49 @@ public class GlobalRunnable extends TimerTask {
     @Override
     public void run() {
 
-        globalManager.getMainGUI().updateStats(globalManager.getSnakeQuantity(),globalManager.getBestSnake().getScore(),globalManager.getSnakeAliveQuantity());
 
-        if(globalManager.getSnakeQuantity() > 0 && globalManager.getSnakeAliveQuantity() < 10){
+        if(globalManager.isStarted() && globalManager.getSnakeQuantity() > 0 && globalManager.getSnakeAliveQuantity() < 10){
 
             globalManager.stopRunnables();
             globalManager.setWinner(globalManager.getBestSnakes());
-            System.out.println("WInnbr: "+globalManager.getWinner().size());
-            globalManager.startIA(globalManager.getSnakeQuantity());
+            System.out.println("stopé");
+            globalManager.setStarted(false);
+            globalManager.startIA(200);
+
+        }
+
+        if(globalManager.isStarted()) {
+
+            for (IAIteration iaIteration : globalManager.getManagers().keySet()) {
+
+                if (iaIteration.getSnakeManager().isAlive()) {
+
+                    Random r = new Random();
+                    int n = r.nextInt(3);
+
+                    if (iaIteration.getSnakeManager().getCurrentapple() <= 3) {
+
+                        if (n == 0 && iaIteration.getSnakeManager().getCurrentapple() < 4) {
+
+                            iaIteration.getSnakeManager().generateApple();
+
+                        }
+
+                    }
+
+                    for (int i = 0; i < iaIteration.getLayers().size(); i++) {
+
+                        iaIteration.getLayer(i).compute();
+
+                    }
+
+                    iaIteration.getSnakeManager().moovSnake(iaIteration.getMouvement());
+
+                }
+
+            }
+
+            globalManager.getMainGUI().updateStats(globalManager.getSnakeQuantity(), globalManager.getBestSnake().getScore(), globalManager.getSnakeAliveQuantity());
 
         }
 

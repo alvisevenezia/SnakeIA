@@ -61,7 +61,7 @@ public class IAIteration {
 
     }
 
-    public void createIA(boolean first){
+    public void createIA(boolean first,ArrayList<IAIteration> ias){
 
         if(first){
 
@@ -82,8 +82,6 @@ public class IAIteration {
             addLayer(decisionLayer);
         }else{
 
-           ArrayList<IAIteration>ias = globalManager.getIaIterations(globalManager.getWinner());
-
             Random r = new Random();
             IAIteration ia1 = ias.get(r.nextInt(10));
             IAIteration ia2 = ias.get(r.nextInt(10));
@@ -92,8 +90,6 @@ public class IAIteration {
             firstLayer.mergeWeights(((FirstLayer)ia1.getLayer(0)).getWeights(),((FirstLayer)ia2.getLayer(0)).getWeights(),true);
             addLayer(firstLayer);
 
-            System.out.println("First fait");
-
             for(int id = 0;id<24;id++) {
 
                 ComputeLayer computeLayer1 = new ComputeLayer(24,this);
@@ -101,15 +97,12 @@ public class IAIteration {
                 addLayer(computeLayer1);
             }
 
-            System.out.println("Compute1 fait");
-
             for(int id = 0;id<24;id++) {
 
                 ComputeLayer computeLayer2= new ComputeLayer(24,this);
                 computeLayer2.mergeWeight(id,((ComputeLayer) ia1.getLayer(2)).getWeights(id), ((ComputeLayer) ia2.getLayer(2)).getWeights(id), true);
                 addLayer(computeLayer2);
             }
-            System.out.println("Compute2 fait");
 
             for(int id = 0;id<4;id++) {
 
@@ -117,7 +110,6 @@ public class IAIteration {
                 decisionLayer.mergeWeight(id,((DecisionLayer) ia1.getLayer(3)).getWeights(id), ((DecisionLayer) ia2.getLayer(3)).getWeights(id), true);
                 addLayer(decisionLayer);
             }
-            System.out.println("Decision fait");
 
         }
 
@@ -253,6 +245,9 @@ public class IAIteration {
                     data[count*3] = getBorderDistance(i-i3,i2-i4);
 
                     float[] qpos = snakeManager.getQueuePos();
+
+                    if(qpos == null)qpos = new float[]{25, 25};
+
                     float qd = (float)Math.sqrt(((i-qpos[0])*(i-qpos[0]))+((i2-qpos[1])*(i2-qpos[1])));
 
                     data[(count*3)+1] = qd;

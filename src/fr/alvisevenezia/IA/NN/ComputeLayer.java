@@ -2,9 +2,6 @@ package fr.alvisevenezia.IA.NN;
 
 import fr.alvisevenezia.IA.IAIteration;
 
-import java.awt.desktop.SystemSleepEvent;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Random;
 
@@ -32,10 +29,11 @@ public class ComputeLayer extends Layer{
 
             for(int i2 = 0;i2 < iaIteration.getLayer(iaIteration.getLayerID(this)).getSize();i2++) {
 
-                System.out.println("CL: "+i);
-                System.out.println("CL: "+i2);
-                System.out.println("CL2: "+weights.size());
-                System.out.println("CL3: "+weights.get(i)[i2]);
+                //System.out.println("CL: "+i);
+                //System.out.println("CL: "+i2);
+                //System.out.println("CL2: "+weights.size());
+                //System.out.println("CL3: "+weights.get(i)[i2]);
+
                 output[i2] = (float) (1 / (1 + (Math.exp((float) (weights.get(i)[i2] * input[i2])))));
 
             }
@@ -74,8 +72,7 @@ public class ComputeLayer extends Layer{
         Random r = new Random();
         float[] w = new float[w1.length];
 
-        for(int i = 0;i<size;i++){
-
+        for(int i = 0;i<24;i++){
 
             if(randomize) {
 
@@ -90,9 +87,11 @@ public class ComputeLayer extends Layer{
 
             }else{
 
-                w[i] = (w1[i]+w2[i])/2;
+                    w[i] = (w1[i] + w2[i]) / 2;
 
             }
+
+
 
         }
 

@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="ArtifactsWorkspaceSettings">
+    <artifacts-to-build>
+      <artifact name="SnakeIA" />
+    </artifacts-to-build>
+  </component>
   <component name="BranchesTreeState">
     <expand>
       <path>
@@ -19,14 +24,15 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b47c8c9f-8d01-4202-b47c-47d3d3332f87" name="Default Changelist" comment="premiere génération ok et début de la 2nd gen">
+    <list default="true" id="b47c8c9f-8d01-4202-b47c-47d3d3332f87" name="Default Changelist" comment="League of Bugs2">
+      <change afterPath="$PROJECT_DIR$/.idea/artifacts/SnakeIA.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/fr/alvisevenezia/IA/IAIteration.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/fr/alvisevenezia/IA/IAIteration.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/fr/alvisevenezia/IA/NN/ComputeLayer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/fr/alvisevenezia/IA/NN/ComputeLayer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/fr/alvisevenezia/IA/NN/FirstLayer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/fr/alvisevenezia/IA/NN/FirstLayer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/fr/alvisevenezia/SNAKE/GlobalManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/fr/alvisevenezia/SNAKE/GlobalManager.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/fr/alvisevenezia/SNAKE/GlobalRunnable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/fr/alvisevenezia/SNAKE/GlobalRunnable.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/fr/alvisevenezia/SNAKE/SnakeManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/fr/alvisevenezia/SNAKE/SnakeManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/fr/alvisevenezia/SNAKE/SnakeRunnable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/fr/alvisevenezia/SNAKE/SnakeRunnable.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -69,6 +75,7 @@
     <property name="project.structure.last.edited" value="Project" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
+    <property name="restartRequiresConfirmation" value="false" />
     <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
   </component>
   <component name="RecentsManager">
@@ -133,7 +140,11 @@
       <workItem from="1609098837878" duration="4014000" />
       <workItem from="1609256557070" duration="4287000" />
       <workItem from="1610129816926" duration="7050000" />
-      <workItem from="1610138367299" duration="55000" />
+      <workItem from="1610138367299" duration="6488000" />
+      <workItem from="1610222944525" duration="612000" />
+      <workItem from="1610226702973" duration="409000" />
+      <workItem from="1610228487253" duration="3981000" />
+      <workItem from="1610287416665" duration="304000" />
     </task>
     <task id="LOCAL-00001" summary="test">
       <created>1601975774640</created>
@@ -212,7 +223,14 @@
       <option name="project" value="LOCAL" />
       <updated>1609098981784</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="League of Bugs">
+      <created>1610138431973</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1610138431973</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -238,21 +256,26 @@
     <MESSAGE value="premier layer fait et début des layers suivants" />
     <MESSAGE value="layers à priori finis et début de la génération des ia de génération 1+n" />
     <MESSAGE value="premiere génération ok et début de la 2nd gen" />
-    <option name="LAST_COMMIT_MESSAGE" value="premiere génération ok et début de la 2nd gen" />
+    <MESSAGE value="League of Bugs" />
+    <option name="LAST_COMMIT_MESSAGE" value="League of Bugs" />
   </component>
   <component name="WindowStateProjectService">
     <state x="96" y="0" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1604225464807">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state x="96" y="0" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1280.680@0.0.1280.680" timestamp="1604225464807" />
-    <state x="446" y="47" key="#com.intellij.ide.util.MemberChooser" timestamp="1609259588767">
+    <state x="446" y="47" key="#com.intellij.ide.util.MemberChooser" timestamp="1610142663541">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="446" y="47" key="#com.intellij.ide.util.MemberChooser/0.0.1280.680@0.0.1280.680" timestamp="1609259588767" />
+    <state x="446" y="47" key="#com.intellij.ide.util.MemberChooser/0.0.1280.680@0.0.1280.680" timestamp="1610142663541" />
     <state x="345" y="118" key="#com.intellij.refactoring.encapsulateFields.EncalpsulateFieldsDialog" timestamp="1603279602524">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state x="345" y="118" key="#com.intellij.refactoring.encapsulateFields.EncalpsulateFieldsDialog/0.0.1280.680@0.0.1280.680" timestamp="1603279602524" />
+    <state x="424" y="235" width="432" height="216" key="#com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesDialog.classes" timestamp="1610139630054">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state x="424" y="235" width="432" height="216" key="#com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesDialog.classes/0.0.1280.680@0.0.1280.680" timestamp="1610139630054" />
     <state x="371" y="88" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1604225444988">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
@@ -261,56 +284,60 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="585" y="114" key="CommitChangelistDialog2/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1601974905974" />
-    <state width="1237" height="523" key="GridCell.Tab.0.bottom" timestamp="1610138297014">
+    <state width="1237" height="211" key="GridCell.Tab.0.bottom" timestamp="1610232517393">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1237" height="523" key="GridCell.Tab.0.bottom/0.0.1280.680@0.0.1280.680" timestamp="1610138297014" />
-    <state width="1237" height="523" key="GridCell.Tab.0.center" timestamp="1610138297014">
+    <state width="1237" height="211" key="GridCell.Tab.0.bottom/0.0.1280.680/-1920.0.1920.1040@0.0.1280.680" timestamp="1610231690060" />
+    <state width="1237" height="211" key="GridCell.Tab.0.bottom/0.0.1280.680@0.0.1280.680" timestamp="1610232517393" />
+    <state width="1237" height="211" key="GridCell.Tab.0.center" timestamp="1610232517392">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1237" height="523" key="GridCell.Tab.0.center/0.0.1280.680@0.0.1280.680" timestamp="1610138297014" />
-    <state width="1237" height="523" key="GridCell.Tab.0.left" timestamp="1610138297014">
+    <state width="1237" height="211" key="GridCell.Tab.0.center/0.0.1280.680/-1920.0.1920.1040@0.0.1280.680" timestamp="1610231690060" />
+    <state width="1237" height="211" key="GridCell.Tab.0.center/0.0.1280.680@0.0.1280.680" timestamp="1610232517392" />
+    <state width="1237" height="211" key="GridCell.Tab.0.left" timestamp="1610232517392">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1237" height="523" key="GridCell.Tab.0.left/0.0.1280.680@0.0.1280.680" timestamp="1610138297014" />
-    <state width="1237" height="523" key="GridCell.Tab.0.right" timestamp="1610138297014">
+    <state width="1237" height="211" key="GridCell.Tab.0.left/0.0.1280.680/-1920.0.1920.1040@0.0.1280.680" timestamp="1610231690060" />
+    <state width="1237" height="211" key="GridCell.Tab.0.left/0.0.1280.680@0.0.1280.680" timestamp="1610232517392" />
+    <state width="1237" height="211" key="GridCell.Tab.0.right" timestamp="1610232517392">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1237" height="523" key="GridCell.Tab.0.right/0.0.1280.680@0.0.1280.680" timestamp="1610138297014" />
-    <state width="1237" height="204" key="GridCell.Tab.1.bottom" timestamp="1606513132810">
+    <state width="1237" height="211" key="GridCell.Tab.0.right/0.0.1280.680/-1920.0.1920.1040@0.0.1280.680" timestamp="1610231690060" />
+    <state width="1237" height="211" key="GridCell.Tab.0.right/0.0.1280.680@0.0.1280.680" timestamp="1610232517392" />
+    <state width="1237" height="204" key="GridCell.Tab.1.bottom" timestamp="1610145262918">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1237" height="204" key="GridCell.Tab.1.bottom/0.0.1280.680@0.0.1280.680" timestamp="1606513132810" />
-    <state width="1237" height="204" key="GridCell.Tab.1.center" timestamp="1606513132810">
+    <state width="1237" height="204" key="GridCell.Tab.1.bottom/0.0.1280.680@0.0.1280.680" timestamp="1610145262918" />
+    <state width="1237" height="204" key="GridCell.Tab.1.center" timestamp="1610145262918">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1237" height="204" key="GridCell.Tab.1.center/0.0.1280.680@0.0.1280.680" timestamp="1606513132810" />
-    <state width="1237" height="204" key="GridCell.Tab.1.left" timestamp="1606513132810">
+    <state width="1237" height="204" key="GridCell.Tab.1.center/0.0.1280.680@0.0.1280.680" timestamp="1610145262918" />
+    <state width="1237" height="204" key="GridCell.Tab.1.left" timestamp="1610145262918">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1237" height="204" key="GridCell.Tab.1.left/0.0.1280.680@0.0.1280.680" timestamp="1606513132810" />
-    <state width="1237" height="204" key="GridCell.Tab.1.right" timestamp="1606513132810">
+    <state width="1237" height="204" key="GridCell.Tab.1.left/0.0.1280.680@0.0.1280.680" timestamp="1610145262918" />
+    <state width="1237" height="204" key="GridCell.Tab.1.right" timestamp="1610145262918">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1237" height="204" key="GridCell.Tab.1.right/0.0.1280.680@0.0.1280.680" timestamp="1606513132810" />
-    <state x="242" y="0" key="SettingsEditor" timestamp="1610138353786">
+    <state width="1237" height="204" key="GridCell.Tab.1.right/0.0.1280.680@0.0.1280.680" timestamp="1610145262918" />
+    <state x="242" y="0" key="SettingsEditor" timestamp="1610138758577">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="242" y="0" key="SettingsEditor/0.0.1280.680@0.0.1280.680" timestamp="1610138353786" />
+    <state x="242" y="0" key="SettingsEditor/0.0.1280.680@0.0.1280.680" timestamp="1610138758577" />
     <state x="440" y="94" key="SettingsEditor/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1601974880179" />
-    <state x="233" y="74" key="Vcs.Push.Dialog.v2" timestamp="1609098984933">
+    <state x="233" y="74" key="Vcs.Push.Dialog.v2" timestamp="1610138455868">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="233" y="74" key="Vcs.Push.Dialog.v2/0.0.1280.680@0.0.1280.680" timestamp="1609098984933" />
+    <state x="233" y="74" key="Vcs.Push.Dialog.v2/0.0.1280.680@0.0.1280.680" timestamp="1610138455868" />
     <state x="513" y="285" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1601976789682">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state x="513" y="285" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1280.680@0.0.1280.680" timestamp="1601976789682" />
     <state x="769" y="436" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1601974931284" />
-    <state x="225" y="270" width="1044" height="370" maximized="true" key="dock-window-1" timestamp="1605695737318">
+    <state x="-7" y="0" width="653" height="687" key="dock-window-1" timestamp="1610145193821">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="225" y="270" width="1044" height="370" maximized="true" key="dock-window-1/0.0.1280.680@0.0.1280.680" timestamp="1605695737318" />
+    <state x="-7" y="0" width="653" height="687" key="dock-window-1/0.0.1280.680@0.0.1280.680" timestamp="1610145193821" />
     <state x="91" y="24" key="new project wizard" timestamp="1608121413368">
       <screen x="0" y="0" width="1280" height="680" />
     </state>

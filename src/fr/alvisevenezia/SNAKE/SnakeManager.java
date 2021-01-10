@@ -19,6 +19,7 @@ public class SnakeManager {
     private SnakeRunnable snakeRunnable;
     private Timer timer;
     private IAIteration iaIteration;
+    private boolean alive;
 
     private int score = 0;
     private int max = 500;
@@ -35,6 +36,14 @@ public class SnakeManager {
         setCurrentbody(bodyStart);
         this.globalManager = globalManager;
         this.iaIteration = iaIteration;
+    }
+
+    public boolean isAlive() {
+        return alive;
+    }
+
+    public void setAlive(boolean alive) {
+        this.alive = alive;
     }
 
     public float[] getQueuePos(){
@@ -84,7 +93,8 @@ public class SnakeManager {
     public void stopRunnable(){
 
         globalManager.removeOneSnake();
-        timer.cancel();
+        //timer.cancel();
+        setAlive(false);
 
     }
 
