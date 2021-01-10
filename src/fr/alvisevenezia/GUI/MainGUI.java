@@ -24,7 +24,7 @@ public class MainGUI extends JFrame implements ActionListener {
     public MainGUI(GlobalManager globalManager){
 
         this.globalManager = globalManager;
-        statPanel = new StatPanel(globalManager,0,0,0);
+        statPanel = new StatPanel(globalManager,0,0,0,0);
 
         main = new MainPanel(globalManager);
 
@@ -43,14 +43,14 @@ public class MainGUI extends JFrame implements ActionListener {
 
         this.getContentPane().add(snake);
 
-        updateStats(0,0,0);
+        updateStats(0,0,0,0);
 
     }
 
-    public void updateStats(int nbr,int bs,int a){
+    public void updateStats(int nbr,int bs,int a,int nbGen){
 
         statPanel.setVisible(false);
-        statPanel = new StatPanel(globalManager,nbr,bs,a);
+        statPanel = new StatPanel(globalManager,nbr,bs,a,nbGen);
 
         statPanel.setBounds(100, 75, 300,100);
         statPanel.setBackground(Color.YELLOW);

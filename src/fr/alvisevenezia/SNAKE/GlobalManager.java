@@ -21,6 +21,7 @@ public class GlobalManager implements ActionListener {
     private int iterationcount = 0;
     private int snakeQuantity;
     private int snakeAliveQuantity;
+    private int generationCOunt = 0;
     private Timer runnable;
     private ArrayList<SnakeManager> winner;
 
@@ -33,6 +34,14 @@ public class GlobalManager implements ActionListener {
 
     }
 
+    public int getGenerationCOunt() {
+        return generationCOunt;
+    }
+
+    public void setGenerationCOunt(int generationCOunt) {
+        this.generationCOunt = generationCOunt;
+    }
+
     public HashMap<IAIteration, SnakeManager> getManagers() {
         return managers;
     }
@@ -40,7 +49,7 @@ public class GlobalManager implements ActionListener {
     public void startGlobalRunnale(){
 
         runnable = new Timer();
-        runnable.schedule(new GlobalRunnable(this),1000,1000);
+        runnable.schedule(new GlobalRunnable(this),10,10);
 
     }
 
@@ -208,6 +217,8 @@ public class GlobalManager implements ActionListener {
 
     public void startIA(int quantite){
 
+        generationCOunt++;
+
         setStarted(false);
 
  /*       for(SnakeManager m : managers.values()){
@@ -251,6 +262,7 @@ public class GlobalManager implements ActionListener {
 
     public void createFirstGeneration(int i){
 
+        generationCOunt++;
         setSnakeQuantity(i);
         setSnakeAliveQuantity(i);
 

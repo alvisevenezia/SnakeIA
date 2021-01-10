@@ -24,6 +24,11 @@ public class FirstLayer extends Layer{
 
         float[] input = iaIteration.getSnakeInfo(iaIteration.getSnakeManager().getHeadPos()[0],iaIteration.getSnakeManager().getHeadPos()[1]);
 
+        for(int i  = 0;i <size;i++) {
+
+            output[i] = (float) (1 / (1 + (Math.exp((float) (weights[i] * input[i])))));
+
+        }
      /*   for(int i = 0;i<size;i++){
 
            // System.out.println("Pos Queue "+i+" "+iaIteration.getSnakeManager().getQueuePos()[0]+" "+iaIteration.getSnakeManager().getQueuePos()[1]);
@@ -36,9 +41,6 @@ public class FirstLayer extends Layer{
                 else if(i == 9)System.out.print(input[i]+"      ");
                 else System.out.println(input[i]+" ");
             }
-
-
-            output[i] = (float)(1/(1+(Math.exp((float)(weights[i]*input[i])))));
 
 
         }
@@ -97,8 +99,36 @@ public class FirstLayer extends Layer{
     public void mergeWeights(float[] w1,float[] w2,boolean randomize){
 
         Random r = new Random();
+        float w;
+        int splitId = r.nextInt(w1.length);
 
-        for(int i = 0;i<size;i++){
+        for(int i = 0;i<w1.length;i++) {
+
+            if(i> splitId){
+
+                w = w1[i];
+
+            }else{
+
+                w = w2[i];
+
+            }
+
+            int randomMutation = r.nextInt(10);
+
+            if(randomMutation == 0){
+
+                w = r.nextFloat()*2 - 1;
+
+            }
+
+            setWeight(i,w);
+
+        }
+
+
+
+      /*  for(int i = 0;i<size;i++){
 
 
             if(randomize) {
@@ -118,7 +148,7 @@ public class FirstLayer extends Layer{
 
             }
 
-        }
+        }*/
 
 
 
@@ -131,7 +161,7 @@ public class FirstLayer extends Layer{
 
         for(int i = 0;i<size;i++){
 
-            setWeight(i,r.nextFloat());
+            setWeight(i,r.nextFloat()*2 - 1);
 
         }
 

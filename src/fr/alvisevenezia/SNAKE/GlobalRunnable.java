@@ -60,7 +60,7 @@ public class GlobalRunnable extends TimerTask {
 
             }
 
-            globalManager.getMainGUI().updateStats(globalManager.getSnakeQuantity(), globalManager.getBestSnake().getScore(), globalManager.getSnakeAliveQuantity());
+            globalManager.getMainGUI().updateStats(globalManager.getSnakeQuantity(), globalManager.getBestSnake().getScore(), globalManager.getSnakeAliveQuantity(),globalManager.getGenerationCOunt());
 
         }
 

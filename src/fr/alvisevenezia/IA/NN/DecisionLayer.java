@@ -50,8 +50,31 @@ public class DecisionLayer extends Layer{
 
         Random r = new Random();
         float[] w = new float[w1.length];
+        int splitId = r.nextInt(w1.length);
 
-        for(int i = 0;i<size;i++){
+        for(int i = 0;i<w1.length;i++) {
+
+            if(i> splitId){
+
+                w[i] = w1[i];
+
+            }else{
+
+                w[i] = w2[i];
+
+            }
+
+            int randomMutation = r.nextInt(10);
+
+            if(randomMutation == 0){
+
+                w[i] = r.nextFloat()*2 - 1;
+
+            }
+
+        }
+
+  /*      for(int i = 0;i<size;i++){
 
 
             if(randomize) {
@@ -71,7 +94,7 @@ public class DecisionLayer extends Layer{
 
             }
 
-        }
+        }*/
 
         weights.put(id,w);
 
