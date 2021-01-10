@@ -34,8 +34,8 @@ public class ComputeLayer extends Layer{
                 //System.out.println("CL2: "+weights.size());
                 //System.out.println("CL3: "+weights.get(i)[i2]);
 
-                output[i2] = (float) (1 / (1 + (Math.exp((float) (weights.get(i)[i2] * input[i2])))));
-
+                //output[i2] = (float) (1 / (1 + (Math.exp((float) (weights.get(i)[i2] * input[i2])))));
+                output[i2] = weights.get(i)[i2]*input[i2];
             }
         }
 

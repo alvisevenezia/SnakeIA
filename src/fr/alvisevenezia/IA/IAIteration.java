@@ -83,8 +83,8 @@ public class IAIteration {
         }else{
 
             Random r = new Random();
-            IAIteration ia1 = ias.get(r.nextInt(10));
-            IAIteration ia2 = ias.get(r.nextInt(10));
+            IAIteration ia1 = ias.get(0);
+            IAIteration ia2 = ias.get(1);
 
             FirstLayer firstLayer = new FirstLayer(24,this);
             firstLayer.mergeWeights(((FirstLayer)ia1.getLayer(0)).getWeights(),((FirstLayer)ia2.getLayer(0)).getWeights(),false);

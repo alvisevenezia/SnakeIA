@@ -235,18 +235,28 @@ public class GlobalManager implements ActionListener {
 
         while (quantite != 0){
 
-            IAIteration iaIteration = new IAIteration(this,iterationcount);
-            iaIteration.createIA(false,ias);
-            SnakeManager snakeManager = new SnakeManager(this,iaIteration);
-            snakeManager.createSnake();
-            snakeManager.initilizeApple();
-            snakeManager.setAlive(true);
-            //snakeManager.startRunnable();
-            iaIteration.setSnakeManager(snakeManager);
+            if(quantite > 10) {
+                IAIteration iaIteration = new IAIteration(this, iterationcount);
+                iaIteration.createIA(false, ias);
+                SnakeManager snakeManager = new SnakeManager(this, iaIteration);
+                snakeManager.createSnake();
+                snakeManager.initilizeApple();
+                snakeManager.setAlive(true);
+                iaIteration.setSnakeManager(snakeManager);
+                list.put(iaIteration,snakeManager);
+
+            }else{
+
+                SnakeManager snakeManager = new SnakeManager(this, ias.get(quantite-1));
+                snakeManager.createSnake();
+                snakeManager.initilizeApple();
+                snakeManager.setAlive(true);
+                ias.get(quantite-1).setSnakeManager(snakeManager);
+                list.put(ias.get(quantite-1),ias.get(quantite-1).getSnakeManager());
+
+            }
 
 
-
-            list.put(iaIteration,snakeManager);
 
             iterationcount++;
 
