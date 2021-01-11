@@ -22,7 +22,7 @@ public class SnakeManager {
     private boolean alive;
 
     private int score = 0;
-    private int max = 500;
+    private int max = 1500;
 
     private GlobalManager globalManager;
 
@@ -139,15 +139,17 @@ public class SnakeManager {
                             if(isApple(i + snakeMouvement.getX(), i2 + snakeMouvement.getY())){
 
                                 newbody = currentbody+1;
-                                score += 20;
+                                score += 50;
                                 max += 150;
 
                             }
                             setSnake(i + snakeMouvement.getX(), i2 + snakeMouvement.getY(), 1);
                             setSnake(i, i2, 2);
                             setHeadmooved(true);
-                            score += 10;
+
+                            score += 1;
                             max -= 10;
+
                         }
 
                         break;
@@ -198,21 +200,29 @@ public class SnakeManager {
 
         }
 
+        randomGenerateApple();
+
+    }
+
+    public void randomGenerateApple(){
+
+        int x = globalManager.getRandom().nextInt(50);
+        int y = globalManager.getRandom().nextInt(50);
+
+            while(getHeadPos()[0] == x || getHeadPos()[1] == y){
+
+                x = globalManager.getRandom().nextInt(50);
+                y = globalManager.getRandom().nextInt(50);
+
+            }
+
+        setApple(x,y,1);
+        currentapple++;
     }
 
     public void setApple(int i,int i2,int i3){
 
         pommes[i][i2] = i3;
-
-    }
-
-
-
-    public void generateApple(){
-
-        Random r = new Random();
-        setApple(r.nextInt(49),r.nextInt(49),1);
-        currentapple++;
 
     }
 

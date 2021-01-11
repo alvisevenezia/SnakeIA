@@ -25,6 +25,10 @@ public class IAIteration {
         return iterationnbr;
     }
 
+    public GlobalManager getGlobalManager() {
+        return globalManager;
+    }
+
     public IAIteration(GlobalManager globalManager, int i){
 
         this.globalManager = globalManager;
@@ -87,37 +91,19 @@ public class IAIteration {
             IAIteration ia2 = ias.get(1);
 
             FirstLayer firstLayer = new FirstLayer(24,this);
-            firstLayer.mergeWeights(((FirstLayer)ia1.getLayer(0)).getWeights(),((FirstLayer)ia2.getLayer(0)).getWeights(),false);
+            firstLayer.mergeWeights((FirstLayer)ia1.getLayer(0),(FirstLayer)ia2.getLayer(0));
             addLayer(firstLayer);
 
             ComputeLayer computeLayer1 = new ComputeLayer(24,this);
-
-            for(int id = 0;id<24;id++) {
-
-                computeLayer1.mergeWeight(id,((ComputeLayer) ia1.getLayer(1)).getWeights(id), ((ComputeLayer) ia2.getLayer(1)).getWeights(id), false);
-
-            }
-
+            computeLayer1.mergeWeight((ComputeLayer) ia1.getLayer(1), (ComputeLayer) ia2.getLayer(1));
             addLayer(computeLayer1);
 
             ComputeLayer computeLayer2= new ComputeLayer(24,this);
-
-            for(int id = 0;id<24;id++) {
-
-                computeLayer2.mergeWeight(id,((ComputeLayer) ia1.getLayer(2)).getWeights(id), ((ComputeLayer) ia2.getLayer(2)).getWeights(id), false);
-
-            }
-
+            computeLayer2.mergeWeight((ComputeLayer) ia1.getLayer(1), (ComputeLayer) ia2.getLayer(1));
             addLayer(computeLayer2);
 
             DecisionLayer decisionLayer  = new DecisionLayer(4,this);
-
-            for(int id = 0;id<4;id++) {
-
-                decisionLayer.mergeWeight(id,((DecisionLayer) ia1.getLayer(3)).getWeights(id), ((DecisionLayer) ia2.getLayer(3)).getWeights(id), false);
-
-            }
-
+            decisionLayer.mergeWeight((DecisionLayer) ia1.getLayer(3), (DecisionLayer) ia2.getLayer(3));
             addLayer(decisionLayer);
 
         }

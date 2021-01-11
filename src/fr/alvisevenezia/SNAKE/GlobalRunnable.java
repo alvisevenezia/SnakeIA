@@ -19,13 +19,12 @@ public class GlobalRunnable extends TimerTask {
     public void run() {
 
 
-        if(globalManager.isStarted() && globalManager.getSnakeQuantity() > 0 && globalManager.getSnakeAliveQuantity() < 10){
+        if(globalManager.isStarted() && globalManager.getSnakeQuantity() > 0 && globalManager.getSnakeAliveQuantity() == 0){
 
             globalManager.stopRunnables();
             globalManager.setWinner(globalManager.getBestSnakes());
-            System.out.println("stopé");
             globalManager.setStarted(false);
-            globalManager.startIA(200);
+            globalManager.startIA(2000);
 
         }
 
@@ -42,7 +41,7 @@ public class GlobalRunnable extends TimerTask {
 
                         if (n == 0 && iaIteration.getSnakeManager().getCurrentapple() < 4) {
 
-                            iaIteration.getSnakeManager().generateApple();
+                            iaIteration.getSnakeManager().randomGenerateApple();
 
                         }
 

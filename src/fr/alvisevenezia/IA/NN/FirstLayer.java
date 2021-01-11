@@ -26,52 +26,9 @@ public class FirstLayer extends Layer{
 
         for(int i  = 0;i <size;i++) {
 
-            //output[i] = (float) (1 / (1 + (Math.exp((float) (weights[i] * input[i])))));
-            output[i] = weights[i]*input[i];
-        }
-     /*   for(int i = 0;i<size;i++){
-
-           // System.out.println("Pos Queue "+i+" "+iaIteration.getSnakeManager().getQueuePos()[0]+" "+iaIteration.getSnakeManager().getQueuePos()[1]);
-           // System.out.println("Pos Head "+i+" "+iaIteration.getSnakeManager().getHeadPos()[0]+" "+iaIteration.getSnakeManager().getHeadPos()[1]);
-            //  System.out.println("Input "+i+" "+input[i]);
-
-            if(i % 3 == 0){
-
-                if(i != 6 && i != 9 && i !=12 && i != 21)System.out.print(input[i]+" ");
-                else if(i == 9)System.out.print(input[i]+"      ");
-                else System.out.println(input[i]+" ");
-            }
-
-
+            output[i] = input[i]*weights[i];
         }
 
-        System.out.println("");
-
-        for(int i = 0;i<size;i++){
-
-            if(i % 3 == 1){
-
-                if(i != 7 && i != 10 && i !=13 && i != 22)System.out.print(input[i]+" ");
-                else if(i == 10)System.out.print(input[i]+"      ");
-                else System.out.println(input[i]+" ");
-            }
-
-        }
-
-        System.out.println("");
-
-        for(int i = 0;i<size;i++){
-
-            if(i % 3 == 2){
-
-                if(i != 8 && i != 11 && i !=14 && i != 23)System.out.print(input[i]+" ");
-                else if(i == 11)System.out.print(input[i]+"      ");
-                else System.out.println(input[i]+" ");
-            }
-
-        }*/
-
-        System.out.println();
     }
 
     @Override
@@ -96,62 +53,49 @@ public class FirstLayer extends Layer{
 
     }
 
-    public void mergeWeights(float[] w1,float[] w2,boolean randomize){
+    public void mergeWeights(FirstLayer firstLayer1,FirstLayer firstLayer2){
 
-        Random r = new Random();
         float w;
-        int splitId = r.nextInt(w1.length);
+        int splitId = iaIteration.getGlobalManager().getRandom().nextInt(firstLayer1.size);
 
-        for(int i = 0;i<w1.length;i++) {
+        if(iaIteration.getGlobalManager().getRandom().nextInt(150) == 0){
 
-            if(i> splitId){
+            int mutAmount = iaIteration.getGlobalManager().getRandom().nextInt(4);
 
-                w = w1[i];
+            for(int i = 0;i<mutAmount;i++){
 
-            }else{
+                int mutID = iaIteration.getGlobalManager().getRandom().nextInt(24);
+                float mutedWeight = iaIteration.getGlobalManager().getRandom().nextFloat() * ((float) (iaIteration.getGlobalManager().getRandom().nextBoolean() ? 1 : -1));
 
-                w = w2[i];
+                if (iaIteration.getGlobalManager().getRandom().nextBoolean()) {
+
+                    firstLayer1.getWeights()[mutID] = mutedWeight;
+
+                } else {
+
+                    firstLayer1.getWeights()[mutID] = mutedWeight;
+
+                }
 
             }
 
-            int randomMutation = r.nextInt(10);
+        }
 
-            if(randomMutation == 0){
+        for(int i = 0;i<firstLayer1.getWeights().length;i++) {
 
-                w = r.nextFloat()*2 - 1;
+            if(i> splitId){
+
+                w = firstLayer1.getWeights()[i];
+
+            }else{
+
+                w = firstLayer2.getWeights()[i];
 
             }
 
             setWeight(i,w);
 
         }
-
-
-
-      /*  for(int i = 0;i<size;i++){
-
-
-            if(randomize) {
-
-                if (r.nextBoolean()) {
-
-                    weights[i] = w2[i];
-
-                } else {
-
-                    weights[i] = w1[i];
-                }
-
-            }else{
-
-                weights[i] = (w1[i]+w2[i])/2;
-
-            }
-
-        }*/
-
-
-
 
     }
 
@@ -161,7 +105,7 @@ public class FirstLayer extends Layer{
 
         for(int i = 0;i<size;i++){
 
-            setWeight(i,r.nextFloat()*2 - 1);
+            setWeight(i,iaIteration.getGlobalManager().getRandom().nextFloat() * ((float) (iaIteration.getGlobalManager().getRandom().nextBoolean() ? 1 : -1)));
 
         }
 

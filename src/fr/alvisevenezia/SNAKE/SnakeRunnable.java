@@ -27,7 +27,7 @@ public class SnakeRunnable extends TimerTask {
 
             if(n == 0 && iaIteration.getSnakeManager().getCurrentapple() < 4){
 
-                iaIteration.getSnakeManager().generateApple();
+                iaIteration.getSnakeManager().randomGenerateApple();
 
             }
 

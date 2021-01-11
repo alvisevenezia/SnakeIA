@@ -10,6 +10,7 @@ public class DecisionLayer extends Layer{
     private int size;
     private IAIteration iaIteration;
     private float[] output;
+    private float bias;
     private HashMap<Integer,float[]> weights;
 
     public DecisionLayer(int size,IAIteration iaIteration){
@@ -19,6 +20,14 @@ public class DecisionLayer extends Layer{
         output = new float[size];
         weights = new HashMap<>();
 
+    }
+
+    public float getBias() {
+        return bias;
+    }
+
+    public void setBias(float bias) {
+        this.bias = bias;
     }
 
     public float[] getWeights(int id){
@@ -37,67 +46,79 @@ public class DecisionLayer extends Layer{
 
             for(int i2 = 0;i2< iaIteration.getLayer(iaIteration.getLayerID(this)).getSize();i2++){
 
-                w[i2] = r.nextFloat()*2-1;
+                w[i2] = iaIteration.getGlobalManager().getRandom().nextFloat() * ((float) (iaIteration.getGlobalManager().getRandom().nextBoolean() ? 1 : -1));
 
             }
 
             weights.put(i,w);
         }
 
+        bias = iaIteration.getGlobalManager().getRandom().nextFloat() * ((float) (iaIteration.getGlobalManager().getRandom().nextBoolean() ? 1 : -1));
+
     }
 
-    public void mergeWeight(int id,float[] w1,float[] w2,boolean randomize){
+    public void mergeWeight(DecisionLayer decisionLayer1,DecisionLayer decisionLayer2){
 
-        Random r = new Random();
-        float[] w = new float[w1.length];
-        int splitId = r.nextInt(w1.length);
+        float[] w = new float[decisionLayer1.getSize()];
+        int splitId = iaIteration.getGlobalManager().getRandom().nextInt(decisionLayer1.getSize());
 
-        for(int i = 0;i<w1.length;i++) {
+        if(iaIteration.getGlobalManager().getRandom().nextInt(100) == 0) {
 
-            if(i> splitId){
+            int mutAmount = iaIteration.getGlobalManager().getRandom().nextInt(15);
 
-                w[i] = w1[i];
+            for (int i = 0; i < mutAmount; i++) {
 
-            }else{
+                int mutID = iaIteration.getGlobalManager().getRandom().nextInt((97));
 
-                w[i] = w2[i];
+                if (mutID == 96){
 
+                    if (iaIteration.getGlobalManager().getRandom().nextBoolean()) {
+
+                        decisionLayer1.setBias(iaIteration.getGlobalManager().getRandom().nextFloat() * ((float) (iaIteration.getGlobalManager().getRandom().nextBoolean() ? 1 : -1)));
+                    } else {
+
+                        decisionLayer2.setBias(iaIteration.getGlobalManager().getRandom().nextFloat() * ((float) (iaIteration.getGlobalManager().getRandom().nextBoolean() ? 1 : -1)));
+
+                    }
+
+                }else {
+                    int neuronID = mutID / 24;
+                    int weightToMuteID = neuronID % 24;
+                    float mutedWeight = iaIteration.getGlobalManager().getRandom().nextFloat() * ((float) (iaIteration.getGlobalManager().getRandom().nextBoolean() ? 1 : -1));
+
+                    if (iaIteration.getGlobalManager().getRandom().nextBoolean()) {
+
+                        decisionLayer1.getWeights(neuronID)[weightToMuteID] = mutedWeight;
+
+                    } else {
+
+                        decisionLayer2.getWeights(neuronID)[weightToMuteID] = mutedWeight;
+
+                    }
+                }
             }
-
-            int randomMutation = r.nextInt(10);
-
-            if(randomMutation == 0){
-
-                w[i] = r.nextFloat()*2 - 1;
-
-            }
-
         }
 
-  /*      for(int i = 0;i<size;i++){
+        for(int weightID = 0;weightID<decisionLayer1.getSize();weightID++) {
 
+            for (int i = 0; i < decisionLayer1.getSize(); i++) {
 
-            if(randomize) {
+                if (i > splitId) {
 
-                if (r.nextBoolean()) {
-
-                    w[i] = w2[i];
+                    w[i] = decisionLayer1.getWeights(weightID)[i];
 
                 } else {
 
-                    w[i] = w1[i];
+                    w[i] = decisionLayer2.getWeights(weightID)[i];
+
                 }
-
-            }else{
-
-                w[i] = (w1[i]+w2[i])/2;
 
             }
 
-        }*/
-
-        weights.put(id,w);
-
+            weights.put(weightID, w);
+        }
+        if(iaIteration.getGlobalManager().getRandom().nextBoolean())bias = decisionLayer1.getBias();
+        else bias = decisionLayer2.getBias();
     }
 
     public void compute(){
@@ -106,11 +127,24 @@ public class DecisionLayer extends Layer{
 
         for(int i = 0;i < size;i++){
 
+            float out = 0;
+
             for(int i2 = 0;i2 < (iaIteration.getLayer(iaIteration.getLayerID(this)).getSize());i2++) {
 
-                //output[i2] = (float) (1 / (1 + (Math.exp((float) (weights.get(i)[i2] * input[i2])))));
-                output[i2] = weights.get(i)[i2]*input[i2];
+                out = out+input[i2]*weights.get(i)[i2];
+
             }
+
+            if(out > 0){
+
+                output[i] = out;
+
+            }else{
+
+                output[i] = 0;
+
+            }
+
         }
 
     }
@@ -125,3 +159,4 @@ public class DecisionLayer extends Layer{
         return output;
     }
 }
+

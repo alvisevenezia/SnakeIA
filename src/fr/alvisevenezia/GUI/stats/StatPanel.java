@@ -20,7 +20,7 @@ public class StatPanel extends JPanel {
         q = new JLabel("Nombre de Serpent: "+nbr);
         bs = new JLabel("Best Score: "+b);
         sa = new JLabel("Nombre de Serpent vivant: "+a);
-        nbGenLabel = new JLabel("Génration: "+nbGen);
+        nbGenLabel = new JLabel("Génération: "+nbGen);
         this.add(q);
         this.add(bs);
         this.add(sa);

@@ -16,7 +16,6 @@ public class GlobalManager implements ActionListener {
     public MainGUI mainGUI;
     public JFrame currentFrame;
     private boolean isStarted = false;
-    private Timer timer;
     private HashMap<IAIteration,SnakeManager> managers;
     private int iterationcount = 0;
     private int snakeQuantity;
@@ -24,6 +23,7 @@ public class GlobalManager implements ActionListener {
     private int generationCOunt = 0;
     private Timer runnable;
     private ArrayList<SnakeManager> winner;
+    private Random random;
 
     public GlobalManager(){
 
@@ -31,7 +31,11 @@ public class GlobalManager implements ActionListener {
         managers = new HashMap<>();
         currentFrame = mainGUI;
         mainGUI.openFrame();
+        random = new Random();
+    }
 
+    public Random getRandom(){
+        return random;
     }
 
     public int getGenerationCOunt() {
@@ -49,7 +53,7 @@ public class GlobalManager implements ActionListener {
     public void startGlobalRunnale(){
 
         runnable = new Timer();
-        runnable.schedule(new GlobalRunnable(this),10,10);
+        runnable.schedule(new GlobalRunnable(this),1,1);
 
     }
 
@@ -125,15 +129,15 @@ public class GlobalManager implements ActionListener {
 
         ArrayList<SnakeManager> bests = new ArrayList<>();
         ArrayList<SnakeManager> snakemanagers =  new ArrayList<>(managers.values());
-        Collection<SnakeManager>azdecd = managers.values();
 
-        for(int i = 0;i < 10;i++){
+        for(int i = 0;i < 2;i++){
 
             SnakeManager best = null;
+            int score = 0;
+
+            int max = -1;
 
             for(SnakeManager m : snakemanagers){
-
-                int max = -1;
 
                 if(m.getScore() > max){
 
@@ -143,6 +147,8 @@ public class GlobalManager implements ActionListener {
                 }
 
             }
+
+            System.out.println(best.getScore());
 
             bests.add(best);
             snakemanagers.remove(best);
@@ -183,7 +189,7 @@ public class GlobalManager implements ActionListener {
             if(button.getText().equalsIgnoreCase("Lancer Snake")){
 
                 button.setText("Arreter IA");
-                createFirstGeneration(200);
+                createFirstGeneration(2000);
                 mainGUI.getSnake().repaint();
 
 
@@ -221,21 +227,29 @@ public class GlobalManager implements ActionListener {
 
         setStarted(false);
 
- /*       for(SnakeManager m : managers.values()){
-
-            m.stopRunnable();
-
-        }*/
-
         ArrayList<IAIteration>ias = getIaIterations(getWinner());
         HashMap<IAIteration, SnakeManager>list = new HashMap<>();
 
         setSnakeQuantity(quantite);
         setSnakeAliveQuantity(quantite);
 
-        while (quantite != 0){
+        while (quantite != 2){
 
-            if(quantite > 10) {
+         /*   if(ias.get(0).getSnakeManager().getScore() <= 25 || ias.get(1).getSnakeManager().getScore() <= 25){
+
+                IAIteration iaIteration = new IAIteration(this, iterationcount);
+                iaIteration.createIA(true, null);
+                SnakeManager snakeManager = new SnakeManager(this, iaIteration);
+                snakeManager.createSnake();
+                snakeManager.initilizeApple();
+                snakeManager.setAlive(true);
+                iaIteration.setSnakeManager(snakeManager);
+                list.put(iaIteration,snakeManager);
+                iterationcount++;
+                quantite--;
+
+            }else {*/
+
                 IAIteration iaIteration = new IAIteration(this, iterationcount);
                 iaIteration.createIA(false, ias);
                 SnakeManager snakeManager = new SnakeManager(this, iaIteration);
@@ -243,32 +257,39 @@ public class GlobalManager implements ActionListener {
                 snakeManager.initilizeApple();
                 snakeManager.setAlive(true);
                 iaIteration.setSnakeManager(snakeManager);
-                list.put(iaIteration,snakeManager);
+                list.put(iaIteration, snakeManager);
+                iterationcount++;
+                quantite--;
 
-            }else{
-
-                SnakeManager snakeManager = new SnakeManager(this, ias.get(quantite-1));
-                snakeManager.createSnake();
-                snakeManager.initilizeApple();
-                snakeManager.setAlive(true);
-                ias.get(quantite-1).setSnakeManager(snakeManager);
-                list.put(ias.get(quantite-1),ias.get(quantite-1).getSnakeManager());
-
-            }
-
-
-
-            iterationcount++;
-
-            quantite--;
-
+           // }
         }
+
+        System.out.println("GM: "+winner.get(0).getScore());
+        System.out.println("GM: "+winner.get(1).getScore());
+
+        SnakeManager snakeManager = new SnakeManager(this,getIaIteration(winner.get(0)));
+        snakeManager.createSnake();
+        snakeManager.initilizeApple();
+        snakeManager.setAlive(true);
+        IAIteration iaIteration = getIaIteration(winner.get(0));
+        iaIteration.setSnakeManager(snakeManager);
+        list.put(iaIteration,snakeManager);
+
+        snakeManager = new SnakeManager(this,getIaIteration(winner.get(1)));
+        snakeManager.createSnake();
+        snakeManager.initilizeApple();
+        snakeManager.setAlive(true);
+        iaIteration = getIaIteration(winner.get(1));
+        iaIteration.setSnakeManager(snakeManager);
+        list.put(iaIteration,snakeManager);
+
 
         managers = list;
 
         setStarted(true);
 
     }
+
 
     public void createFirstGeneration(int i){
 
