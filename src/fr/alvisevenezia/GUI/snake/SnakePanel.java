@@ -5,6 +5,7 @@ import fr.alvisevenezia.SNAKE.SnakeManager;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 
 public class SnakePanel extends JPanel {
 
@@ -20,52 +21,57 @@ public class SnakePanel extends JPanel {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
 
-        SnakeManager manager = globalManager.getBestSnake();
+        ArrayList<SnakeManager> snakeManagers = globalManager.getBestSnakesAlives(10);
 
-        for(int i = 0;i<50;i++){
+        for(int x = 0;x<50;x++){
 
-            for(int i2 = 0;i2<50;i2++){
+            for(int y = 0;y<50;y++){
 
-                if(globalManager.isStarted()) {
+                for(int snakeID = 0; snakeID<snakeManagers.size();snakeID++) {
 
-                    g.setColor(Color.BLACK);
-                    g.drawRect(i * 10, i2 * 10, 10, 10);
                     if (globalManager.isStarted()) {
-                        switch (manager.getSnake(i, i2)) {
 
-                            case 1:
-                                g.setColor(Color.RED);
-                                g.fillRect(i * 10, i2 * 10, 10, 10);
+                        g.setColor(Color.BLACK);
+                        g.drawRect(x * 10, y * 10, 10, 10);
+                        if (globalManager.isStarted()) {
+                            switch (snakeManagers.get(snakeID).getSnake(x, y)) {
 
-                                break;
+                                case 1:
+                                    g.setColor(Color.RED);
+                                    g.fillRect(x * 10, y * 10, 10, 10);
 
-                            case 0:
-
-                                if(manager.isApple(i,i2)){
-
-                                    g.setColor(Color.GREEN);
-                                    g.fillRect(i * 10, i2 * 10, 10, 10);
                                     break;
-                                }
-                                g.setColor(Color.BLACK);
-                                g.drawRect(i * 10, i2 * 10, 10, 10);
 
-                                break;
+                                case 0:
 
-                            default:
+                                    if (snakeManagers.get(snakeID).isApple(x, y)) {
 
-                                g.setColor(Color.BLACK);
+                                        g.setColor(Color.GREEN);
+                                        g.fillRect(x * 10, y * 10, 10, 10);
+                                        break;
+                                    }
+                                    g.setColor(Color.BLACK);
+                                    g.drawRect(x * 10, y * 10, 10, 10);
 
-                                g.fillRect(i * 10, i2 * 10, 10, 10);
+                                    break;
 
-                                break;
+                                default:
+
+                                    g.setColor(Color.BLACK);
+
+                                    g.fillRect(x * 10, y * 10, 10, 10);
+
+                                    break;
+                            }
                         }
                     }
 
                     g.setColor(Color.BLACK);
 
-                    g.drawRect(i * 10, i2 * 10, 10, 10);
+                    g.drawRect(x * 10, y * 10, 10, 10);
+
                 }
+
             }
 
         }

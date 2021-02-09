@@ -8,23 +8,44 @@ import java.awt.*;
 public class StatPanel extends JPanel {
 
     private GlobalManager globalManager;
-    JLabel q = new JLabel();
-    JLabel bs = new JLabel();
-    JLabel sa = new JLabel();
-    JLabel nbGenLabel = new JLabel();
-
-    public StatPanel(GlobalManager globalManager,int nbr,int b,int a,int nbGen) {
+    private int best1 = 0;
+    private int best2 = 0;
+    JLabel q = new JLabel("Nombre de Serpent: 0");
+    JLabel bs = new JLabel("Best Score: 0");
+    JLabel sa = new JLabel("Nombre de Serpent vivant: 0");
+    JLabel nbGenLabel = new JLabel("Génération: 0");
+    JLabel bestScore1 = new JLabel("Meilleur: 0");
+    JLabel bestScore2 = new JLabel("Second: 0");
+    JLabel moyenne = new JLabel("Moyenne: 0");
+    public StatPanel(GlobalManager globalManager) {
 
         this.globalManager = globalManager;
-
-        q = new JLabel("Nombre de Serpent: "+nbr);
-        bs = new JLabel("Best Score: "+b);
-        sa = new JLabel("Nombre de Serpent vivant: "+a);
-        nbGenLabel = new JLabel("Génération: "+nbGen);
         this.add(q);
         this.add(bs);
         this.add(sa);
         this.add(nbGenLabel);
+        this.add(bestScore1);
+        this.add(bestScore2);
+        this.add(moyenne);
+    }
+
+    public void update(int nbr,int b,int a,int nbGen,int moy){
+
+        q.setText("Nombre de Serpent: "+nbr);
+        bs.setText("Best Score: "+b);
+        sa.setText("Nombre de Serpent vivant: "+a);
+        nbGenLabel.setText("Génération: "+nbGen);
+        bestScore1.setText("Meilleur: "+best1);
+        bestScore2.setText("Second: "+best2);
+        moyenne.setText("Moyenne: "+moy);
+
+    }
+
+    public void updateBests(int bestScore1,int bestScore2){
+
+        best1 = bestScore1;
+        best2 = bestScore2;
+
     }
 
     @Override

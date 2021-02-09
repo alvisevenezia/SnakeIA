@@ -10,7 +10,7 @@ public class ComputeLayer extends Layer{
     private int size;
     private IAIteration iaIteration;
     private float[] output;
-    private float bias;
+    private float[] bias;
     private HashMap<Integer,float[]>weights;
 
     public ComputeLayer(int size,IAIteration iaIteration){
@@ -18,22 +18,27 @@ public class ComputeLayer extends Layer{
         this.iaIteration = iaIteration;
         this.size = size;
         output = new float[size];
+        bias = new float[size];
         weights = new HashMap<>();
 
     }
 
-    public float getBias() {
+    public void setBias(float[] bias) {
+        this.bias = bias;
+    }
+
+    public float[] getBias() {
         return bias;
     }
 
-    public void setBias(float bias) {
-        this.bias = bias;
+    @Override
+    public HashMap<Integer, float[]> geWeights() {
+        return weights;
     }
 
     public void compute(){
 
-        float[] input = iaIteration.getLayer(iaIteration.getLayerID(this)).getOutput();
-
+        float[] input = iaIteration.getLayer(iaIteration.getLayerID(this)-1).getOutput();
         for(int i = 0;i < size;i++){
 
             float out = 0;
@@ -44,7 +49,7 @@ public class ComputeLayer extends Layer{
 
             }
 
-            out = out+bias;
+            out = out+bias[i];
 
             output[i] = out;
 
@@ -59,6 +64,11 @@ public class ComputeLayer extends Layer{
             }
         }
 
+    }
+
+    @Override
+    public float[] getWeights() {
+        return new float[0];
     }
 
     public float[] getWeights(int id){
@@ -78,19 +88,61 @@ public class ComputeLayer extends Layer{
 
             for(int i2 = 0;i2< iaIteration.getLayer(iaIteration.getLayerID(this)).getSize();i2++){
 
-                w[i2] = iaIteration.getGlobalManager().getRandom().nextFloat() * ((float) (iaIteration.getGlobalManager().getRandom().nextBoolean() ? 1 : -1));
+                w[i2] = (iaIteration.getGlobalManager().getRandom().nextFloat()*2)-1;
 
             }
 
+            bias[i] = (iaIteration.getGlobalManager().getRandom().nextFloat()*2)-1;
+
             weights.put(i,w);
         }
-
-        bias = iaIteration.getGlobalManager().getRandom().nextFloat() * ((float) (iaIteration.getGlobalManager().getRandom().nextBoolean() ? 1 : -1));
 
     }
 
     public void mergeWeight(ComputeLayer computeLayer1,ComputeLayer computeLayer2){
 
+        int splitID = iaIteration.getGlobalManager().getRandom().nextInt(computeLayer1.getSize());
+
+        for(int ID = 0;ID<computeLayer1.getSize();ID++){
+
+            if(ID<splitID){
+
+                weights.put(ID,computeLayer1.getWeights(ID));
+                bias[ID] = computeLayer1.getBias()[ID];
+
+            }
+            else {
+
+                weights.put(ID,computeLayer2.getWeights(ID));
+                bias[ID] = computeLayer1.getBias()[ID];
+
+            }
+
+        }
+
+        if(iaIteration.getGlobalManager().getRandom().nextInt(iaIteration.getGlobalManager().getQuantity())<iaIteration.getGlobalManager().getQuantity()*(iaIteration.getGlobalManager().getMutationRate()/100)){
+
+            int neuronID = iaIteration.getGlobalManager().getRandom().nextInt((computeLayer1.getSize()*2)-1);
+
+            if(neuronID <computeLayer1.getSize()) {
+
+                float newWeights[] = new float[computeLayer1.getWeights(0).length];
+
+                for (int weightID = 0; weightID < computeLayer1.getWeights(0).length; weightID++) {
+
+                    newWeights[weightID] = (iaIteration.getGlobalManager().getRandom().nextFloat()*2)-1;
+
+                }
+
+                weights.replace(neuronID, newWeights);
+            }else{
+
+                bias[neuronID%computeLayer1.getWeights(0).length] = (iaIteration.getGlobalManager().getRandom().nextFloat()*2)-1;
+
+            }
+        }
+
+        /*
         float[] w = new float[computeLayer1.getSize()];
         int splitId = iaIteration.getGlobalManager().getRandom().nextInt(computeLayer1.getSize());
 
@@ -153,7 +205,7 @@ public class ComputeLayer extends Layer{
         }
         if(iaIteration.getGlobalManager().getRandom().nextBoolean())bias = computeLayer1.getBias();
         else bias = computeLayer2.getBias();
-
+*/
 
     }
 

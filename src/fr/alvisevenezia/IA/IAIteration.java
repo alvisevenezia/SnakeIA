@@ -4,6 +4,7 @@ import fr.alvisevenezia.IA.NN.ComputeLayer;
 import fr.alvisevenezia.IA.NN.DecisionLayer;
 import fr.alvisevenezia.IA.NN.FirstLayer;
 import fr.alvisevenezia.IA.NN.Layer;
+import fr.alvisevenezia.SNAKE.Direction;
 import fr.alvisevenezia.SNAKE.GlobalManager;
 import fr.alvisevenezia.SNAKE.SnakeManager;
 import fr.alvisevenezia.SNAKE.SnakeMouvement;
@@ -35,6 +36,57 @@ public class IAIteration {
         this.iterationnbr = i;
         layers = new ArrayList<>();
 
+    }
+
+    public ArrayList<String> getFloat(){
+
+        ArrayList<String> val = new ArrayList<>();
+
+        for(int ID = 0; ID < layers.get(0).getSize();ID++){
+
+            val.add(String.valueOf(layers.get(0).getWeights()[ID]));
+            val.add(String.valueOf(layers.get(0).getBias()[ID]));
+
+        }
+
+        for(int ID = 0; ID < layers.get(1).getSize();ID++){
+
+            for(int weightID = 0; weightID < layers.get(1).geWeights().get(ID).length;weightID++){
+
+                val.add(String.valueOf(layers.get(1).geWeights().get(ID)[weightID]));
+
+            }
+
+            val.add(String.valueOf(layers.get(1).getBias()[ID]));
+
+        }
+
+        for(int ID = 0; ID < layers.get(2).getSize();ID++){
+
+            for(int weightID = 0; weightID < layers.get(2).geWeights().get(ID).length;weightID++){
+
+                val.add(String.valueOf(layers.get(2).geWeights().get(ID)[weightID]));
+
+            }
+
+            val.add(String.valueOf(layers.get(2).getBias()[ID]));
+
+        }
+
+        for(int ID = 0; ID < layers.get(3).getSize();ID++){
+
+            for(int weightID = 0; weightID < layers.get(3).geWeights().get(ID).length;weightID++){
+
+                val.add(String.valueOf(layers.get(3).geWeights().get(ID)[weightID]));
+
+            }
+
+            val.add(String.valueOf(layers.get(1).getBias()[ID]));
+
+        }
+
+
+        return val;
     }
 
     public SnakeMouvement getMouvement(){
@@ -191,70 +243,40 @@ public class IAIteration {
 
     }
 
-    public float[] getSnakeInfo(int i,int i2){//i --> posX i2 --> posY
+    public float[] getSnakeInfo(int x,int y){
 
         float[] data = new float[24];
-        int count = 0;
         //data:
         //distance bordure
         //distance queue
         //distance pomme la plus proche
 
-        for(int i4 = -1;i4<2;i4++){
+        data[0] = snakeManager.getBordureDistance(x,y,Direction.LEFT_UP);
+        data[1] = snakeManager.getBodyDistance(x,y,Direction.LEFT_UP);
+        data[2] = snakeManager.getAppleDistance(x,y,Direction.LEFT_UP);
+        data[3] = snakeManager.getBordureDistance(x,y,Direction.UP);
+        data[4] = snakeManager.getBodyDistance(x,y,Direction.UP);
+        data[5] = snakeManager.getAppleDistance(x,y,Direction.UP);
+        data[6] = snakeManager.getBordureDistance(x,y,Direction.RIGHT_UP);
+        data[7] = snakeManager.getBodyDistance(x,y,Direction.RIGHT_UP);
+        data[8] = snakeManager.getAppleDistance(x,y,Direction.RIGHT_UP);
+        data[9] = snakeManager.getBordureDistance(x,y,Direction.RIGHT);
+        data[10] = snakeManager.getBodyDistance(x,y,Direction.RIGHT);
+        data[11] = snakeManager.getAppleDistance(x,y,Direction.RIGHT);
+        data[12] = snakeManager.getBordureDistance(x,y,Direction.RIGHT_DOWN);
+        data[13] = snakeManager.getBodyDistance(x,y,Direction.RIGHT_DOWN);
+        data[14] = snakeManager.getAppleDistance(x,y,Direction.RIGHT_DOWN);
+        data[15] = snakeManager.getBordureDistance(x,y,Direction.DOWN);
+        data[16] = snakeManager.getBodyDistance(x,y,Direction.DOWN);
+        data[17] = snakeManager.getAppleDistance(x,y,Direction.DOWN);
+        data[18] = snakeManager.getBordureDistance(x,y,Direction.LEFT_DOWN);
+        data[19] = snakeManager.getBodyDistance(x,y,Direction.LEFT_DOWN);
+        data[20] = snakeManager.getAppleDistance(x,y,Direction.LEFT_DOWN);
+        data[21] = snakeManager.getBordureDistance(x,y,Direction.LEFT);
+        data[22] = snakeManager.getBodyDistance(x,y,Direction.LEFT);
+        data[23] = snakeManager.getAppleDistance(x,y,Direction.LEFT);
 
-            for(int i3 = -1;i3<2;i3++){
 
-                if(!(i3 == 0 && i4 == 0)){
-
-                   /* if(i-i3 < 0 || i-i3 >49 || i2-i4 < 0 || i2-i4 >49){
-
-                            data[count*3] = 0;
-
-                    }else{
-
-                        if(i-i3 > 25){
-
-                            if(i-i4 > 25){
-
-                                data[count*3] = (int)Math.sqrt(((50-(i-i3))*(50-(i-i3)))+((50-(i-i4))*(50-(i-i4))));
-
-                            }else{
-
-                                data[count*3] = (int)Math.sqrt(((50-(i-i3))*(50-(i-i3)))+((-(i-i4))*(-(i-i4))));
-                            }
-
-                        }else{
-
-                            if(i-i4 > 25){
-
-                                data[count*3] = (int)Math.sqrt(((-(i-i3))*(-(i-i3)))+((50-(i-i4))*(50-(i-i4))));
-
-                            }else{
-
-                                data[count*3] = (int)Math.sqrt(((-(i-i3))*(-(i-i3)))+((-(i-i4))*(-(i-i4))));
-                            }
-                        }
-
-                    }*/
-
-                    data[count*3] = getBorderDistance(i-i3,i2-i4);
-
-                    float[] qpos = snakeManager.getQueuePos();
-
-                    if(qpos == null)qpos = new float[]{25, 25};
-
-                    float qd = (float)Math.sqrt(((i-qpos[0])*(i-qpos[0]))+((i2-qpos[1])*(i2-qpos[1])));
-
-                    data[(count*3)+1] = qd;
-
-                    data[(count*3)+2] = snakeManager.getAppleDistance(i-i3,i2-i4);
-
-                  count++;
-                }
-
-            }
-
-        }
 
         return data;
 

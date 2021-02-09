@@ -11,18 +11,20 @@ import java.util.Timer;
 public class SnakeManager {
 
     private int bodyStart = 2;
+    private int appleID = 0;
     private int currentbody = 2;
+    private int lifetime = 0;
     private int newbody = 2;
     private int currentapple = 0;
+    private int moovCount = 0;
     private boolean headmooved = false;
     private SnakeMouvement currentmouvement = SnakeMouvement.STAY;
-    private SnakeRunnable snakeRunnable;
     private Timer timer;
     private IAIteration iaIteration;
     private boolean alive;
 
     private int score = 0;
-    private int max = 1500;
+    private int max = 150;
 
     private GlobalManager globalManager;
 
@@ -36,6 +38,10 @@ public class SnakeManager {
         setCurrentbody(bodyStart);
         this.globalManager = globalManager;
         this.iaIteration = iaIteration;
+    }
+
+    public int getMoovCount() {
+        return moovCount;
     }
 
     public boolean isAlive() {
@@ -83,18 +89,25 @@ public class SnakeManager {
 
     }
 
-    public void startRunnable(){
-
-        timer = new Timer();
-        timer.schedule(new SnakeRunnable(globalManager,iaIteration),1000,1000);
-
-    }
-
     public void stopRunnable(){
 
         globalManager.removeOneSnake();
-        //timer.cancel();
         setAlive(false);
+
+    }
+
+    //from greerviau/SnakeAI
+    public int calculateFitness(){
+
+        if(score < 10){
+
+            return (int) (Math.floor(lifetime*lifetime)*Math.pow(2,score));
+
+        }else{
+
+            return (int) (Math.floor(lifetime*lifetime)*Math.pow(2,10)*(score-9));
+
+        }
 
     }
 
@@ -106,6 +119,9 @@ public class SnakeManager {
             return;
 
         }
+        moovCount++;
+        lifetime++;
+        max--;
 
         for(int i = 0;i<50;i++) {
 
@@ -124,6 +140,7 @@ public class SnakeManager {
                         if(i + snakeMouvement.getX() > 49 || i + snakeMouvement.getX() < 0 || i2 + snakeMouvement.getY() > 49 || i2 + snakeMouvement.getY() < 0){
 
                             stopRunnable();
+                            appleID = 0;
                             break;
 
                         }
@@ -131,24 +148,25 @@ public class SnakeManager {
                         if(getSnake(i + snakeMouvement.getX(), i2 + snakeMouvement.getY()) != 0 || ((currentmouvement.getY()+snakeMouvement.getY() == 0)&& (currentmouvement.getX()+snakeMouvement.getX() == 0)&& currentmouvement != SnakeMouvement.STAY)){
 
                             stopRunnable();
+                            appleID = 0;
                             break;
 
                         }else if(!isHeadmooved()) {
 
 
-                            if(isApple(i + snakeMouvement.getX(), i2 + snakeMouvement.getY())){
+                            if(globalManager.isApple(appleID,i + snakeMouvement.getX(), i2 + snakeMouvement.getY())){
 
+                                setApple(i + snakeMouvement.getX(), i2 + snakeMouvement.getY(),0);
+                                appleID++;
+                                setApple(globalManager.getAppleCoord(appleID)[0],globalManager.getAppleCoord(appleID)[1],1);
                                 newbody = currentbody+1;
-                                score += 50;
-                                max += 150;
+                                score ++;
+                                max += 75;
 
                             }
                             setSnake(i + snakeMouvement.getX(), i2 + snakeMouvement.getY(), 1);
                             setSnake(i, i2, 2);
                             setHeadmooved(true);
-
-                            score += 1;
-                            max -= 10;
 
                         }
 
@@ -200,14 +218,14 @@ public class SnakeManager {
 
         }
 
-        randomGenerateApple();
+     //   randomGenerateApple();
 
     }
 
     public void randomGenerateApple(){
 
-        int x = globalManager.getRandom().nextInt(50);
-        int y = globalManager.getRandom().nextInt(50);
+        int x = globalManager.getRandom().nextInt(48)+1;
+        int y = globalManager.getRandom().nextInt(48)+1;
 
             while(getHeadPos()[0] == x || getHeadPos()[1] == y){
 
@@ -216,8 +234,10 @@ public class SnakeManager {
 
             }
 
-        setApple(x,y,1);
         currentapple++;
+        setApple(x,y,1);
+
+
     }
 
     public void setApple(int i,int i2,int i3){
@@ -280,6 +300,19 @@ public class SnakeManager {
 
     }
 
+    public void increaseMax(int i){
+
+        if(max + i < 650) {
+
+            max += i;
+
+        }else{
+
+            max = 650;
+
+        }
+    }
+
     public void updateSnake(){
 
         currentsnake = newsnake;
@@ -326,39 +359,61 @@ public class SnakeManager {
         this.currentapple = currentapple;
     }
 
-    public SnakeRunnable getSnakeRunnable() {
-        return snakeRunnable;
+    public float getAppleDistance(int i3, int i4,Direction direction) {
+
+        int posX = i3+(direction.getxCoeff()*1);
+        int posY = i3+(direction.getyCoeff()*1);
+        int appleX = globalManager.getAppleCoord(appleID)[0];
+        int appleY = globalManager.getAppleCoord(appleID)[1];
+
+        return (float)Math.sqrt(((posX-appleX)*(posX-appleX))+((posY-appleY)*(posY-appleY)));
+
     }
 
-    public void setSnakeRunnable(SnakeRunnable snakeRunnable) {
-        this.snakeRunnable = snakeRunnable;
-    }
+    public float getBordureDistance(int i2,int i3,Direction direction){
 
-    public float getAppleDistance(int i3, int i4) {
+        if(50-i2 > 25){
 
-        float min = 10000000;
+            if(50-i3 > 25){
 
-        for(int i = 0;i< 50;i++){
+                return (float)Math.sqrt(((i2)*(i2))+((i3)*(i3)));
 
-            for(int i2 = 0;i2<50;i2++){
+            }else{
 
-                if(isApple(i,i2)){
+                return (float)Math.sqrt(((i2)*(i2)+((50-i3))*(50-i3)));
+            }
 
-                    float da = (float)Math.sqrt(((i3-i)*(i3-i))+((i4-i2)*(i4-i2)));
+        }else{
 
-                    if(da < min){
+            if(50-i3 > 25){
 
-                        min = da;
+                return (float)Math.sqrt(((50-i2)*(50-i2))+(i3*i3));
 
-                    }
+            }else{
 
-                }
-
+                return (float)Math.sqrt(((50-i2)*(50-i2))+((50-i3)*(50-i3)));
             }
 
         }
 
-        return min;
+    }
+
+    public float getBodyDistance(int i2, int i3, Direction direction){
+
+       // for(int i = 1;i<50;i++){
+
+            int x = direction.getXCoord(i2,1);
+            int y = direction.getYCoord(i3,1);
+
+            if(getSnake(x,y) == currentbody){
+
+                return 0;
+
+            }
+
+      //  }
+
+        return 1;
 
     }
 }

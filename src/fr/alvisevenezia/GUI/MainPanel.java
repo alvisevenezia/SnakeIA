@@ -18,11 +18,15 @@ public class MainPanel extends JPanel {
         this.setBounds(100,150,300,(int)(GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds().getHeight()-300));
         this.setBackground(Color.YELLOW);
 
-        JButton button = new JButton();
-        button.setText("Lancer Snake");
-        button.addActionListener(globalManager);
+        JButton startButton = new JButton();
+        startButton.setText("Lancer Snake");
+        startButton.addActionListener(globalManager);
+        this.add(startButton);
 
-        this.add(button);
+        JButton saveButton = new JButton();
+        saveButton.setText("Enregistrer Generation");
+        saveButton.addActionListener(globalManager);
+        this.add(saveButton);
 
     }
 
