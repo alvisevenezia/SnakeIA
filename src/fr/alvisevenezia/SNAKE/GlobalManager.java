@@ -379,7 +379,7 @@ public class GlobalManager implements ActionListener {
             snakeManager.initilizeApple();
             snakeManager.setAlive(true);
             snakeManager.setApple(getAppleCoord(0)[0],getAppleCoord(0)[1],1);
-         //   snakeManager.randomGenerateApple();
+            //   snakeManager.randomGenerateApple();
             iaIteration.setSnakeManager(snakeManager);
             list.put(iaIteration, snakeManager);
             iterationcount++;
@@ -396,7 +396,7 @@ public class GlobalManager implements ActionListener {
             snakeManager.initilizeApple();
             snakeManager.setAlive(true);
             snakeManager.setApple(getAppleCoord(0)[0],getAppleCoord(0)[1],1);
-        //    snakeManager.randomGenerateApple();
+            //    snakeManager.randomGenerateApple();
             iaIteration.setSnakeManager(snakeManager);
 
             list.put(iaIteration,snakeManager);
@@ -409,7 +409,7 @@ public class GlobalManager implements ActionListener {
         snakeManager.createSnake();
         snakeManager.initilizeApple();
         snakeManager.setAlive(true);
-      //  snakeManager.randomGenerateApple();
+        //  snakeManager.randomGenerateApple();
         snakeManager.setApple(getAppleCoord(0)[0],getAppleCoord(0)[1],1);
         IAIteration iaIteration = getIaIteration(winner.get(0));
         iaIteration.setSnakeManager(snakeManager);
@@ -419,7 +419,7 @@ public class GlobalManager implements ActionListener {
         snakeManager.createSnake();
         snakeManager.initilizeApple();
         snakeManager.setAlive(true);
-      //  snakeManager.randomGenerateApple();
+        //  snakeManager.randomGenerateApple();
         snakeManager.setApple(getAppleCoord(0)[0],getAppleCoord(0)[1],1);
         iaIteration = getIaIteration(winner.get(1));
         iaIteration.setSnakeManager(snakeManager);
@@ -447,7 +447,7 @@ public class GlobalManager implements ActionListener {
             snakeManager.createSnake();
             snakeManager.initilizeApple();
             snakeManager.setAlive(true);
-           // snakeManager.randomGenerateApple();
+            // snakeManager.randomGenerateApple();
             snakeManager.setApple(getAppleCoord(0)[0],getAppleCoord(0)[1],1);
             iaIteration.setSnakeManager(snakeManager);
 
