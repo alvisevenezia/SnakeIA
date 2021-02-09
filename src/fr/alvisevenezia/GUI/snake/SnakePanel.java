@@ -29,40 +29,36 @@ public class SnakePanel extends JPanel {
 
                 for(int snakeID = 0; snakeID<snakeManagers.size();snakeID++) {
 
+                    g.setColor(Color.BLACK);
+                    g.drawRect(x * 10, y * 10, 10, 10);
                     if (globalManager.isStarted()) {
+                        switch (snakeManagers.get(snakeID).getSnake(x, y)) {
 
-                        g.setColor(Color.BLACK);
-                        g.drawRect(x * 10, y * 10, 10, 10);
-                        if (globalManager.isStarted()) {
-                            switch (snakeManagers.get(snakeID).getSnake(x, y)) {
+                            case 1:
+                                g.setColor(Color.RED);
+                                g.fillRect(x * 10, y * 10, 10, 10);
 
-                                case 1:
-                                    g.setColor(Color.RED);
+                                break;
+
+                            case 0:
+
+                                if (snakeManagers.get(snakeID).isApple(x, y)) {
+
+                                    g.setColor(Color.GREEN);
                                     g.fillRect(x * 10, y * 10, 10, 10);
-
                                     break;
+                                }
+                                g.setColor(Color.BLACK);
+                                g.drawRect(x * 10, y * 10, 10, 10);
 
-                                case 0:
+                                break;
 
-                                    if (snakeManagers.get(snakeID).isApple(x, y)) {
+                            default:
 
-                                        g.setColor(Color.GREEN);
-                                        g.fillRect(x * 10, y * 10, 10, 10);
-                                        break;
-                                    }
-                                    g.setColor(Color.BLACK);
-                                    g.drawRect(x * 10, y * 10, 10, 10);
+                                g.setColor(Color.BLACK);
+                                g.fillRect(x * 10, y * 10, 10, 10);
 
-                                    break;
-
-                                default:
-
-                                    g.setColor(Color.BLACK);
-
-                                    g.fillRect(x * 10, y * 10, 10, 10);
-
-                                    break;
-                            }
+                                break;
                         }
                     }
 
