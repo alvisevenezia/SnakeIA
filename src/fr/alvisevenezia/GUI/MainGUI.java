@@ -18,12 +18,15 @@ public class MainGUI extends JFrame implements ActionListener {
     private MainPanel main;
     private SnakePanel snake;
     private StatPanel statPanel;
+    private int scale;
 
     private GlobalManager globalManager;
 
     public MainGUI(GlobalManager globalManager){
 
         this.globalManager = globalManager;
+
+        scale = 500/globalManager.getSize();
 
         statPanel = new StatPanel(globalManager);
         statPanel.setVisible(false);
@@ -44,7 +47,7 @@ public class MainGUI extends JFrame implements ActionListener {
 
         snake = new SnakePanel(globalManager);
 
-        snake.setBounds(600,75,500,500);
+        snake.setBounds(600,75,globalManager.getSize()*scale,globalManager.getSize()*scale);
         snake.setBackground(Color.GRAY);
 
         this.getContentPane().add(snake);
@@ -52,7 +55,11 @@ public class MainGUI extends JFrame implements ActionListener {
 
     }
 
-    public void updateStats(int nbr,int bs,int a,int nbGen,int moy){
+    public int getScale() {
+        return scale;
+    }
+
+    public void updateStats(int nbr, String bs, int a, int nbGen, int moy){
 
         statPanel.update(nbr,bs,a,nbGen,moy);
 

@@ -36,6 +36,10 @@ public class DecisionLayer extends Layer{
         this.bias = bias;
     }
 
+    public void setWeights(int ID,float[] val) {
+        weights.put(ID,val);
+    }
+
     public float[] getWeights(int id){
 
         return weights.get(id);

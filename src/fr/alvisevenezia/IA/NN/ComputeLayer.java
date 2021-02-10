@@ -23,6 +23,12 @@ public class ComputeLayer extends Layer{
 
     }
 
+    public void setWeights(int ID,float[] val){
+
+        weights.put(ID,val);
+
+    }
+
     public void setBias(float[] bias) {
         this.bias = bias;
     }

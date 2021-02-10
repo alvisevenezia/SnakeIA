@@ -1,8 +1,10 @@
 package fr.alvisevenezia.GUI;
 
+import fr.alvisevenezia.GUI.listeners.LoadButtonListener;
 import fr.alvisevenezia.SNAKE.GlobalManager;
 
 import javax.swing.*;
+import javax.swing.plaf.basic.BasicArrowButton;
 import java.awt.*;
 
 public class MainPanel extends JPanel {
@@ -27,6 +29,21 @@ public class MainPanel extends JPanel {
         saveButton.setText("Enregistrer Generation");
         saveButton.addActionListener(globalManager);
         this.add(saveButton);
+
+        JButton directionButton = new JButton();
+        directionButton.setText("Afficher directions");
+        directionButton.addActionListener(globalManager);
+        this.add(directionButton);
+
+        JButton pauseButton = new JButton();
+        pauseButton.setText("Pause");
+        pauseButton.addActionListener(globalManager);
+        this.add(pauseButton);
+
+        JButton fileChooserButton = new JButton();
+        fileChooserButton.setText("Charger Generation");
+        fileChooserButton.addActionListener(new LoadButtonListener(globalManager));
+        this.add(fileChooserButton);
 
     }
 

@@ -224,18 +224,18 @@ public class IAIteration {
 
     public int getBorderDistance(int i,int i2){
 
-        if(i  == 50||i2==50||i==-1||i2==-1)return 100;
+        if(i  == globalManager.getSize()||i2==globalManager.getSize()||i==-1||i2==-1)return 100;
 
         int d1 = 0;
         int d2 = 0;
 
-        if(i<25) d1 = i+1;
+        if(i<globalManager.getSize()/2) d1 = i+1;
 
-        else d1 = 50 - i;
+        else d1 = globalManager.getSize() - i;
 
-        if(i2<25)d2 = i2+1;
+        if(i2<globalManager.getSize()/2)d2 = i2+1;
 
-        else d2 = 50 - i2;
+        else d2 = globalManager.getSize() - i2;
 
         if(d2 < d1) d1 = d2;
 

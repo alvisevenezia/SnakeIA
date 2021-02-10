@@ -7,6 +7,7 @@ import fr.alvisevenezia.IA.IAIteration;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.math.BigInteger;
 import java.util.*;
 import java.util.Timer;
 
@@ -17,6 +18,8 @@ public class GlobalManager implements ActionListener {
     public MainGUI mainGUI;
     public JFrame currentFrame;
     private boolean isStarted = false;
+    private boolean showLines = false;
+    private boolean isLoaded = false;
     private HashMap<IAIteration,SnakeManager> managers;
     private HashMap<Integer,int[]>appleCoord;
     private int iterationcount = 0;
@@ -24,13 +27,15 @@ public class GlobalManager implements ActionListener {
     private int snakeAliveQuantity;
     private int generationCOunt = 0;
     private int appledCount = 0;
-    private final double mutationRate = 0.5;
+    private final int size = 19;
+    private final double mutationRate = 2;
     private final double crossOverRate = 95;
     private final int quantity = 2000;
-    private final String path = "C:\\Users\\wanto\\OneDrive\\Documents\\DEV\\IA\\SnakeIA";
+    private final String path = "E:\\Developpement\\JAVA\\IA\\SnakeIA\\Save";
     private Timer runnable;
     private ArrayList<SnakeManager> winner;
     private Random random;
+
 
     public GlobalManager(){
 
@@ -41,6 +46,32 @@ public class GlobalManager implements ActionListener {
         mainGUI.openFrame();
         random = new Random();
         generateApple();
+    }
+
+    public void addManager(IAIteration iaIteration,SnakeManager snakeManager){
+
+        managers.put(iaIteration,snakeManager);
+
+    }
+
+    public boolean isLoaded() {
+        return isLoaded;
+    }
+
+    public void setLoaded(boolean loaded) {
+        isLoaded = loaded;
+    }
+
+    public int getSize() {
+        return size;
+    }
+
+    public String getPath() {
+        return path;
+    }
+
+    public boolean showLines() {
+        return showLines;
     }
 
     public void setAppleCoord(HashMap<Integer, int[]> appleCoord) {
@@ -67,7 +98,7 @@ public class GlobalManager implements ActionListener {
 
         for(int i = 0;i <15000;i++){
 
-            int[] apple = {random.nextInt(48)+1,random.nextInt(48)+1};
+            int[] apple = {random.nextInt(size-2)+1,random.nextInt(size-2)+1};
 
             appleCoord.put(i,apple);
 
@@ -138,7 +169,7 @@ public class GlobalManager implements ActionListener {
     public void startGlobalRunnale(){
 
         runnable = new Timer();
-        runnable.schedule(new GlobalRunnable(this),100,100);
+        runnable.schedule(new GlobalRunnable(this),1,1);
 
     }
 
@@ -213,19 +244,20 @@ public class GlobalManager implements ActionListener {
 
         ArrayList<SnakeManager> bests = new ArrayList<>();
         ArrayList<SnakeManager> snakemanagers =  new ArrayList<>(managers.values());
-
+        int maxAppleEaten = getMostAppleEaten();
         for(int i = 0;i < Math.min(amount,snakeAliveQuantity);i++){
 
             SnakeManager best = null;
-            int score = 0;
-
-            int max = -1;
+            BigInteger fitness;
+            BigInteger max = BigInteger.valueOf(-1);
 
             for(SnakeManager m : snakemanagers){
 
-                if(m.calculateFitness() > max && m.isAlive()){
+                fitness = m.calculateFitness();
 
-                    max = m.calculateFitness();
+                if(fitness.compareTo(max) == 1 && m.isAlive()){
+
+                    max = fitness;
                     best = m;
 
                 }
@@ -248,15 +280,23 @@ public class GlobalManager implements ActionListener {
         for(int i = 0;i < amount;i++){
 
             SnakeManager best = null;
-            int score = 0;
-
-            int max = -1;
+            BigInteger fitness;
+            BigInteger max = BigInteger.valueOf(-1);
+            int maxApple = getMostAppleEaten();
 
             for(SnakeManager m : snakemanagers){
 
-                if(m.calculateFitness() > max){
+                fitness = m.calculateFitness();
 
-                    max = m.calculateFitness();
+                if(!m.isAlive()){
+
+                    fitness = fitness.add(BigInteger.valueOf((m.getAppleID()-maxApple)*1000));
+
+                }
+
+                if(fitness.compareTo(max) == 1){
+
+                    max = fitness;
                     best = m;
 
                 }
@@ -273,15 +313,17 @@ public class GlobalManager implements ActionListener {
 
     public SnakeManager getBestSnake(){
 
-        int max = -1;
+        BigInteger max = BigInteger.valueOf(-1);
+        BigInteger fitness;
         SnakeManager best = null;
 
         for(SnakeManager snakeManager : managers.values()){
 
+            fitness = snakeManager.calculateFitness();
 
-            if(snakeManager.calculateFitness() > max){
+            if(fitness.compareTo(max) == 1){
 
-                max = snakeManager.calculateFitness();
+                max = fitness;
                 best = snakeManager;
 
             }
@@ -289,6 +331,23 @@ public class GlobalManager implements ActionListener {
         }
 
         return best;
+
+    }
+
+    public int getMostAppleEaten(){
+
+        int max = 0;
+
+        for(SnakeManager snakeManager : managers.values()){
+
+            if(snakeManager.getAppleID() > max){
+
+                max = snakeManager.getAppleID();
+
+            }
+
+        }
+        return max;
 
     }
 
@@ -317,8 +376,20 @@ public class GlobalManager implements ActionListener {
 
                 case "Enregistrer Generation":
 
-                    CSVBuilder csvBuilder = new CSVBuilder(null,path+"\\"+getBestSnake().calculateFitness(),new ArrayList<IAIteration>(managers.keySet()),this);
+                    CSVBuilder csvBuilder = new CSVBuilder(null,path+"\\"+getBestSnake().calculateFitness().toString(),new ArrayList<IAIteration>(managers.keySet()),this);
                     csvBuilder.buildFile();
+
+                    break;
+
+                case "Afficher directions":
+
+                    showLines = !showLines;
+
+                    break;
+
+                case "Pause":
+
+                    isStarted = !isStarted;
 
                     break;
 
@@ -369,8 +440,8 @@ public class GlobalManager implements ActionListener {
 
         for(int i = 0;i<quantite-12;i++){
 
-            randomIAs.add(ias.get(random.nextInt(10)));
-            randomIAs.add(ias.get(random.nextInt(10)));
+            randomIAs.add(ias.get(random.nextInt(ias.size())));
+            randomIAs.add(ias.get(random.nextInt(ias.size())));
 
             IAIteration iaIteration = new IAIteration(this, iterationcount);
             iaIteration.createIA(false, randomIAs);
@@ -434,33 +505,40 @@ public class GlobalManager implements ActionListener {
 
     public void createFirstGeneration(int i){
 
-        generationCOunt++;
         setSnakeQuantity(i);
         setSnakeAliveQuantity(i);
 
-        while (i != 0){
+        if(!isLoaded) {
 
-            IAIteration iaIteration = new IAIteration(this,iterationcount);
-            iaIteration.createIA(true,null);
+            generationCOunt++;
 
-            SnakeManager snakeManager = new SnakeManager(this,iaIteration);
-            snakeManager.createSnake();
-            snakeManager.initilizeApple();
-            snakeManager.setAlive(true);
-            // snakeManager.randomGenerateApple();
-            snakeManager.setApple(getAppleCoord(0)[0],getAppleCoord(0)[1],1);
-            iaIteration.setSnakeManager(snakeManager);
+            while (i != 0) {
 
-            managers.put(iaIteration,snakeManager);
+                IAIteration iaIteration = new IAIteration(this, iterationcount);
+                iaIteration.createIA(true, null);
 
-            iterationcount++;
+                SnakeManager snakeManager = new SnakeManager(this, iaIteration);
+                snakeManager.createSnake();
+                snakeManager.initilizeApple();
+                snakeManager.setAlive(true);
+                // snakeManager.randomGenerateApple();
+                snakeManager.setApple(getAppleCoord(0)[0], getAppleCoord(0)[1], 1);
+                iaIteration.setSnakeManager(snakeManager);
 
-            i--;
+                managers.put(iaIteration, snakeManager);
+
+                iterationcount++;
+
+                i--;
+
+            }
 
         }
 
-        setStarted(true);
-        startGlobalRunnale();
+            setStarted(true);
+            startGlobalRunnale();
+
+
 
     }
 

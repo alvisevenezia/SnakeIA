@@ -4,6 +4,7 @@ import fr.alvisevenezia.GUI.snake.Body;
 import fr.alvisevenezia.IA.IAIteration;
 
 import java.awt.*;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Timer;
@@ -22,22 +23,76 @@ public class SnakeManager {
     private Timer timer;
     private IAIteration iaIteration;
     private boolean alive;
-
     private int score = 0;
-    private int max = 150;
+    private int max;
 
     private GlobalManager globalManager;
 
-    private int[][] pommes = new int[50][50];
-    private int[][] currentsnake = new int[50][50];
-    private int[][] newsnake = new int[50][50];
+    private int[][] pommes;
+    private int[][] currentsnake;
+    private int[][] newsnake;
+    private int[] apple = {0,0,0,0,0,0,0,0};
     private ArrayList<Body> parts = new ArrayList<>();
+    private ArrayList<SnakeMouvement> lastMvt = new ArrayList<>();
 
     public SnakeManager(GlobalManager globalManager,IAIteration iaIteration){
 
         setCurrentbody(bodyStart);
         this.globalManager = globalManager;
         this.iaIteration = iaIteration;
+        pommes = new int[globalManager.getSize()][globalManager.getSize()];
+        currentsnake = new int[globalManager.getSize()][globalManager.getSize()];
+        newsnake = new int[globalManager.getSize()][globalManager.getSize()];
+        max = globalManager.getSize()*2;
+
+    }
+
+    public boolean isTurning(){
+
+        int i = 0;
+
+        for(int ID = 0;ID<4;ID++){
+
+            i += lastMvt.get(ID).getX() + lastMvt.get(ID).getY();
+
+        }
+
+        if (i == 0) {
+
+            int i2 = 0;
+
+            for(int ID = 4;ID<8;ID++){
+
+                i2 += lastMvt.get(ID).getX() + lastMvt.get(ID).getY();
+
+            }
+
+            if(i2 == 0){
+
+                return true;
+
+            }
+
+        }
+
+        return false;
+
+    }
+
+    public void addMouvement(SnakeMouvement snakeMouvement){
+
+        if(lastMvt.size() > 8){
+
+            lastMvt.remove(0);
+
+        }
+
+        lastMvt.add(snakeMouvement);
+
+    }
+
+    public int getAppleID() {
+        return appleID;
     }
 
     public int getMoovCount() {
@@ -69,11 +124,13 @@ public class SnakeManager {
         return null;
     }
 
+
+
     public int[] getHeadPos(){
 
-        for(int i = 0;i< 50;i++){
+        for(int i = 0;i< globalManager.getSize();i++){
 
-            for(int i2 = 0;i2<50;i2++){
+            for(int i2 = 0;i2<globalManager.getSize();i2++){
 
                 if(getSnake(i,i2) == 1){
 
@@ -97,21 +154,59 @@ public class SnakeManager {
     }
 
     //from greerviau/SnakeAI
-    public int calculateFitness(){
+    public BigInteger calculateFitness(){
 
-        if(score < 10){
+        BigInteger fitness = BigInteger.ZERO;
 
-            return (int) (Math.floor(lifetime*lifetime)*Math.pow(2,score));
+        if(score < 1){
+
+            fitness = BigInteger.valueOf(lifetime);
+            fitness = fitness.pow(2);
+
+            BigInteger powOfTwo = BigInteger.valueOf(2);
+            powOfTwo = powOfTwo.pow(score);
+
+            fitness = fitness.multiply(powOfTwo);
+
+            //fitness = (int)(Math.floor(lifetime*lifetime)*Math.pow(2,score));
+
+            if(fitness.compareTo(BigInteger.valueOf(5000)) == 1){
+
+                fitness = BigInteger.valueOf(5000);
+
+            }
+
+        }else if(score == 1 || score  == 2){
+
+            fitness = BigInteger.valueOf(lifetime);
+            fitness = fitness.pow(2);
+
+            BigInteger powOfTwo = BigInteger.valueOf(2);
+            powOfTwo = powOfTwo.pow(score);
+
+            fitness = fitness.multiply(powOfTwo);
+
 
         }else{
 
-            return (int) (Math.floor(lifetime*lifetime)*Math.pow(2,10)*(score-9));
+            fitness = BigInteger.valueOf(lifetime);
+            fitness = fitness.pow(2);
+
+            BigInteger powOfTwo = BigInteger.valueOf(2);
+            powOfTwo = powOfTwo.pow(score);
+
+            fitness = fitness.multiply(powOfTwo);
+            fitness = fitness.multiply(BigInteger.valueOf(score-1));
+
+           // fitness = (int) (Math.floor(lifetime*lifetime)*Math.pow(2,10)*(score-1));
 
         }
 
+        return fitness;
     }
 
     public void moovSnake(SnakeMouvement snakeMouvement){
+
 
         if(max <= 0){
 
@@ -123,9 +218,9 @@ public class SnakeManager {
         lifetime++;
         max--;
 
-        for(int i = 0;i<50;i++) {
+        for(int i = 0;i<globalManager.getSize();i++) {
 
-            for (int i2 = 0; i2 < 50; i2++) {
+            for (int i2 = 0; i2 < globalManager.getSize(); i2++) {
 
                 switch (getSnake(i,i2)){
 
@@ -137,7 +232,7 @@ public class SnakeManager {
 
                     case 1:
 
-                        if(i + snakeMouvement.getX() > 49 || i + snakeMouvement.getX() < 0 || i2 + snakeMouvement.getY() > 49 || i2 + snakeMouvement.getY() < 0){
+                        if(i + snakeMouvement.getX() > globalManager.getSize()-1 || i + snakeMouvement.getX() < 0 || i2 + snakeMouvement.getY() > globalManager.getSize()-1 || i2 + snakeMouvement.getY() < 0){
 
                             stopRunnable();
                             appleID = 0;
@@ -208,9 +303,9 @@ public class SnakeManager {
 
     public void initilizeApple(){
 
-        for(int i = 0;i < 50;i++){
+        for(int i = 0;i < globalManager.getSize();i++){
 
-            for(int i2 = 0;i< 50;i++){
+            for(int i2 = 0;i< globalManager.getSize();i++){
 
                 setApple(i,i2,0);
 
@@ -224,13 +319,13 @@ public class SnakeManager {
 
     public void randomGenerateApple(){
 
-        int x = globalManager.getRandom().nextInt(48)+1;
-        int y = globalManager.getRandom().nextInt(48)+1;
+        int x = globalManager.getRandom().nextInt(globalManager.getSize()-2)+1;
+        int y = globalManager.getRandom().nextInt(globalManager.getSize()-2)+1;
 
             while(getHeadPos()[0] == x || getHeadPos()[1] == y){
 
-                x = globalManager.getRandom().nextInt(50);
-                y = globalManager.getRandom().nextInt(50);
+                x = globalManager.getRandom().nextInt(globalManager.getSize());
+                y = globalManager.getRandom().nextInt(globalManager.getSize());
 
             }
 
@@ -268,17 +363,17 @@ public class SnakeManager {
 
 
 
-        for(int i = 0;i<50;i++) {
+        for(int i = 0;i<globalManager.getSize();i++) {
 
-            for (int i2 = 0; i2 < 50; i2++) {
+            for (int i2 = 0; i2 < globalManager.getSize(); i2++) {
 
                 setSnake(i,i2,0);
 
             }
         }
 
-        setSnake(25,25,1);
-        setSnake(26,25,2);
+        setSnake(globalManager.getSize()/2,globalManager.getSize()/2,1);
+        setSnake((globalManager.getSize()/2)+1,globalManager.getSize()/2,2);
         updateSnake();
 
     }
@@ -335,6 +430,10 @@ public class SnakeManager {
         this.headmooved = headmooved;
     }
 
+    public int[] getApple() {
+        return apple;
+    }
+
     public int getScore() {
         return score;
     }
@@ -361,40 +460,73 @@ public class SnakeManager {
 
     public float getAppleDistance(int i3, int i4,Direction direction) {
 
-        int posX = i3+(direction.getxCoeff()*1);
+        int posX = i3;
+        int posY = i4;
+
+        for (int i = 0;i<globalManager.getSize();i++){
+
+            posX = direction.getXCoord(i3,i,globalManager);
+            posY = direction.getYCoord(i4,i,globalManager);
+
+            if(globalManager.getAppleCoord(appleID)[0] == posX && globalManager.getAppleCoord(appleID)[1] == posY){
+
+                apple[direction.getId()] = 1;
+                return 1;
+
+            }
+
+        }
+
+        apple[direction.getId()] = 0;
+        return 0;
+
+/*        int posX = i3+(direction.getxCoeff()*1);
         int posY = i3+(direction.getyCoeff()*1);
         int appleX = globalManager.getAppleCoord(appleID)[0];
         int appleY = globalManager.getAppleCoord(appleID)[1];
 
-        return (float)Math.sqrt(((posX-appleX)*(posX-appleX))+((posY-appleY)*(posY-appleY)));
+        return (float)Math.sqrt(((posX-appleX)*(posX-appleX))+((posY-appleY)*(posY-appleY)));*/
 
     }
 
     public float getBordureDistance(int i2,int i3,Direction direction){
 
-        if(50-i2 > 25){
+        int x = i2+direction.getxCoeff();
+        int y = i3+direction.getyCoeff();
 
-            if(50-i3 > 25){
+        if(x > globalManager.getSize()-1 || x < 0 || y > globalManager.getSize()-1 || y < 0){
+
+            return 1;
+
+        }else{
+
+            return 0;
+
+        }
+
+     /*   if(globalManager.getSize()-i2 > globalManager.getSize()/2){
+
+            if(globalManager.getSize()-i3 > globalManager.getSize()/2){
 
                 return (float)Math.sqrt(((i2)*(i2))+((i3)*(i3)));
 
             }else{
 
-                return (float)Math.sqrt(((i2)*(i2)+((50-i3))*(50-i3)));
+                return (float)Math.sqrt(((i2)*(i2)+((globalManager.getSize()-i3))*(globalManager.getSize()-i3)));
             }
 
         }else{
 
-            if(50-i3 > 25){
+            if(globalManager.getSize()-i3 > globalManager.getSize()/2){
 
-                return (float)Math.sqrt(((50-i2)*(50-i2))+(i3*i3));
+                return (float)Math.sqrt(((globalManager.getSize()-i2)*(globalManager.getSize()-i2))+(i3*i3));
 
             }else{
 
-                return (float)Math.sqrt(((50-i2)*(50-i2))+((50-i3)*(50-i3)));
+                return (float)Math.sqrt(((globalManager.getSize()-i2)*(globalManager.getSize()-i2))+((globalManager.getSize()-i3)*(globalManager.getSize()-i3)));
             }
 
-        }
+        }*/
 
     }
 
@@ -402,8 +534,8 @@ public class SnakeManager {
 
        // for(int i = 1;i<50;i++){
 
-            int x = direction.getXCoord(i2,1);
-            int y = direction.getYCoord(i3,1);
+            int x = direction.getXCoord(i2,1,globalManager);
+            int y = direction.getYCoord(i3,1,globalManager);
 
             if(getSnake(x,y) == currentbody){
 

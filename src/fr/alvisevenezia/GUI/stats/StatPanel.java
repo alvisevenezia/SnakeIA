@@ -24,12 +24,12 @@ public class StatPanel extends JPanel {
         this.add(bs);
         this.add(sa);
         this.add(nbGenLabel);
-        this.add(bestScore1);
-        this.add(bestScore2);
-        this.add(moyenne);
+     //   this.add(bestScore1);
+     //   this.add(bestScore2);
+     //   this.add(moyenne);
     }
 
-    public void update(int nbr,int b,int a,int nbGen,int moy){
+    public void update(int nbr,String b,int a,int nbGen,int moy){
 
         q.setText("Nombre de Serpent: "+nbr);
         bs.setText("Best Score: "+b);
