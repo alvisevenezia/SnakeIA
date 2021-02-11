@@ -1,5 +1,6 @@
 package fr.alvisevenezia.SNAKE;
 
+import fr.alvisevenezia.GUI.GUIType;
 import fr.alvisevenezia.GUI.MainGUI;
 import fr.alvisevenezia.IA.CSV.CSVBuilder;
 import fr.alvisevenezia.IA.IAIteration;
@@ -39,10 +40,12 @@ public class GlobalManager implements ActionListener {
     public GlobalManager(){
 
         mainGUI = new MainGUI(this);
+        mainGUI.createSnakeGUI();
+        mainGUI.createMenuGUI();
         managers = new HashMap<>();
         appleCoord = new HashMap<>();
         currentFrame = mainGUI;
-        mainGUI.openFrame();
+        mainGUI.openFrame(GUIType.Menu);
         random = new Random();
         generateApple();
     }

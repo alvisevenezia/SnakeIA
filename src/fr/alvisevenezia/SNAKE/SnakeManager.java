@@ -1,12 +1,9 @@
 package fr.alvisevenezia.SNAKE;
 
-import fr.alvisevenezia.GUI.snake.Body;
 import fr.alvisevenezia.IA.IAIteration;
 
-import java.awt.*;
 import java.math.BigInteger;
 import java.util.ArrayList;
-import java.util.Random;
 import java.util.Timer;
 
 public class SnakeManager {
@@ -32,7 +29,6 @@ public class SnakeManager {
     private int[][] currentsnake;
     private int[][] newsnake;
     private int[] apple = {0,0,0,0,0,0,0,0};
-    private ArrayList<Body> parts = new ArrayList<>();
     private ArrayList<SnakeMouvement> lastMvt = new ArrayList<>();
 
     public SnakeManager(GlobalManager globalManager,IAIteration iaIteration){

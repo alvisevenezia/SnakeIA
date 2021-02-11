@@ -1,4 +1,4 @@
-package fr.alvisevenezia.GUI.stats;
+package fr.alvisevenezia.GUI.panels.stats;
 
 import fr.alvisevenezia.SNAKE.GlobalManager;
 

@@ -1,19 +1,18 @@
-package fr.alvisevenezia.GUI;
+package fr.alvisevenezia.GUI.panels.snake;
 
 import fr.alvisevenezia.GUI.listeners.LoadButtonListener;
 import fr.alvisevenezia.SNAKE.GlobalManager;
 
 import javax.swing.*;
-import javax.swing.plaf.basic.BasicArrowButton;
 import java.awt.*;
 
-public class MainPanel extends JPanel {
+public class SnakeButtonPanel extends JPanel {
 
     private GlobalManager globalManager;
     private JLabel score;
     private JLabel max;
 
-    public MainPanel(GlobalManager globalManager){
+    public SnakeButtonPanel(GlobalManager globalManager){
 
         this.globalManager = globalManager;
 

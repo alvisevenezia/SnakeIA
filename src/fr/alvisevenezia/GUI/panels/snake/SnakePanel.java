@@ -1,4 +1,4 @@
-package fr.alvisevenezia.GUI.snake;
+package fr.alvisevenezia.GUI.panels.snake;
 
 import fr.alvisevenezia.SNAKE.Direction;
 import fr.alvisevenezia.SNAKE.GlobalManager;
