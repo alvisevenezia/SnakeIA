@@ -51,25 +51,28 @@ public class SnakeManager {
 
         int i = 0;
 
-        for(int ID = 0;ID<4;ID++){
+        if(lastMvt.size() == 8) {
 
-            i += lastMvt.get(ID).getX() + lastMvt.get(ID).getY();
+            for (int ID = 0; ID < 4; ID++) {
 
-        }
-
-        if (i == 0) {
-
-            int i2 = 0;
-
-            for(int ID = 4;ID<8;ID++){
-
-                i2 += lastMvt.get(ID).getX() + lastMvt.get(ID).getY();
-
+                i += lastMvt.get(ID).getX() + lastMvt.get(ID).getY();
             }
 
-            if(i2 == 0){
+            if (i == 0) {
 
-                return true;
+                int i2 = 0;
+
+                for (int ID = 4; ID < 8; ID++) {
+
+                    i2 += lastMvt.get(ID).getX() + lastMvt.get(ID).getY();
+
+                }
+
+                if (i2 == 0) {
+
+                    return true;
+
+                }
 
             }
 
@@ -207,6 +210,12 @@ public class SnakeManager {
 
     public void moovSnake(SnakeMouvement snakeMouvement){
 
+        if(calculateFitness().compareTo(BigInteger.valueOf(0)) == 1 && isTurning()){
+
+            stopRunnable();
+            return;
+
+        }
 
         if(max <= 0){
 
@@ -296,6 +305,7 @@ public class SnakeManager {
         updateSnake();
         globalManager.getMainGUI().getSnake().repaint();
         currentmouvement = snakeMouvement;
+        addMouvement(currentmouvement);
 
         setHeadmooved(false);
 

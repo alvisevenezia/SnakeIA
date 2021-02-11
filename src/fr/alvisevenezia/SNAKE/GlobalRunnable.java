@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.util.TimerTask;
 
-public class GlobalRunnable extends TimerTask {
+public class GlobalRunnable extends Thread {
 
     GlobalManager globalManager;
 
@@ -19,11 +19,13 @@ public class GlobalRunnable extends TimerTask {
     @Override
     public void run() {
 
-        if(globalManager.isStarted() && globalManager.getSnakeQuantity() > 0 && globalManager.getSnakeAliveQuantity() == 0){
+        while(isAlive()) {
 
-            globalManager.stopRunnables();
-            globalManager.setWinner(globalManager.getBestSnakes(2));
-            globalManager.setStarted(false);
+            if (globalManager.isStarted() && globalManager.getSnakeQuantity() > 0 && globalManager.getSnakeAliveQuantity() == 0) {
+
+                globalManager.stopRunnables();
+                globalManager.setWinner(globalManager.getBestSnakes(2));
+                globalManager.setStarted(false);
           /*  ArrayList<SnakeManager> bests = globalManager.getBestSnakes(2);
 
             if(bests.size() == 2) {
@@ -32,28 +34,30 @@ public class GlobalRunnable extends TimerTask {
 
             }*/
 
-            globalManager.startIA(globalManager.getQuantity());
-
-        }
-
-        if(globalManager.isStarted()) {
-
-            for (IAIteration iaIteration : globalManager.getManagers().keySet()) {
-
-                if (iaIteration.getSnakeManager().isAlive()){
-
-                    for (int i = 0; i < iaIteration.getLayers().size(); i++) {
-
-                        iaIteration.getLayer(i).compute();
-                    }
-
-                    iaIteration.getSnakeManager().moovSnake(iaIteration.getMouvement());
-
-                }
+                globalManager.startIA(globalManager.getQuantity());
 
             }
 
-            globalManager.getMainGUI().updateStats(globalManager.getSnakeQuantity(), globalManager.getBestSnake().calculateFitness().toString(), globalManager.getSnakeAliveQuantity(),globalManager.getGenerationCOunt(),globalManager.getMoyenne());
+            if (globalManager.isStarted()) {
+
+                for (IAIteration iaIteration : globalManager.getManagers().keySet()) {
+
+                    if (iaIteration.getSnakeManager().isAlive()) {
+
+                        for (int i = 0; i < iaIteration.getLayers().size(); i++) {
+
+                            iaIteration.getLayer(i).compute();
+                        }
+
+                        iaIteration.getSnakeManager().moovSnake(iaIteration.getMouvement());
+
+                    }
+
+                }
+
+                globalManager.getMainGUI().updateStats(globalManager.getSnakeQuantity(), globalManager.getBestSnake().calculateFitness().toString(), globalManager.getSnakeAliveQuantity(), globalManager.getGenerationCOunt(), globalManager.getMoyenne());
+
+            }
 
         }
 

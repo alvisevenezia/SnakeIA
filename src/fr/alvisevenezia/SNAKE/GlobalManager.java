@@ -9,7 +9,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.math.BigInteger;
 import java.util.*;
-import java.util.Timer;
 
 public class GlobalManager implements ActionListener {
 
@@ -27,12 +26,12 @@ public class GlobalManager implements ActionListener {
     private int snakeAliveQuantity;
     private int generationCOunt = 0;
     private int appledCount = 0;
-    private final int size = 19;
+    private final int size = 9;
     private final double mutationRate = 2;
     private final double crossOverRate = 95;
     private final int quantity = 2000;
     private final String path = "E:\\Developpement\\JAVA\\IA\\SnakeIA\\Save";
-    private Timer runnable;
+    private Thread globalThread;
     private ArrayList<SnakeManager> winner;
     private Random random;
 
@@ -168,14 +167,13 @@ public class GlobalManager implements ActionListener {
 
     public void startGlobalRunnale(){
 
-        runnable = new Timer();
-        runnable.schedule(new GlobalRunnable(this),1,1);
-
+        globalThread = new GlobalRunnable(this);
+        globalThread.start();
     }
 
     public void stopGlobalRunnale(){
 
-        runnable.cancel();
+        globalThread.stop();
 
     }
 
@@ -438,7 +436,7 @@ public class GlobalManager implements ActionListener {
 
         ArrayList<IAIteration>randomIAs = new ArrayList<>();
 
-        for(int i = 0;i<quantite-12;i++){
+        for(int i = 0;i<quantite-11;i++){
 
             randomIAs.add(ias.get(random.nextInt(ias.size())));
             randomIAs.add(ias.get(random.nextInt(ias.size())));
@@ -486,7 +484,7 @@ public class GlobalManager implements ActionListener {
         iaIteration.setSnakeManager(snakeManager);
         list.put(iaIteration,snakeManager);
 
-        snakeManager = new SnakeManager(this,getIaIteration(winner.get(1)));
+   /*     snakeManager = new SnakeManager(this,getIaIteration(winner.get(1)));
         snakeManager.createSnake();
         snakeManager.initilizeApple();
         snakeManager.setAlive(true);
@@ -494,7 +492,7 @@ public class GlobalManager implements ActionListener {
         snakeManager.setApple(getAppleCoord(0)[0],getAppleCoord(0)[1],1);
         iaIteration = getIaIteration(winner.get(1));
         iaIteration.setSnakeManager(snakeManager);
-        list.put(iaIteration,snakeManager);
+        list.put(iaIteration,snakeManager);*/
 
         managers = list;
 
