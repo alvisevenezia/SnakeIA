@@ -335,13 +335,13 @@ public class GlobalManager implements ActionListener {
 
     }
 
-    public int getMostAppleEaten(){
+    public int getMostAppleEaten() {
 
         int max = 0;
 
-        for(SnakeManager snakeManager : managers.values()){
+        for (SnakeManager snakeManager : managers.values()) {
 
-            if(snakeManager.getAppleID() > max){
+            if (snakeManager.getAppleID() > max) {
 
                 max = snakeManager.getAppleID();
 
@@ -373,6 +373,11 @@ public class GlobalManager implements ActionListener {
                     button.setText("Lancer Snake");
                     stopRunnables();
                     stopGlobalRunnale();
+                    generationCOunt =0;
+                    appledCount = 0;
+                    snakeAliveQuantity = 0;
+                    iterationcount  = 0;
+                    random = new Random();
                     break;
 
                 case "Enregistrer Generation":

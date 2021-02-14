@@ -78,11 +78,14 @@ public class LoadButtonListener implements ActionListener {
                     iaIteration.createIA(true, null);
                     float[] bias = new float[iaIteration.getLayer(0).getSize()];
 
+                    int counter = 0;
+
                     for (int ID = 0; ID < iaIteration.getLayer(0).getSize(); ID++) {
 
-                        ((FirstLayer) iaIteration.getLayer(0)).setWeight(ID, values.get(2 * ID));
-                        bias[ID] = values.get(2 * ID + 1);
-
+                        ((FirstLayer) iaIteration.getLayer(0)).setWeight(ID, values.get(counter));
+                        counter++;
+                        bias[ID] = values.get(counter);
+                        counter++;
                     }
 
                     ((FirstLayer) iaIteration.getLayer(0)).setBias(bias);
@@ -95,11 +98,12 @@ public class LoadButtonListener implements ActionListener {
 
                         for (int weightID = 0; weightID < iaIteration.getLayer(1).geWeights().get(ID).length; weightID++) {
 
-                            val[weightID] = values.get((iaIteration.getLayer(0).getSize() * 2) + (iaIteration.getLayer(1).geWeights().get(ID).length + 1) * ID + weightID);
-
+                            val[weightID] = values.get(counter);
+                            counter++;
                         }
                         ((ComputeLayer) iaIteration.getLayer(1)).setWeights(ID, val);
-                        bias[ID] = values.get((iaIteration.getLayer(0).getSize() * 2) + (iaIteration.getLayer(1).geWeights().get(ID).length) * (ID + 1) + 1);
+                        bias[ID] = values.get(counter);
+                        counter++;
 
                     }
 
@@ -113,12 +117,12 @@ public class LoadButtonListener implements ActionListener {
 
                         for (int weightID = 0; weightID < iaIteration.getLayer(2).geWeights().get(ID).length; weightID++) {
 
-                            val[weightID] = values.get((iaIteration.getLayer(0).getSize() * 2) + (iaIteration.getLayer(2).geWeights().get(ID).length + 1) * (iaIteration.getLayer(1).getSize() + ID) + weightID);
-
+                            val[weightID] = values.get(counter);
+                            counter++;
                         }
                         ((ComputeLayer) iaIteration.getLayer(2)).setWeights(ID, val);
-                        bias[ID] = values.get((iaIteration.getLayer(0).getSize() * 2) + (iaIteration.getLayer(1).geWeights().get(ID).length) * ((iaIteration.getLayer(1).getSize()+ 1))+(iaIteration.getLayer(2).geWeights().get(ID).length*(ID+1))+ 1);
-
+                        bias[ID] = values.get(counter);
+                        counter++;
                     }
 
                     ((ComputeLayer) iaIteration.getLayer(1)).setBias(bias);
@@ -131,13 +135,13 @@ public class LoadButtonListener implements ActionListener {
 
                         for (int weightID = 0; weightID < iaIteration.getLayer(3).geWeights().get(ID).length; weightID++) {
 
-                            val[weightID] = values.get((iaIteration.getLayer(0).getSize() * 2) + ((iaIteration.getLayer(2).geWeights().get(ID).length + 1) * (iaIteration.getLayer(1).getSize()) + iaIteration.getLayer(2).getSize()) + (iaIteration.getLayer(3).getSize() + 1) * ID + weightID);
-
+                            val[weightID] = values.get(counter);
+                            counter++;
                         }
 
                         ((DecisionLayer) iaIteration.getLayer(3)).setWeights(ID, val);
-                        bias[ID] = values.get((iaIteration.getLayer(0).getSize() * 2) + ((iaIteration.getLayer(2).geWeights().get(ID).length + 1) * (iaIteration.getLayer(1).getSize()) + iaIteration.getLayer(2).getSize()) + (iaIteration.getLayer(3).getSize() + 1) * (ID + 1));
-
+                        bias[ID] = values.get(counter);
+                        counter++;
                     }
 
                     ((DecisionLayer) iaIteration.getLayer(3)).setBias(bias);

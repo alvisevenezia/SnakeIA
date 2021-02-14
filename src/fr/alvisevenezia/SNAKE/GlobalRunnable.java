@@ -20,7 +20,7 @@ public class GlobalRunnable extends Thread {
     public void run() {
 
         while(isAlive()) {
-
+            
             if (globalManager.isStarted() && globalManager.getSnakeQuantity() > 0 && globalManager.getSnakeAliveQuantity() == 0) {
 
                 globalManager.stopRunnables();

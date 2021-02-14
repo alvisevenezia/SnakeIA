@@ -81,7 +81,7 @@ public class IAIteration {
 
             }
 
-            val.add(String.valueOf(layers.get(1).getBias()[ID]));
+            val.add(String.valueOf(layers.get(3).getBias()[ID]));
 
         }
 

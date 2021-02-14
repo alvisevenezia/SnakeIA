@@ -30,7 +30,7 @@ public class SnakePanel extends JPanel {
 
                 for (int y = 0; y < globalManager.getSize(); y++) {
 
-                    if (globalManager.isStarted()) {
+                    if (globalManager.isStarted() && snakeManagers.get(snakeID) != null) {
                         switch (snakeManagers.get(snakeID).getSnake(x, y)) {
 
                             case 1:

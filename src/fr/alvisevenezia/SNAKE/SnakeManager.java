@@ -66,6 +66,7 @@ public class SnakeManager {
 
                 if (i2 == 0) {
 
+                    System.out.println("JE TOURNE");
                     return true;
 
                 }
@@ -206,7 +207,7 @@ public class SnakeManager {
 
     public void moovSnake(SnakeMouvement snakeMouvement){
 
-        if(calculateFitness().compareTo(BigInteger.valueOf(0)) == 1 && isTurning()){
+        if(isTurning()){
 
             stopRunnable();
             return;
