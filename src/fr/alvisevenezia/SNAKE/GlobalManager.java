@@ -4,6 +4,8 @@ import fr.alvisevenezia.GUI.GUIType;
 import fr.alvisevenezia.GUI.MainGUI;
 import fr.alvisevenezia.IA.CSV.CSVBuilder;
 import fr.alvisevenezia.IA.IAIteration;
+import fr.alvisevenezia.IA.NN.IAType;
+import fr.alvisevenezia.IA.NN.NeuronalNetworkManager;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -22,7 +24,6 @@ public class GlobalManager implements ActionListener {
     private boolean isLoaded = false;
     private HashMap<IAIteration,SnakeManager> managers;
     private HashMap<Integer,int[]>appleCoord;
-    private int iterationcount = 0;
     private int snakeQuantity;
     private int snakeAliveQuantity;
     private int generationCOunt = 0;
@@ -35,6 +36,9 @@ public class GlobalManager implements ActionListener {
     private Thread globalThread;
     private ArrayList<SnakeManager> winner;
     private Random random;
+    private int[] layersSize = new int[]{24, 24, 24, 4};
+
+    private IAType iaType;
 
 
     public GlobalManager(){
@@ -50,7 +54,19 @@ public class GlobalManager implements ActionListener {
         generateApple();
     }
 
-    public void addManager(IAIteration iaIteration,SnakeManager snakeManager){
+    public IAType getIaType() {
+        return iaType;
+    }
+
+    public void setIaType(IAType iaType) {
+        this.iaType = iaType;
+    }
+
+    public int[] getLayersSize() {
+        return layersSize;
+    }
+
+    public void addManager(IAIteration iaIteration, SnakeManager snakeManager){
 
         managers.put(iaIteration,snakeManager);
 
@@ -361,33 +377,25 @@ public class GlobalManager implements ActionListener {
 
             switch (button.getText()){
 
-                case "Lancer Snake":
+                case "Start IA":
 
-                    button.setText("Arreter IA");
+                    button.setText("Stop IA");
                     createFirstGeneration(quantity);
                     mainGUI.getSnake().repaint();
                     break;
 
-                case "Arreter IA":
+                case "Stop IA":
 
-                    button.setText("Lancer Snake");
+                    button.setText("Start IA");
                     stopRunnables();
                     stopGlobalRunnale();
                     generationCOunt =0;
                     appledCount = 0;
                     snakeAliveQuantity = 0;
-                    iterationcount  = 0;
                     random = new Random();
                     break;
 
-                case "Enregistrer Generation":
-
-                    CSVBuilder csvBuilder = new CSVBuilder(null,path+"\\"+getBestSnake().calculateFitness().toString(),new ArrayList<IAIteration>(managers.keySet()),this);
-                    csvBuilder.buildFile();
-
-                    break;
-
-                case "Afficher directions":
+                case "Show directions":
 
                     showLines = !showLines;
 
@@ -419,14 +427,6 @@ public class GlobalManager implements ActionListener {
         }
     }
 
-    public int getIterationcount() {
-        return iterationcount;
-    }
-
-    public void setIterationcount(int iterationcount) {
-        this.iterationcount = iterationcount;
-    }
-
     public void startIA(int quantite){
 
         generationCOunt++;
@@ -444,12 +444,15 @@ public class GlobalManager implements ActionListener {
 
         ArrayList<IAIteration>randomIAs = new ArrayList<>();
 
-        for(int i = 0;i<quantite-11;i++){
+        for(int i = 0;i<quantite-10;i++){
 
             randomIAs.add(ias.get(random.nextInt(ias.size())));
             randomIAs.add(ias.get(random.nextInt(ias.size())));
 
-            IAIteration iaIteration = new IAIteration(this, iterationcount);
+
+            NeuronalNetworkManager nnm = new NeuronalNetworkManager(4,2, layersSize,this);
+            IAIteration iaIteration = new IAIteration(this, IAType.GANN,nnm);
+            nnm.setIaIteration(iaIteration);
             iaIteration.createIA(false, randomIAs);
             SnakeManager snakeManager = new SnakeManager(this, iaIteration);
             snakeManager.createSnake();
@@ -459,14 +462,15 @@ public class GlobalManager implements ActionListener {
             //   snakeManager.randomGenerateApple();
             iaIteration.setSnakeManager(snakeManager);
             list.put(iaIteration, snakeManager);
-            iterationcount++;
 
             randomIAs.clear();
         }
 
         for(int i = 0;i<10;i++){
 
-            IAIteration iaIteration = new IAIteration(this,iterationcount);
+            NeuronalNetworkManager nnm = new NeuronalNetworkManager(4,2, layersSize,this);
+            IAIteration iaIteration = new IAIteration(this, IAType.GANN,nnm);
+            nnm.setIaIteration(iaIteration);
             iaIteration.createIA(true,null);
             SnakeManager snakeManager = new SnakeManager(this,iaIteration);
             snakeManager.createSnake();
@@ -478,29 +482,7 @@ public class GlobalManager implements ActionListener {
 
             list.put(iaIteration,snakeManager);
 
-            iterationcount++;
-
         }
-
-        SnakeManager snakeManager = new SnakeManager(this,getIaIteration(winner.get(0)));
-        snakeManager.createSnake();
-        snakeManager.initilizeApple();
-        snakeManager.setAlive(true);
-        //  snakeManager.randomGenerateApple();
-        snakeManager.setApple(getAppleCoord(0)[0],getAppleCoord(0)[1],1);
-        IAIteration iaIteration = getIaIteration(winner.get(0));
-        iaIteration.setSnakeManager(snakeManager);
-        list.put(iaIteration,snakeManager);
-
-   /*     snakeManager = new SnakeManager(this,getIaIteration(winner.get(1)));
-        snakeManager.createSnake();
-        snakeManager.initilizeApple();
-        snakeManager.setAlive(true);
-        //  snakeManager.randomGenerateApple();
-        snakeManager.setApple(getAppleCoord(0)[0],getAppleCoord(0)[1],1);
-        iaIteration = getIaIteration(winner.get(1));
-        iaIteration.setSnakeManager(snakeManager);
-        list.put(iaIteration,snakeManager);*/
 
         managers = list;
 
@@ -517,23 +499,23 @@ public class GlobalManager implements ActionListener {
         if(!isLoaded) {
 
             generationCOunt++;
+            NeuronalNetworkManager nnm;
 
             while (i != 0) {
 
-                IAIteration iaIteration = new IAIteration(this, iterationcount);
+                nnm = new NeuronalNetworkManager(4,2, layersSize,this);
+                IAIteration iaIteration = new IAIteration(this, IAType.GANN,nnm);
+                nnm.setIaIteration(iaIteration);
                 iaIteration.createIA(true, null);
 
                 SnakeManager snakeManager = new SnakeManager(this, iaIteration);
                 snakeManager.createSnake();
                 snakeManager.initilizeApple();
                 snakeManager.setAlive(true);
-                // snakeManager.randomGenerateApple();
                 snakeManager.setApple(getAppleCoord(0)[0], getAppleCoord(0)[1], 1);
                 iaIteration.setSnakeManager(snakeManager);
 
                 managers.put(iaIteration, snakeManager);
-
-                iterationcount++;
 
                 i--;
 
@@ -541,10 +523,8 @@ public class GlobalManager implements ActionListener {
 
         }
 
-            setStarted(true);
-            startGlobalRunnale();
-
-
+        setStarted(true);
+        startGlobalRunnale();
 
     }
 

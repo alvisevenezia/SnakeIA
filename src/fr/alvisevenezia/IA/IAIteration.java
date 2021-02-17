@@ -1,9 +1,11 @@
 package fr.alvisevenezia.IA;
 
-import fr.alvisevenezia.IA.NN.ComputeLayer;
-import fr.alvisevenezia.IA.NN.DecisionLayer;
-import fr.alvisevenezia.IA.NN.FirstLayer;
-import fr.alvisevenezia.IA.NN.Layer;
+import fr.alvisevenezia.IA.NN.IAType;
+import fr.alvisevenezia.IA.NN.NeuronalNetworkManager;
+import fr.alvisevenezia.IA.NN.layers.ComputeLayer;
+import fr.alvisevenezia.IA.NN.layers.DecisionLayer;
+import fr.alvisevenezia.IA.NN.layers.FirstLayer;
+import fr.alvisevenezia.IA.NN.layers.Layer;
 import fr.alvisevenezia.SNAKE.Direction;
 import fr.alvisevenezia.SNAKE.GlobalManager;
 import fr.alvisevenezia.SNAKE.SnakeManager;
@@ -19,6 +21,8 @@ public class IAIteration {
     private SnakeManager snakeManager;
     private int firstLayerSize;
     private int secondLayerSize;
+    private IAType iaType;
+    private NeuronalNetworkManager neuronalNetworkManager;
 
     private ArrayList<Layer>layers;
 
@@ -35,63 +39,84 @@ public class IAIteration {
         this.globalManager = globalManager;
         this.iterationnbr = i;
         layers = new ArrayList<>();
+        int[] layersSize = new int[]{24, 24, 24, 4};
+        this.neuronalNetworkManager = new NeuronalNetworkManager(4,2, layersSize,globalManager,this);
 
+    }
+
+    public IAIteration(GlobalManager globalManager, IAType iaType, NeuronalNetworkManager neuronalNetworkManager) {
+        this.globalManager = globalManager;
+        this.iaType = iaType;
+        this.neuronalNetworkManager = neuronalNetworkManager;
+    }
+
+    public IAIteration(GlobalManager globalManager, SnakeManager snakeManager, IAType iaType) {
+        this.globalManager = globalManager;
+        this.snakeManager = snakeManager;
+        this.iaType = iaType;
+    }
+
+    public NeuronalNetworkManager getNeuronalNetworkManager() {
+        return neuronalNetworkManager;
+    }
+
+    public void setNeuronalNetworkManager(NeuronalNetworkManager neuronalNetworkManager) {
+        this.neuronalNetworkManager = neuronalNetworkManager;
     }
 
     public ArrayList<String> getFloat(){
 
         ArrayList<String> val = new ArrayList<>();
 
-        for(int ID = 0; ID < layers.get(0).getSize();ID++){
+        for(int ID = 0; ID < neuronalNetworkManager.getLayersSize()[0];ID++){
 
-            val.add(String.valueOf(layers.get(0).getWeights()[ID]));
-            val.add(String.valueOf(layers.get(0).getBias()[ID]));
+            val.add(String.valueOf(neuronalNetworkManager.getLayer(0).getWeights().getFloat(ID,0)));
+            val.add(String.valueOf(neuronalNetworkManager.getLayer(0).getBias()[ID]));
 
         }
 
-        for(int ID = 0; ID < layers.get(1).getSize();ID++){
+        for(int ID = 0; ID < neuronalNetworkManager.getLayer(1).getSize();ID++){
 
-            for(int weightID = 0; weightID < layers.get(1).geWeights().get(ID).length;weightID++){
+            for(int weightID = 0; weightID < neuronalNetworkManager.getLayersSize()[1];weightID++){
 
-                val.add(String.valueOf(layers.get(1).geWeights().get(ID)[weightID]));
+                val.add(String.valueOf(neuronalNetworkManager.getLayer(1).getWeights().getFloat(ID,weightID)));
 
             }
 
-            val.add(String.valueOf(layers.get(1).getBias()[ID]));
+            val.add(String.valueOf(neuronalNetworkManager.getLayer(1).getBias()[ID]));
 
         }
 
-        for(int ID = 0; ID < layers.get(2).getSize();ID++){
+        for(int ID = 0; ID < neuronalNetworkManager.getLayer(2).getSize();ID++){
 
-            for(int weightID = 0; weightID < layers.get(2).geWeights().get(ID).length;weightID++){
+            for(int weightID = 0; weightID < neuronalNetworkManager.getLayersSize()[2];weightID++){
 
-                val.add(String.valueOf(layers.get(2).geWeights().get(ID)[weightID]));
+                val.add(String.valueOf(neuronalNetworkManager.getLayer(2).getWeights().getFloat(ID,weightID)));
 
             }
 
-            val.add(String.valueOf(layers.get(2).getBias()[ID]));
+            val.add(String.valueOf(neuronalNetworkManager.getLayer(2).getBias()[ID]));
 
         }
 
-        for(int ID = 0; ID < layers.get(3).getSize();ID++){
+        for(int ID = 0; ID < neuronalNetworkManager.getLayer(3).getSize();ID++){
 
-            for(int weightID = 0; weightID < layers.get(3).geWeights().get(ID).length;weightID++){
+            for(int weightID = 0; weightID < neuronalNetworkManager.getLayersSize()[3];weightID++){
 
-                val.add(String.valueOf(layers.get(3).geWeights().get(ID)[weightID]));
+                val.add(String.valueOf(neuronalNetworkManager.getLayer(3).getWeights().getFloat(ID,weightID)));
 
             }
 
-            val.add(String.valueOf(layers.get(3).getBias()[ID]));
+            val.add(String.valueOf(neuronalNetworkManager.getLayer(3).getBias()[ID]));
 
         }
-
 
         return val;
     }
 
     public SnakeMouvement getMouvement(){
 
-        DecisionLayer layer = (DecisionLayer) getLayer(layers.size()-1);
+        Layer layer = neuronalNetworkManager.getLayer(neuronalNetworkManager.getSize()-1);
 
         float[] input = layer.getOutput();
 
@@ -119,45 +144,19 @@ public class IAIteration {
 
     public void createIA(boolean first,ArrayList<IAIteration> ias){
 
+        neuronalNetworkManager.createLayers();
+
         if(first){
 
-            FirstLayer firstLayer = new FirstLayer(24,this);
-            firstLayer.generateRandomWeights();
-            addLayer(firstLayer);
+            neuronalNetworkManager.randomInitializeLayers();
 
-            ComputeLayer computeLayer1 = new ComputeLayer(24,this);
-            computeLayer1.generateRandomWeights();
-            addLayer(computeLayer1);
-
-            ComputeLayer computeLayer2 = new ComputeLayer(24,this);
-            computeLayer2.generateRandomWeights();
-            addLayer(computeLayer2);
-
-            DecisionLayer decisionLayer = new DecisionLayer(4,this);
-            decisionLayer.generateRamdomWeights();
-            addLayer(decisionLayer);
         }else{
 
             Random r = new Random();
             IAIteration ia1 = ias.get(0);
             IAIteration ia2 = ias.get(1);
 
-            FirstLayer firstLayer = new FirstLayer(24,this);
-            firstLayer.mergeWeights((FirstLayer)ia1.getLayer(0),(FirstLayer)ia2.getLayer(0));
-            addLayer(firstLayer);
-
-            ComputeLayer computeLayer1 = new ComputeLayer(24,this);
-            computeLayer1.mergeWeight((ComputeLayer) ia1.getLayer(1), (ComputeLayer) ia2.getLayer(1));
-            addLayer(computeLayer1);
-
-            ComputeLayer computeLayer2= new ComputeLayer(24,this);
-            computeLayer2.mergeWeight((ComputeLayer) ia1.getLayer(1), (ComputeLayer) ia2.getLayer(1));
-            addLayer(computeLayer2);
-
-            DecisionLayer decisionLayer  = new DecisionLayer(4,this);
-            decisionLayer.mergeWeight((DecisionLayer) ia1.getLayer(3), (DecisionLayer) ia2.getLayer(3));
-            addLayer(decisionLayer);
-
+            neuronalNetworkManager.mergeWeights(ia1.getNeuronalNetworkManager(),ia2.getNeuronalNetworkManager());
         }
 
     }

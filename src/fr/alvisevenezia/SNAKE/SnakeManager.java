@@ -66,7 +66,6 @@ public class SnakeManager {
 
                 if (i2 == 0) {
 
-                    System.out.println("JE TOURNE");
                     return true;
 
                 }

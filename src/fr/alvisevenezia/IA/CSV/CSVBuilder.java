@@ -15,13 +15,11 @@ import java.util.TreeMap;
 public class CSVBuilder {
 
     private GlobalManager globalManager;
-    private String name;
     private String path;
     private ArrayList<IAIteration>iaIterations;
 
-    public CSVBuilder(String name, String path, ArrayList<IAIteration> iaIterations, GlobalManager globalManager){
+    public CSVBuilder(String path, ArrayList<IAIteration> iaIterations, GlobalManager globalManager){
 
-        this.name = name;
         this.path = path;
         this.iaIterations = iaIterations;
         this.globalManager = globalManager;
@@ -85,14 +83,6 @@ public class CSVBuilder {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setIaIterations(ArrayList<IAIteration> iaIterations) {
-        this.iaIterations = iaIterations;
     }
 
 }

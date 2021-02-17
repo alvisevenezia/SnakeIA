@@ -3,9 +3,10 @@ package fr.alvisevenezia.GUI.listeners;
 import fr.alvisevenezia.IA.CSV.CSVBuilder;
 import fr.alvisevenezia.IA.CSV.CSVReader;
 import fr.alvisevenezia.IA.IAIteration;
-import fr.alvisevenezia.IA.NN.ComputeLayer;
-import fr.alvisevenezia.IA.NN.DecisionLayer;
-import fr.alvisevenezia.IA.NN.FirstLayer;
+import fr.alvisevenezia.IA.NN.NeuronalNetworkManager;
+import fr.alvisevenezia.IA.NN.layers.ComputeLayer;
+import fr.alvisevenezia.IA.NN.layers.DecisionLayer;
+import fr.alvisevenezia.IA.NN.layers.FirstLayer;
 import fr.alvisevenezia.SNAKE.GlobalManager;
 import fr.alvisevenezia.SNAKE.SnakeManager;
 
@@ -14,8 +15,8 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.List;
 
 public class LoadButtonListener implements ActionListener {
 
@@ -32,7 +33,7 @@ public class LoadButtonListener implements ActionListener {
 
             if(globalManager.isStarted()){
 
-                CSVBuilder csvBuilder = new CSVBuilder(null,globalManager.getPath()+"\\"+globalManager.getBestSnake().calculateFitness(),new ArrayList<IAIteration>(globalManager.getManagers().keySet()),globalManager);
+                CSVBuilder csvBuilder = new CSVBuilder(globalManager.getPath()+"\\"+globalManager.getBestSnake().calculateFitness(),new ArrayList<IAIteration>(globalManager.getManagers().keySet()),globalManager);
                 csvBuilder.buildFile();
 
             }
@@ -63,6 +64,7 @@ public class LoadButtonListener implements ActionListener {
 
                 IAIteration iaIteration;
                 SnakeManager snakeManager;
+                NeuronalNetworkManager neuronalNetworkManager;
 
                 CSVReader fileReader;
                 ArrayList<Float> values;
@@ -75,76 +77,84 @@ public class LoadButtonListener implements ActionListener {
                     values = fileReader.readFloatFile();
 
                     iaIteration = new IAIteration(globalManager, i);
-                    iaIteration.createIA(true, null);
-                    float[] bias = new float[iaIteration.getLayer(0).getSize()];
+
+                    neuronalNetworkManager = new NeuronalNetworkManager(4,2, globalManager.getLayersSize(),globalManager,iaIteration);
+                    neuronalNetworkManager.createLayers();
+
+                    iaIteration.setNeuronalNetworkManager(neuronalNetworkManager);
+
+
+
+                    float[] bias = new float[neuronalNetworkManager.getLayersSize()[0]];
 
                     int counter = 0;
 
-                    for (int ID = 0; ID < iaIteration.getLayer(0).getSize(); ID++) {
+                    for (int ID = 0; ID < neuronalNetworkManager.getLayersSize()[0]; ID++) {
 
-                        ((FirstLayer) iaIteration.getLayer(0)).setWeight(ID, values.get(counter));
+                        neuronalNetworkManager.getLayer(0).getWeights().setAt(ID,values.get(counter));
                         counter++;
                         bias[ID] = values.get(counter);
                         counter++;
+
                     }
 
-                    ((FirstLayer) iaIteration.getLayer(0)).setBias(bias);
+                    ((FirstLayer) neuronalNetworkManager.getLayer(0)).setBias(bias);
 
-                    bias = new float[iaIteration.getLayer(1).getSize()];
+                    bias = new float[neuronalNetworkManager.getLayersSize()[1]];
 
-                    for (int ID = 0; ID < iaIteration.getLayer(1).getSize(); ID++) {
+                    for (int ID = 0; ID < neuronalNetworkManager.getLayersSize()[1]; ID++) {
 
-                        float[] val = new float[iaIteration.getLayer(1).geWeights().get(ID).length];
+                        List<Float> val = new ArrayList<>();
 
-                        for (int weightID = 0; weightID < iaIteration.getLayer(1).geWeights().get(ID).length; weightID++) {
+                        for (int weightID = 0; weightID < neuronalNetworkManager.getLayersSize()[1]; weightID++) {
 
-                            val[weightID] = values.get(counter);
+                            val.add(values.get(counter));
                             counter++;
                         }
-                        ((ComputeLayer) iaIteration.getLayer(1)).setWeights(ID, val);
+                        neuronalNetworkManager.getLayer(1).getWeights().setAt(ID,val);
                         bias[ID] = values.get(counter);
                         counter++;
 
                     }
 
-                    ((ComputeLayer) iaIteration.getLayer(1)).setBias(bias);
+                    ((ComputeLayer) neuronalNetworkManager.getLayer(1)).setBias(bias);
 
-                    bias = new float[iaIteration.getLayer(2).getSize()];
+                    bias = new float[neuronalNetworkManager.getLayersSize()[2]];
 
-                    for (int ID = 0; ID < iaIteration.getLayer(2).getSize(); ID++) {
+                    for (int ID = 0; ID < neuronalNetworkManager.getLayersSize()[2]; ID++) {
 
-                        float[] val = new float[iaIteration.getLayer(2).geWeights().get(ID).length];
+                        List<Float> val = new ArrayList<>();
 
-                        for (int weightID = 0; weightID < iaIteration.getLayer(2).geWeights().get(ID).length; weightID++) {
+                        for (int weightID = 0; weightID < neuronalNetworkManager.getLayersSize()[2]; weightID++) {
 
-                            val[weightID] = values.get(counter);
+                            val.add(values.get(counter));
                             counter++;
                         }
-                        ((ComputeLayer) iaIteration.getLayer(2)).setWeights(ID, val);
+                        neuronalNetworkManager.getLayer(2).getWeights().setAt(ID,val);
                         bias[ID] = values.get(counter);
                         counter++;
                     }
 
-                    ((ComputeLayer) iaIteration.getLayer(1)).setBias(bias);
+                    ((ComputeLayer) neuronalNetworkManager.getLayer(2)).setBias(bias);
 
-                    bias = new float[iaIteration.getLayer(2).getSize()];
+                    bias = new float[neuronalNetworkManager.getLayersSize()[3]];
 
-                    for (int ID = 0; ID < iaIteration.getLayer(3).getSize(); ID++) {
+                    for (int ID = 0; ID < neuronalNetworkManager.getLayersSize()[3]; ID++) {
 
-                        float[] val = new float[iaIteration.getLayer(3).geWeights().get(ID).length];
+                        List<Float> val = new ArrayList<>();
 
-                        for (int weightID = 0; weightID < iaIteration.getLayer(3).geWeights().get(ID).length; weightID++) {
+                        for (int weightID = 0; weightID < neuronalNetworkManager.getLayersSize()[3]; weightID++) {
 
-                            val[weightID] = values.get(counter);
+                            val.add(values.get(counter));
                             counter++;
                         }
 
-                        ((DecisionLayer) iaIteration.getLayer(3)).setWeights(ID, val);
+                        neuronalNetworkManager.getLayer(3).getWeights().setAt(ID,val);
                         bias[ID] = values.get(counter);
                         counter++;
                     }
 
-                    ((DecisionLayer) iaIteration.getLayer(3)).setBias(bias);
+                    ((DecisionLayer) neuronalNetworkManager.getLayer(3)).setBias(bias);
 
                     snakeManager = new SnakeManager(globalManager,iaIteration);
                     snakeManager.createSnake();
@@ -159,7 +169,7 @@ public class LoadButtonListener implements ActionListener {
                 }
 
                 globalManager.setLoaded(true);
-                globalManager.createFirstGeneration(2000);
+                globalManager.createFirstGeneration(globalManager.getQuantity());
 
                 for(Component component : globalManager.getMainGUI().getMain().getComponents()){
 
@@ -167,9 +177,9 @@ public class LoadButtonListener implements ActionListener {
 
                         JButton button = (JButton) component;
 
-                        if(button.getText() == "Lancer Snake"){
+                        if(button.getText() == "Start IA"){
 
-                            button.setText("Arreter IA");
+                            button.setText("Stop IA");
 
                         }
 

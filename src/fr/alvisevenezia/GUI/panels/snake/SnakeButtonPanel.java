@@ -1,6 +1,7 @@
 package fr.alvisevenezia.GUI.panels.snake;
 
 import fr.alvisevenezia.GUI.listeners.LoadButtonListener;
+import fr.alvisevenezia.GUI.listeners.SaveButtonListener;
 import fr.alvisevenezia.SNAKE.GlobalManager;
 
 import javax.swing.*;
@@ -20,17 +21,17 @@ public class SnakeButtonPanel extends JPanel {
         this.setBackground(Color.YELLOW);
 
         JButton startButton = new JButton();
-        startButton.setText("Lancer Snake");
+        startButton.setText("Start IA");
         startButton.addActionListener(globalManager);
         this.add(startButton);
 
         JButton saveButton = new JButton();
-        saveButton.setText("Enregistrer Generation");
-        saveButton.addActionListener(globalManager);
+        saveButton.setText("Save IA");
+        saveButton.addActionListener(new SaveButtonListener(globalManager));
         this.add(saveButton);
 
         JButton directionButton = new JButton();
-        directionButton.setText("Afficher directions");
+        directionButton.setText("Show directions");
         directionButton.addActionListener(globalManager);
         this.add(directionButton);
 
@@ -40,7 +41,7 @@ public class SnakeButtonPanel extends JPanel {
         this.add(pauseButton);
 
         JButton fileChooserButton = new JButton();
-        fileChooserButton.setText("Charger Generation");
+        fileChooserButton.setText("Load Generation");
         fileChooserButton.addActionListener(new LoadButtonListener(globalManager));
         this.add(fileChooserButton);
 

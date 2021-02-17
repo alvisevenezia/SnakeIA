@@ -51,7 +51,7 @@ public class MainGUI extends JFrame implements ActionListener {
         statPanel = new StatPanel(globalManager);
         statPanel.setVisible(false);
         statPanel = new StatPanel(globalManager);
-        statPanel.setBounds(100, 75, 300,100);
+        statPanel.setBounds(100, 75, 300,75);
         statPanel.setBackground(Color.YELLOW);
         statPanel.setVisible(false);
 

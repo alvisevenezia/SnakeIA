@@ -1,14 +1,17 @@
-package fr.alvisevenezia.IA.NN;
+package fr.alvisevenezia.IA.NN.layers;
 
 import fr.alvisevenezia.IA.IAIteration;
+import fr.alvisevenezia.IA.NN.weights.SimpleWeightsData;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Random;
 
-public class FirstLayer extends Layer{
+public class FirstLayer extends Layer<FirstLayer, SimpleWeightsData> {
 
     private int size;
-    private float[] weights;
+    private SimpleWeightsData weights;
     private float[] output;
     private float[] bias;
     private IAIteration iaIteration;
@@ -17,32 +20,29 @@ public class FirstLayer extends Layer{
 
         this.size = size;
         this.iaIteration = iaIteration;
-        weights = new float[size];
+        weights = new SimpleWeightsData(new ArrayList<>(Collections.nCopies(size,0.0f)));
         bias = new float[size];
         output = new float[size];
 
     }
 
+    @Override
     public float[] getBias() {
         return bias;
-    }
-
-    @Override
-    public HashMap<Integer, float[]> geWeights() {
-        return null;
     }
 
     public void setBias(float[] bias) {
         this.bias = bias;
     }
 
+    @Override
     public void compute(){
 
         float[] input = iaIteration.getSnakeInfo(iaIteration.getSnakeManager().getHeadPos()[0],iaIteration.getSnakeManager().getHeadPos()[1]);
 
         for(int i  = 0;i <size;i++) {
 
-            output[i] = input[i]*weights[i];
+            output[i] = input[i]*weights.getAt(i);
         }
 
     }
@@ -52,23 +52,24 @@ public class FirstLayer extends Layer{
         return output;
     }
 
-    public float[] getWeights(){
+    @Override
+    public SimpleWeightsData getWeights(){
 
         return weights;
 
     }
 
-    public float getWeight(int i){
-
-        return weights[i];
+    public Float getWeights(int id) {
+        return weights.getAt(id);
     }
 
     public void setWeight(int i,float f){
 
-        weights[i] = f;
+        weights.setAt(i,f);
 
     }
 
+    @Override
     public void mergeWeights(FirstLayer firstLayer1,FirstLayer firstLayer2){
 
         int splitID = iaIteration.getGlobalManager().getRandom().nextInt(firstLayer1.getSize());
@@ -77,12 +78,12 @@ public class FirstLayer extends Layer{
 
             if(ID<splitID){
 
-                weights[ID] = firstLayer1.getWeights()[ID];
+                weights.setAt(ID,firstLayer1.getWeights().getAt(ID));
                 bias[ID] = firstLayer1.getBias()[ID];
             }
             else {
 
-                weights[ID] = firstLayer2.getWeights()[ID];
+                weights.setAt(ID,firstLayer2.getWeights().getAt(ID));
                 bias[ID] = firstLayer2.getBias()[ID];
 
             }
@@ -91,15 +92,15 @@ public class FirstLayer extends Layer{
 
         if(iaIteration.getGlobalManager().getRandom().nextInt(iaIteration.getGlobalManager().getQuantity())<iaIteration.getGlobalManager().getQuantity()*(iaIteration.getGlobalManager().getMutationRate()/100)){
 
-            int neuronID = iaIteration.getGlobalManager().getRandom().nextInt((firstLayer1.getWeights().length*2)-1);
+            int neuronID = iaIteration.getGlobalManager().getRandom().nextInt((firstLayer1.getWeights().length()*2)-1);
 
-            if(neuronID <firstLayer1.getWeights().length) {
+            if(neuronID <firstLayer1.getWeights().length()) {
 
-                weights[neuronID] = (iaIteration.getGlobalManager().getRandom().nextFloat()*2)-1;
+                weights.setAt(neuronID,(iaIteration.getGlobalManager().getRandom().nextFloat()*2)-1);
 
             }else{
 
-                bias[neuronID%firstLayer1.getWeights().length] = (iaIteration.getGlobalManager().getRandom().nextFloat()*2)-1;
+                bias[neuronID%firstLayer1.getWeights().length()] = (iaIteration.getGlobalManager().getRandom().nextFloat()*2)-1;
             }
         }
 
@@ -147,6 +148,7 @@ public class FirstLayer extends Layer{
 
     }
 
+    @Override
     public void generateRandomWeights(){
 
         Random r = new Random();

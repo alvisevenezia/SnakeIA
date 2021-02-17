@@ -1,17 +1,17 @@
-package fr.alvisevenezia.IA.NN;
+package fr.alvisevenezia.IA.NN.layers;
 
 import fr.alvisevenezia.IA.IAIteration;
+import fr.alvisevenezia.IA.NN.weights.MultipleWeightsData;
 
-import java.util.HashMap;
-import java.util.Random;
+import java.util.*;
 
-public class DecisionLayer extends Layer{
+public class DecisionLayer extends Layer<DecisionLayer, MultipleWeightsData> {
 
     private int size;
     private IAIteration iaIteration;
     private float[] output;
     private float bias[];
-    private HashMap<Integer,float[]> weights;
+    private MultipleWeightsData weights;
 
     public DecisionLayer(int size,IAIteration iaIteration){
 
@@ -19,56 +19,54 @@ public class DecisionLayer extends Layer{
         this.size = size;
         output = new float[size];
         bias = new float[size];
-        weights = new HashMap<>();
+        weights = new MultipleWeightsData(size);
 
-    }
-
-    public float[] getBias() {
-        return bias;
     }
 
     @Override
-    public HashMap<Integer, float[]> geWeights() {
-        return weights;
+    public float[] getBias() {
+        return bias;
     }
 
     public void setBias(float[] bias) {
         this.bias = bias;
     }
 
-    public void setWeights(int ID,float[] val) {
-        weights.put(ID,val);
+    public void setWeights(int ID, List<Float> val) {
+        weights.setAt(ID,val);
     }
 
-    public float[] getWeights(int id){
+    public List<Float> getWeights(int id){
 
-        return weights.get(id);
+        return weights.getAt(id);
 
     }
 
-    public void generateRamdomWeights(){
+    @Override
+    public void generateRandomWeights(){
 
         Random r = new Random();
 
         for(int i = 0;i < size;i++){
 
-            float[] w = new float[iaIteration.getLayer(iaIteration.getLayerID(this)).getSize()];
+            List<Float> w = new ArrayList<>(size);
 
-            for(int i2 = 0;i2< iaIteration.getLayer(iaIteration.getLayerID(this)).getSize();i2++){
+            for(int i2 = 0;i2< iaIteration.getNeuronalNetworkManager().getLayer(iaIteration.getNeuronalNetworkManager().getLayerID(this)).getSize();i2++){
 
-                w[i2] = iaIteration.getGlobalManager().getRandom().nextFloat() * ((float) (iaIteration.getGlobalManager().getRandom().nextBoolean() ? 1 : -1));
+                w.add(iaIteration.getGlobalManager().getRandom().nextFloat() * ((float) (iaIteration.getGlobalManager().getRandom().nextBoolean() ? 1 : -1)));
 
             }
 
             bias[i] = iaIteration.getGlobalManager().getRandom().nextFloat() * ((float) (iaIteration.getGlobalManager().getRandom().nextBoolean() ? 1 : -1));
 
-            weights.put(i,w);
+            weights.setAt(i,w);
         }
 
 
     }
 
-    public void mergeWeight(DecisionLayer decisionLayer1,DecisionLayer decisionLayer2){
+    @Override
+    public void mergeWeights(DecisionLayer decisionLayer1, DecisionLayer decisionLayer2){
 
         int splitID = iaIteration.getGlobalManager().getRandom().nextInt(decisionLayer1.getSize());
 
@@ -76,13 +74,13 @@ public class DecisionLayer extends Layer{
 
             if(ID<splitID){
 
-                weights.put(ID,decisionLayer1.getWeights(ID));
+                weights.setAt(ID,decisionLayer1.getWeights(ID));
                 bias[ID] = decisionLayer1.getBias()[ID];
 
             }
             else {
 
-                weights.put(ID,decisionLayer2.getWeights(ID));
+                weights.setAt(ID,decisionLayer2.getWeights(ID));
                 bias[ID] = decisionLayer1.getBias()[ID];
 
             }
@@ -93,17 +91,18 @@ public class DecisionLayer extends Layer{
 
             int neuronID = iaIteration.getGlobalManager().getRandom().nextInt((decisionLayer1.getSize()*2)-1);
 
-            if(neuronID <decisionLayer1.getWeights(0).length) {
+            if(neuronID <decisionLayer1.getWeights().length()) {
 
-                float newWeights[] = new float[decisionLayer1.getWeights(0).length];
+                List<Float> newWeights = new ArrayList<>(Collections.nCopies(size,0f));
 
-                for (int weightID = 0; weightID < decisionLayer1.getWeights(0).length; weightID++) {
+                for (int weightID = 0; weightID < decisionLayer1.getWeights().length(); weightID++) {
 
-                    newWeights[weightID] = iaIteration.getGlobalManager().getRandom().nextFloat() * ((float) (iaIteration.getGlobalManager().getRandom().nextBoolean() ? 1 : -1));
+                    newWeights.set(weightID, iaIteration.getGlobalManager().getRandom().nextFloat() * ((float) (iaIteration.getGlobalManager().getRandom().nextBoolean() ? 1 : -1)));
 
                 }
 
-                weights.replace(neuronID, newWeights);
+                weights.setAt(neuronID, newWeights);
+
             }else{
 
                 bias[neuronID%decisionLayer1.getSize()] = iaIteration.getGlobalManager().getRandom().nextFloat() * ((float) (iaIteration.getGlobalManager().getRandom().nextBoolean() ? 1 : -1));
@@ -115,15 +114,15 @@ public class DecisionLayer extends Layer{
 
     public void compute(){
 
-        float[] input = iaIteration.getLayer(iaIteration.getLayerID(this)-1).getOutput();
+        float[] input = iaIteration.getNeuronalNetworkManager().getLayer(iaIteration.getNeuronalNetworkManager().getLayerID(this)-1).getOutput();
 
         for(int i = 0;i < size;i++){
 
             float out = 0;
 
-            for(int i2 = 0;i2 < (iaIteration.getLayer(iaIteration.getLayerID(this)).getSize());i2++) {
+            for(int i2 = 0;i2 < (iaIteration.getNeuronalNetworkManager().getLayer(iaIteration.getNeuronalNetworkManager().getLayerID(this)).getSize());i2++) {
 
-                out = out+input[i2]*weights.get(i)[i2];
+                out = out+input[i2]* weights.getAt(i).get(i2);
 
             }
 
@@ -142,8 +141,8 @@ public class DecisionLayer extends Layer{
     }
 
     @Override
-    public float[] getWeights() {
-        return new float[0];
+    public MultipleWeightsData getWeights() {
+        return weights;
     }
 
     @Override

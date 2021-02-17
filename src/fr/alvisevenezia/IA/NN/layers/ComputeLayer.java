@@ -1,17 +1,20 @@
-package fr.alvisevenezia.IA.NN;
+package fr.alvisevenezia.IA.NN.layers;
 
 import fr.alvisevenezia.IA.IAIteration;
+import fr.alvisevenezia.IA.NN.weights.MultipleWeightsData;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Random;
 
-public class ComputeLayer extends Layer{
+public class ComputeLayer extends Layer<ComputeLayer, MultipleWeightsData> {
 
     private int size;
     private IAIteration iaIteration;
     private float[] output;
     private float[] bias;
-    private HashMap<Integer,float[]>weights;
+    private MultipleWeightsData weights;
 
     public ComputeLayer(int size,IAIteration iaIteration){
 
@@ -19,13 +22,13 @@ public class ComputeLayer extends Layer{
         this.size = size;
         output = new float[size];
         bias = new float[size];
-        weights = new HashMap<>();
+        weights = new MultipleWeightsData(size);
 
     }
 
-    public void setWeights(int ID,float[] val){
+    public void setWeights(int ID,List<Float> val){
 
-        weights.put(ID,val);
+        weights.setAt(ID,val);
 
     }
 
@@ -37,21 +40,16 @@ public class ComputeLayer extends Layer{
         return bias;
     }
 
-    @Override
-    public HashMap<Integer, float[]> geWeights() {
-        return weights;
-    }
-
     public void compute(){
 
-        float[] input = iaIteration.getLayer(iaIteration.getLayerID(this)-1).getOutput();
+        float[] input = iaIteration.getNeuronalNetworkManager().getLayer(iaIteration.getNeuronalNetworkManager().getLayerID(this)-1).getOutput();
         for(int i = 0;i < size;i++){
 
             float out = 0;
 
-            for(int i2 = 0;i2 < iaIteration.getLayer(iaIteration.getLayerID(this)).getSize();i2++) {
+            for(int i2 = 0;i2 < iaIteration.getNeuronalNetworkManager().getLayer(iaIteration.getNeuronalNetworkManager().getLayerID(this)).getSize();i2++) {
 
-                out = out+input[i2]*weights.get(i)[i2];
+                out = out+input[i2]* weights.getAt(i).get(i2);
 
             }
 
@@ -73,39 +71,41 @@ public class ComputeLayer extends Layer{
     }
 
     @Override
-    public float[] getWeights() {
-        return new float[0];
+    public MultipleWeightsData getWeights() {
+
+        return weights;
     }
 
-    public float[] getWeights(int id){
+    public List<Float> getWeights(int id){
 
-        return weights.get(id);
+        return weights.getAt(id);
 
     }
 
-
+    @Override
     public void generateRandomWeights() {
 
         Random r = new Random();
 
         for(int i = 0;i < size;i++){
 
-            float[] w = new float[iaIteration.getLayer(iaIteration.getLayerID(this)).getSize()];
+            List<Float> w = new ArrayList<>(size);
 
-            for(int i2 = 0;i2< iaIteration.getLayer(iaIteration.getLayerID(this)).getSize();i2++){
+            for(int i2 = 0;i2< iaIteration.getNeuronalNetworkManager().getLayer(iaIteration.getNeuronalNetworkManager().getLayerID(this)).getSize();i2++){
 
-                w[i2] = (iaIteration.getGlobalManager().getRandom().nextFloat()*2)-1;
+                w.add((iaIteration.getGlobalManager().getRandom().nextFloat()*2)-1);
 
             }
 
             bias[i] = (iaIteration.getGlobalManager().getRandom().nextFloat()*2)-1;
 
-            weights.put(i,w);
+            weights.setAt(i,w);
         }
 
     }
 
-    public void mergeWeight(ComputeLayer computeLayer1,ComputeLayer computeLayer2){
+    @Override
+    public void mergeWeights(ComputeLayer computeLayer1, ComputeLayer computeLayer2){
 
         int splitID = iaIteration.getGlobalManager().getRandom().nextInt(computeLayer1.getSize());
 
@@ -113,13 +113,13 @@ public class ComputeLayer extends Layer{
 
             if(ID<splitID){
 
-                weights.put(ID,computeLayer1.getWeights(ID));
+                weights.setAt(ID,computeLayer1.getWeights(ID));
                 bias[ID] = computeLayer1.getBias()[ID];
 
             }
             else {
 
-                weights.put(ID,computeLayer2.getWeights(ID));
+                weights.setAt(ID,computeLayer2.getWeights(ID));
                 bias[ID] = computeLayer1.getBias()[ID];
 
             }
@@ -132,18 +132,18 @@ public class ComputeLayer extends Layer{
 
             if(neuronID <computeLayer1.getSize()) {
 
-                float newWeights[] = new float[computeLayer1.getWeights(0).length];
+                List<Float> newWeights = new ArrayList<>(size);
 
-                for (int weightID = 0; weightID < computeLayer1.getWeights(0).length; weightID++) {
+                for (int weightID = 0; weightID < computeLayer1.getWeights().length(); weightID++) {
 
-                    newWeights[weightID] = (iaIteration.getGlobalManager().getRandom().nextFloat()*2)-1;
+                    newWeights.add((iaIteration.getGlobalManager().getRandom().nextFloat()*2)-1);
 
                 }
 
-                weights.replace(neuronID, newWeights);
+                weights.setAt(neuronID, newWeights);
             }else{
 
-                bias[neuronID%computeLayer1.getWeights(0).length] = (iaIteration.getGlobalManager().getRandom().nextFloat()*2)-1;
+                bias[neuronID%computeLayer1.getWeights().length()] = (iaIteration.getGlobalManager().getRandom().nextFloat()*2)-1;
 
             }
         }

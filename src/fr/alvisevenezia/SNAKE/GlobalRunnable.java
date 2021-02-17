@@ -20,7 +20,7 @@ public class GlobalRunnable extends Thread {
     public void run() {
 
         while(isAlive()) {
-            
+
             if (globalManager.isStarted() && globalManager.getSnakeQuantity() > 0 && globalManager.getSnakeAliveQuantity() == 0) {
 
                 globalManager.stopRunnables();
@@ -44,9 +44,9 @@ public class GlobalRunnable extends Thread {
 
                     if (iaIteration.getSnakeManager().isAlive()) {
 
-                        for (int i = 0; i < iaIteration.getLayers().size(); i++) {
+                        for (int i = 0; i < iaIteration.getNeuronalNetworkManager().getLayersList().size(); i++) {
 
-                            iaIteration.getLayer(i).compute();
+                            iaIteration.getNeuronalNetworkManager().getLayer(i).compute();
                         }
 
                         iaIteration.getSnakeManager().moovSnake(iaIteration.getMouvement());
@@ -57,8 +57,8 @@ public class GlobalRunnable extends Thread {
 
                 globalManager.getMainGUI().updateStats(globalManager.getSnakeQuantity(), globalManager.getBestSnake().calculateFitness().toString(), globalManager.getSnakeAliveQuantity(), globalManager.getGenerationCOunt(), globalManager.getMoyenne());
 
-            }
 
+            }
         }
 
     }
