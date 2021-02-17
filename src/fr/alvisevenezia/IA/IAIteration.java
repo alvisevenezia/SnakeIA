@@ -1,10 +1,6 @@
 package fr.alvisevenezia.IA;
 
-import fr.alvisevenezia.IA.NN.IAType;
 import fr.alvisevenezia.IA.NN.NeuronalNetworkManager;
-import fr.alvisevenezia.IA.NN.layers.ComputeLayer;
-import fr.alvisevenezia.IA.NN.layers.DecisionLayer;
-import fr.alvisevenezia.IA.NN.layers.FirstLayer;
 import fr.alvisevenezia.IA.NN.layers.Layer;
 import fr.alvisevenezia.SNAKE.Direction;
 import fr.alvisevenezia.SNAKE.GlobalManager;

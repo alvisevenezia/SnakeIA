@@ -1,4 +1,4 @@
-package fr.alvisevenezia.IA.NN;
+package fr.alvisevenezia.IA;
 
 public enum IAType {
 

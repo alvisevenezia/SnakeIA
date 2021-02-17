@@ -1,6 +1,6 @@
 package fr.alvisevenezia.GUI.listeners;
 
-import fr.alvisevenezia.IA.NN.IAType;
+import fr.alvisevenezia.IA.IAType;
 import fr.alvisevenezia.SNAKE.GlobalManager;
 
 import javax.swing.*;

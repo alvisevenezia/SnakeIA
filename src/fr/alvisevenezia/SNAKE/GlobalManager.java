@@ -2,9 +2,8 @@ package fr.alvisevenezia.SNAKE;
 
 import fr.alvisevenezia.GUI.GUIType;
 import fr.alvisevenezia.GUI.MainGUI;
-import fr.alvisevenezia.IA.CSV.CSVBuilder;
 import fr.alvisevenezia.IA.IAIteration;
-import fr.alvisevenezia.IA.NN.IAType;
+import fr.alvisevenezia.IA.IAType;
 import fr.alvisevenezia.IA.NN.NeuronalNetworkManager;
 
 import javax.swing.*;
@@ -32,7 +31,7 @@ public class GlobalManager implements ActionListener {
     private final double mutationRate = 2;
     private final double crossOverRate = 95;
     private final int quantity = 2000;
-    private final String path = "E:\\Developpement\\JAVA\\IA\\SnakeIA\\Save";
+    private final String path = "C:\\Users\\wanto\\OneDrive\\Documents\\DEV\\IA\\SnakeIA";
     private Thread globalThread;
     private ArrayList<SnakeManager> winner;
     private Random random;
