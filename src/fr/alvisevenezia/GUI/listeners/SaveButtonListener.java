@@ -1,7 +1,6 @@
 package fr.alvisevenezia.GUI.listeners;
 
 import fr.alvisevenezia.IA.CSV.CSVBuilder;
-import fr.alvisevenezia.IA.IAIteration;
 import fr.alvisevenezia.SNAKE.GlobalManager;
 
 import javax.swing.*;
@@ -40,7 +39,7 @@ public class SaveButtonListener implements ActionListener {
 
                 }
 
-                CSVBuilder csvBuilder = new CSVBuilder(file.getAbsolutePath()+"\\"+globalManager.getBestSnake().calculateFitness().toString(),new ArrayList<>(globalManager.getManagers().keySet()),globalManager);
+                CSVBuilder csvBuilder = new CSVBuilder(file.getAbsolutePath(),globalManager);
                 csvBuilder.buildFile();
 
             }

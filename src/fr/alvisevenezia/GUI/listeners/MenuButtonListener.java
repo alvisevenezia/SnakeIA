@@ -1,5 +1,6 @@
 package fr.alvisevenezia.GUI.listeners;
 
+import fr.alvisevenezia.IA.GA.GeneticAlgoritmManager;
 import fr.alvisevenezia.IA.IAType;
 import fr.alvisevenezia.SNAKE.GlobalManager;
 
@@ -27,6 +28,7 @@ public class MenuButtonListener implements ActionListener {
                 case "Genetic Algoritm and Neuronal Network":
 
                     globalManager.getMainGUI().displayMainPanel();
+                    globalManager.setGeneticAlgoritmManager(new GeneticAlgoritmManager(globalManager));
                     globalManager.setIaType(IAType.GANN);
                     break;
 

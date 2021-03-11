@@ -24,7 +24,6 @@ public class CSVReader {
 
         File file = new File(path+"\\"+name);
 
-        System.out.println(path+"\\"+name);
         try {
             FileReader fileReader = new FileReader(file);
             BufferedReader bufferedReader = new BufferedReader(fileReader);

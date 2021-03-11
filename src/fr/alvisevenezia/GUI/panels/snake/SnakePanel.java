@@ -22,74 +22,82 @@ public class SnakePanel extends JPanel {
     protected void paintComponent(Graphics g) throws NullPointerException{
         super.paintComponent(g);
 
-        ArrayList<SnakeManager> snakeManagers = globalManager.getBestSnakesAlives(10);
+        switch (globalManager.getIaType()){
 
-        for (int snakeID = 0; snakeID < snakeManagers.size(); snakeID++) {
+            case GANN:
 
-            for (int x = 0; x < globalManager.getSize(); x++) {
+                ArrayList<SnakeManager> snakeManagers = globalManager.getGeneticAlgoritmManager().getBestSnakesAlives(10);
 
-                for (int y = 0; y < globalManager.getSize(); y++) {
+                for (int snakeID = 0; snakeID < snakeManagers.size(); snakeID++) {
 
-                    if (globalManager.isStarted() && snakeManagers.get(snakeID) != null) {
-                        switch (snakeManagers.get(snakeID).getSnake(x, y)) {
+                    for (int x = 0; x < globalManager.getSize(); x++) {
 
-                            case 1:
-                                g.setColor(Color.RED);
-                                g.fillRect(x * globalManager.getMainGUI().getScale(), y * globalManager.getMainGUI().getScale(), globalManager.getMainGUI().getScale(), globalManager.getMainGUI().getScale());
+                        for (int y = 0; y < globalManager.getSize(); y++) {
 
-                                break;
+                            if (globalManager.isStarted() && snakeManagers.get(snakeID) != null) {
+                                switch (snakeManagers.get(snakeID).getSnake(x, y)) {
 
-                            case 0:
+                                    case 1:
+                                        g.setColor(Color.RED);
+                                        g.fillRect(x * globalManager.getMainGUI().getScale(), y * globalManager.getMainGUI().getScale(), globalManager.getMainGUI().getScale(), globalManager.getMainGUI().getScale());
 
-                                if (snakeManagers.get(snakeID).isApple(x, y)) {
+                                        break;
 
-                                    g.setColor(Color.GREEN);
-                                    g.fillRect(x * globalManager.getMainGUI().getScale(), y * globalManager.getMainGUI().getScale(), globalManager.getMainGUI().getScale(), globalManager.getMainGUI().getScale());
-                                    break;
+                                    case 0:
+
+                                        if (snakeManagers.get(snakeID).isApple(x, y)) {
+
+                                            g.setColor(Color.GREEN);
+                                            g.fillRect(x * globalManager.getMainGUI().getScale(), y * globalManager.getMainGUI().getScale(), globalManager.getMainGUI().getScale(), globalManager.getMainGUI().getScale());
+                                            break;
+                                        }
+                                        g.setColor(Color.BLACK);
+                                        g.drawRect(x * globalManager.getMainGUI().getScale(), y * globalManager.getMainGUI().getScale(), globalManager.getMainGUI().getScale(), globalManager.getMainGUI().getScale());
+
+                                        break;
+
+                                    default:
+
+                                        g.setColor(Color.BLUE);
+                                        g.fillRect(x * globalManager.getMainGUI().getScale(), y * globalManager.getMainGUI().getScale(), globalManager.getMainGUI().getScale(), globalManager.getMainGUI().getScale());
+
+                                        break;
                                 }
-                                g.setColor(Color.BLACK);
-                                g.drawRect(x * globalManager.getMainGUI().getScale(), y * globalManager.getMainGUI().getScale(), globalManager.getMainGUI().getScale(), globalManager.getMainGUI().getScale());
+                            }
 
-                                break;
+                            g.setColor(Color.BLACK);
+                            g.drawRect(x * globalManager.getMainGUI().getScale(), y * globalManager.getMainGUI().getScale(), globalManager.getMainGUI().getScale(), globalManager.getMainGUI().getScale());
 
-                            default:
 
-                                g.setColor(Color.BLUE);
-                                g.fillRect(x * globalManager.getMainGUI().getScale(), y * globalManager.getMainGUI().getScale(), globalManager.getMainGUI().getScale(), globalManager.getMainGUI().getScale());
-
-                                break;
                         }
-                    }
-
-                    g.setColor(Color.BLACK);
-                    g.drawRect(x * globalManager.getMainGUI().getScale(), y * globalManager.getMainGUI().getScale(), globalManager.getMainGUI().getScale(), globalManager.getMainGUI().getScale());
-
-
-                }
-
-            }
-
-            if(globalManager.showLines()) {
-
-                for (Direction direction : Direction.values()) {
-
-                    if (snakeManagers.get(snakeID).getApple()[direction.getId()] == 1) {
-
-                        g.setColor(Color.GREEN);
-
-                    } else {
-
-                        g.setColor(Color.RED);
 
                     }
 
-                    g.drawLine(snakeManagers.get(snakeID).getHeadPos()[0] * globalManager.getMainGUI().getScale(), snakeManagers.get(snakeID).getHeadPos()[1] * globalManager.getMainGUI().getScale(), direction.getCoordsToDisplay(snakeManagers.get(snakeID).getHeadPos()[0], snakeManagers.get(snakeID).getHeadPos()[1], globalManager)[0] * globalManager.getMainGUI().getScale(), direction.getCoordsToDisplay(snakeManagers.get(snakeID).getHeadPos()[0], snakeManagers.get(snakeID).getHeadPos()[1], globalManager)[1] * globalManager.getMainGUI().getScale());
+                    if(globalManager.showLines()) {
+
+                        for (Direction direction : Direction.values()) {
+
+                            if (snakeManagers.get(snakeID).getApple()[direction.getId()] == 1) {
+
+                                g.setColor(Color.GREEN);
+
+                            } else {
+
+                                g.setColor(Color.RED);
+
+                            }
+
+                            g.drawLine(snakeManagers.get(snakeID).getHeadPos()[0] * globalManager.getMainGUI().getScale(), snakeManagers.get(snakeID).getHeadPos()[1] * globalManager.getMainGUI().getScale(), direction.getCoordsToDisplay(snakeManagers.get(snakeID).getHeadPos()[0], snakeManagers.get(snakeID).getHeadPos()[1], globalManager)[0] * globalManager.getMainGUI().getScale(), direction.getCoordsToDisplay(snakeManagers.get(snakeID).getHeadPos()[0], snakeManagers.get(snakeID).getHeadPos()[1], globalManager)[1] * globalManager.getMainGUI().getScale());
+
+                        }
+
+                    }
 
                 }
 
-            }
-
+                break;
         }
+
 
     }
 

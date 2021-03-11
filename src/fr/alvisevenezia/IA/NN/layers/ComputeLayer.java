@@ -1,24 +1,23 @@
 package fr.alvisevenezia.IA.NN.layers;
 
-import fr.alvisevenezia.IA.IAIteration;
+import fr.alvisevenezia.IA.NN.NeuronalNetworkManager;
 import fr.alvisevenezia.IA.NN.weights.MultipleWeightsData;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
 public class ComputeLayer extends Layer<ComputeLayer, MultipleWeightsData> {
 
     private int size;
-    private IAIteration iaIteration;
+    private NeuronalNetworkManager neuronalNetworkManager;
     private float[] output;
     private float[] bias;
     private MultipleWeightsData weights;
 
-    public ComputeLayer(int size,IAIteration iaIteration){
+    public ComputeLayer(int size, NeuronalNetworkManager neuronalNetworkManager){
 
-        this.iaIteration = iaIteration;
+        this.neuronalNetworkManager = neuronalNetworkManager;
         this.size = size;
         output = new float[size];
         bias = new float[size];
@@ -42,12 +41,12 @@ public class ComputeLayer extends Layer<ComputeLayer, MultipleWeightsData> {
 
     public void compute(){
 
-        float[] input = iaIteration.getNeuronalNetworkManager().getLayer(iaIteration.getNeuronalNetworkManager().getLayerID(this)-1).getOutput();
+        float[] input = neuronalNetworkManager.getLayer(neuronalNetworkManager.getLayerID(this)-1).getOutput();
         for(int i = 0;i < size;i++){
 
             float out = 0;
 
-            for(int i2 = 0;i2 < iaIteration.getNeuronalNetworkManager().getLayer(iaIteration.getNeuronalNetworkManager().getLayerID(this)).getSize();i2++) {
+            for(int i2 = 0;i2 < neuronalNetworkManager.getLayer(neuronalNetworkManager.getLayerID(this)).getSize();i2++) {
 
                 out = out+input[i2]* weights.getAt(i).get(i2);
 
@@ -85,21 +84,27 @@ public class ComputeLayer extends Layer<ComputeLayer, MultipleWeightsData> {
     @Override
     public void generateRandomWeights() {
 
-        Random r = new Random();
+        switch (neuronalNetworkManager.getGlobalManager().getIaType()){
 
-        for(int i = 0;i < size;i++){
+            case GANN:
 
-            List<Float> w = new ArrayList<>(size);
+                for(int i = 0;i < size;i++){
 
-            for(int i2 = 0;i2< iaIteration.getNeuronalNetworkManager().getLayer(iaIteration.getNeuronalNetworkManager().getLayerID(this)).getSize();i2++){
+                    List<Float> w = new ArrayList<>(size);
 
-                w.add((iaIteration.getGlobalManager().getRandom().nextFloat()*2)-1);
+                    for(int i2 = 0;i2< neuronalNetworkManager.getLayer(neuronalNetworkManager.getLayerID(this)).getSize();i2++){
 
-            }
+                        w.add((neuronalNetworkManager.getGlobalManager().getGeneticAlgoritmManager().getRandom().nextFloat()*2)-1);
 
-            bias[i] = (iaIteration.getGlobalManager().getRandom().nextFloat()*2)-1;
+                    }
 
-            weights.setAt(i,w);
+                    bias[i] = (neuronalNetworkManager.getGlobalManager().getGeneticAlgoritmManager().getRandom().nextFloat()*2)-1;
+
+                    weights.setAt(i,w);
+                }
+
+                break;
+
         }
 
     }
@@ -107,7 +112,7 @@ public class ComputeLayer extends Layer<ComputeLayer, MultipleWeightsData> {
     @Override
     public void mergeWeights(ComputeLayer computeLayer1, ComputeLayer computeLayer2){
 
-        int splitID = iaIteration.getGlobalManager().getRandom().nextInt(computeLayer1.getSize());
+        int splitID = neuronalNetworkManager.getGlobalManager().getGeneticAlgoritmManager().getRandom().nextInt(computeLayer1.getSize());
 
         for(int ID = 0;ID<computeLayer1.getSize();ID++){
 
@@ -126,9 +131,9 @@ public class ComputeLayer extends Layer<ComputeLayer, MultipleWeightsData> {
 
         }
 
-        if(iaIteration.getGlobalManager().getRandom().nextInt(iaIteration.getGlobalManager().getQuantity())<iaIteration.getGlobalManager().getQuantity()*(iaIteration.getGlobalManager().getMutationRate()/100)){
+        if(neuronalNetworkManager.getGlobalManager().getGeneticAlgoritmManager().getRandom().nextInt(neuronalNetworkManager.getGlobalManager().getGeneticAlgoritmManager().getQuantity())<neuronalNetworkManager.getGlobalManager().getGeneticAlgoritmManager().getQuantity()*(neuronalNetworkManager.getGlobalManager().getGeneticAlgoritmManager().getMutationRate()/100)){
 
-            int neuronID = iaIteration.getGlobalManager().getRandom().nextInt((computeLayer1.getSize()*2)-1);
+            int neuronID = neuronalNetworkManager.getGlobalManager().getGeneticAlgoritmManager().getRandom().nextInt((computeLayer1.getSize()*2)-1);
 
             if(neuronID <computeLayer1.getSize()) {
 
@@ -136,14 +141,14 @@ public class ComputeLayer extends Layer<ComputeLayer, MultipleWeightsData> {
 
                 for (int weightID = 0; weightID < computeLayer1.getWeights().length(); weightID++) {
 
-                    newWeights.add((iaIteration.getGlobalManager().getRandom().nextFloat()*2)-1);
+                    newWeights.add((neuronalNetworkManager.getGlobalManager().getGeneticAlgoritmManager().getRandom().nextFloat()*2)-1);
 
                 }
 
                 weights.setAt(neuronID, newWeights);
             }else{
 
-                bias[neuronID%computeLayer1.getWeights().length()] = (iaIteration.getGlobalManager().getRandom().nextFloat()*2)-1;
+                bias[neuronID%computeLayer1.getWeights().length()] = (neuronalNetworkManager.getGlobalManager().getGeneticAlgoritmManager().getRandom().nextFloat()*2)-1;
 
             }
         }

@@ -47,38 +47,6 @@ public class SnakeButtonPanel extends JPanel {
 
     }
 
-    public void updateInfo(){
-
-        for(Component component : this.getComponents()){
-
-            if(component instanceof JLabel){
-
-                this.remove(component);
-
-            }
-
-        }
-
-        score = new JLabel("SCORE: "+globalManager.getBestSnake().getScore());
-        max = new JLabel("MAX: "+globalManager.getBestSnake().getMax());
-
-        this.add(score);
-        this.add(max);
-
-        this.repaint();
-
-    }
-
-    public void createInfo(){
-
-        score = new JLabel("SCORE: "+globalManager.getBestSnake().getScore());
-        max = new JLabel("MAX: "+globalManager.getBestSnake().getMax());
-
-        this.add(score);
-        this.add(max);
-
-    }
-
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);

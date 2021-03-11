@@ -1,10 +1,9 @@
 package fr.alvisevenezia.SNAKE;
 
-import fr.alvisevenezia.IA.IAIteration;
+import fr.alvisevenezia.IA.GA.GeneticAlgoritmManager;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
-import java.util.Timer;
 
 public class SnakeManager {
 
@@ -17,13 +16,11 @@ public class SnakeManager {
     private int moovCount = 0;
     private boolean headmooved = false;
     private SnakeMouvement currentmouvement = SnakeMouvement.STAY;
-    private Timer timer;
-    private IAIteration iaIteration;
     private boolean alive;
     private int score = 0;
     private int max;
 
-    private GlobalManager globalManager;
+    private GeneticAlgoritmManager geneticAlgoritmManager;
 
     private int[][] pommes;
     private int[][] currentsnake;
@@ -31,15 +28,14 @@ public class SnakeManager {
     private int[] apple = {0,0,0,0,0,0,0,0};
     private ArrayList<SnakeMouvement> lastMvt = new ArrayList<>();
 
-    public SnakeManager(GlobalManager globalManager,IAIteration iaIteration){
+    public SnakeManager(GeneticAlgoritmManager geneticAlgoritmManager){
 
         setCurrentbody(bodyStart);
-        this.globalManager = globalManager;
-        this.iaIteration = iaIteration;
-        pommes = new int[globalManager.getSize()][globalManager.getSize()];
-        currentsnake = new int[globalManager.getSize()][globalManager.getSize()];
-        newsnake = new int[globalManager.getSize()][globalManager.getSize()];
-        max = globalManager.getSize()*2;
+        this.geneticAlgoritmManager = geneticAlgoritmManager;
+        pommes = new int[geneticAlgoritmManager.getGlobalManager().getSize()][geneticAlgoritmManager.getGlobalManager().getSize()];
+        currentsnake = new int[geneticAlgoritmManager.getGlobalManager().getSize()][geneticAlgoritmManager.getGlobalManager().getSize()];
+        newsnake = new int[geneticAlgoritmManager.getGlobalManager().getSize()][geneticAlgoritmManager.getGlobalManager().getSize()];
+        max = geneticAlgoritmManager.getGlobalManager().getSize()*2;
 
     }
 
@@ -127,9 +123,9 @@ public class SnakeManager {
 
     public int[] getHeadPos(){
 
-        for(int i = 0;i< globalManager.getSize();i++){
+        for(int i = 0;i< geneticAlgoritmManager.getGlobalManager().getSize();i++){
 
-            for(int i2 = 0;i2<globalManager.getSize();i2++){
+            for(int i2 = 0;i2<geneticAlgoritmManager.getGlobalManager().getSize();i2++){
 
                 if(getSnake(i,i2) == 1){
 
@@ -145,9 +141,29 @@ public class SnakeManager {
 
     }
 
+    public int[] getNewHeadPos(){
+
+        for(int i = 0;i< geneticAlgoritmManager.getGlobalManager().getSize();i++){
+
+            for(int i2 = 0;i2<geneticAlgoritmManager.getGlobalManager().getSize();i2++){
+
+                if(getNewSnake(i,i2) == 1){
+
+                    return new int[]{i,i2};
+
+                }
+
+            }
+
+        }
+
+        return null;
+
+    }
+
     public void stopRunnable(){
 
-        globalManager.removeOneSnake();
+        geneticAlgoritmManager.removeOneSnake();
         setAlive(false);
 
     }
@@ -223,9 +239,9 @@ public class SnakeManager {
         lifetime++;
         max--;
 
-        for(int i = 0;i<globalManager.getSize();i++) {
+        for(int i = 0;i<geneticAlgoritmManager.getGlobalManager().getSize();i++) {
 
-            for (int i2 = 0; i2 < globalManager.getSize(); i2++) {
+            for (int i2 = 0; i2 < geneticAlgoritmManager.getGlobalManager().getSize(); i2++) {
 
                 switch (getSnake(i,i2)){
 
@@ -237,7 +253,7 @@ public class SnakeManager {
 
                     case 1:
 
-                        if(i + snakeMouvement.getX() > globalManager.getSize()-1 || i + snakeMouvement.getX() < 0 || i2 + snakeMouvement.getY() > globalManager.getSize()-1 || i2 + snakeMouvement.getY() < 0){
+                        if(i + snakeMouvement.getX() > geneticAlgoritmManager.getGlobalManager().getSize()-1 || i + snakeMouvement.getX() < 0 || i2 + snakeMouvement.getY() > geneticAlgoritmManager.getGlobalManager().getSize()-1 || i2 + snakeMouvement.getY() < 0){
 
                             stopRunnable();
                             appleID = 0;
@@ -254,11 +270,11 @@ public class SnakeManager {
                         }else if(!isHeadmooved()) {
 
 
-                            if(globalManager.isApple(appleID,i + snakeMouvement.getX(), i2 + snakeMouvement.getY())){
+                            if(geneticAlgoritmManager.isApple(appleID,i + snakeMouvement.getX(), i2 + snakeMouvement.getY())){
 
                                 setApple(i + snakeMouvement.getX(), i2 + snakeMouvement.getY(),0);
                                 appleID++;
-                                setApple(globalManager.getAppleCoord(appleID)[0],globalManager.getAppleCoord(appleID)[1],1);
+                                setApple(geneticAlgoritmManager.getAppleCoord(appleID)[0],geneticAlgoritmManager.getAppleCoord(appleID)[1],1);
                                 newbody = currentbody+1;
                                 score ++;
                                 max += 75;
@@ -297,21 +313,49 @@ public class SnakeManager {
 
             }
         }
-        updateBody();
-        updateSnake();
-        globalManager.getMainGUI().getSnake().repaint();
-        currentmouvement = snakeMouvement;
-        addMouvement(currentmouvement);
 
         setHeadmooved(false);
+
+        geneticAlgoritmManager.getGlobalManager().getMainGUI().getSnake().repaint();
+
+    }
+
+    public void resetMvt(){
+
+        newbody = currentbody;
+        newsnake = currentsnake;
+        alive = true;
+
+    }
+
+    public int[][] getSnakeMatrix(){
+
+        return newsnake;
+
+    }
+
+    public int getCurrentbody() {
+        return currentbody;
+    }
+
+    public int getNewbody() {
+        return newbody;
+    }
+
+    public void updateAll(SnakeMouvement snakeMouvement){
+
+        currentmouvement = snakeMouvement;
+        addMouvement(currentmouvement);
+        updateSnake();
+        updateBody();
 
     }
 
     public void initilizeApple(){
 
-        for(int i = 0;i < globalManager.getSize();i++){
+        for(int i = 0;i < geneticAlgoritmManager.getGlobalManager().getSize();i++){
 
-            for(int i2 = 0;i< globalManager.getSize();i++){
+            for(int i2 = 0;i< geneticAlgoritmManager.getGlobalManager().getSize();i++){
 
                 setApple(i,i2,0);
 
@@ -320,24 +364,6 @@ public class SnakeManager {
         }
 
      //   randomGenerateApple();
-
-    }
-
-    public void randomGenerateApple(){
-
-        int x = globalManager.getRandom().nextInt(globalManager.getSize()-2)+1;
-        int y = globalManager.getRandom().nextInt(globalManager.getSize()-2)+1;
-
-            while(getHeadPos()[0] == x || getHeadPos()[1] == y){
-
-                x = globalManager.getRandom().nextInt(globalManager.getSize());
-                y = globalManager.getRandom().nextInt(globalManager.getSize());
-
-            }
-
-        currentapple++;
-        setApple(x,y,1);
-
 
     }
 
@@ -367,25 +393,24 @@ public class SnakeManager {
 
     public void createSnake() {
 
+        for(int i = 0;i<geneticAlgoritmManager.getGlobalManager().getSize();i++) {
 
-
-        for(int i = 0;i<globalManager.getSize();i++) {
-
-            for (int i2 = 0; i2 < globalManager.getSize(); i2++) {
+            for (int i2 = 0; i2 < geneticAlgoritmManager.getGlobalManager().getSize(); i2++) {
 
                 setSnake(i,i2,0);
 
             }
         }
 
-        setSnake(globalManager.getSize()/2,globalManager.getSize()/2,1);
-        setSnake((globalManager.getSize()/2)+1,globalManager.getSize()/2,2);
+        setSnake(geneticAlgoritmManager.getGlobalManager().getSize()/2,geneticAlgoritmManager.getGlobalManager().getSize()/2,1);
+        setSnake((geneticAlgoritmManager.getGlobalManager().getSize()/2)+1,geneticAlgoritmManager.getGlobalManager().getSize()/2,2);
         updateSnake();
 
     }
 
-    public void createBodyPart(boolean isHead){
+    public int getNewSnake(int x,int y){
 
+        return newsnake[x][y];
 
     }
 
@@ -401,27 +426,10 @@ public class SnakeManager {
 
     }
 
-    public void increaseMax(int i){
-
-        if(max + i < 650) {
-
-            max += i;
-
-        }else{
-
-            max = 650;
-
-        }
-    }
-
     public void updateSnake(){
 
         currentsnake = newsnake;
 
-    }
-
-    public int getCurrentbody() {
-        return currentbody;
     }
 
     public void setCurrentbody(int newbody) {
@@ -469,12 +477,12 @@ public class SnakeManager {
         int posX = i3;
         int posY = i4;
 
-        for (int i = 0;i<globalManager.getSize();i++){
+        for (int i = 0;i<geneticAlgoritmManager.getGlobalManager().getSize();i++){
 
-            posX = direction.getXCoord(i3,i,globalManager);
-            posY = direction.getYCoord(i4,i,globalManager);
+            posX = direction.getXCoord(i3,i,geneticAlgoritmManager.getGlobalManager().getSize());
+            posY = direction.getYCoord(i4,i,geneticAlgoritmManager.getGlobalManager().getSize());
 
-            if(globalManager.getAppleCoord(appleID)[0] == posX && globalManager.getAppleCoord(appleID)[1] == posY){
+            if(geneticAlgoritmManager.getAppleCoord(appleID)[0] == posX && geneticAlgoritmManager.getAppleCoord(appleID)[1] == posY){
 
                 apple[direction.getId()] = 1;
                 return 1;
@@ -500,7 +508,7 @@ public class SnakeManager {
         int x = i2+direction.getxCoeff();
         int y = i3+direction.getyCoeff();
 
-        if(x > globalManager.getSize()-1 || x < 0 || y > globalManager.getSize()-1 || y < 0){
+        if(x > geneticAlgoritmManager.getGlobalManager().getSize()-1 || x < 0 || y > geneticAlgoritmManager.getGlobalManager().getSize()-1 || y < 0){
 
             return 1;
 
@@ -540,8 +548,8 @@ public class SnakeManager {
 
        // for(int i = 1;i<50;i++){
 
-            int x = direction.getXCoord(i2,1,globalManager);
-            int y = direction.getYCoord(i3,1,globalManager);
+            int x = direction.getXCoord(i2,1,geneticAlgoritmManager.getGlobalManager().getSize());
+            int y = direction.getYCoord(i3,1,geneticAlgoritmManager.getGlobalManager().getSize());
 
             if(getSnake(x,y) == currentbody){
 

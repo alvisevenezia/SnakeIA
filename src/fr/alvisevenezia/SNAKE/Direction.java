@@ -21,11 +21,12 @@ public enum Direction {
     public int[] getCoordsToDisplay(int x,int y,GlobalManager globalManager){
 
         int[] coord = {x,y};
+        int size = globalManager.getSize();
 
         if(x == 0 || y == 0){
 
-            coord[0] = getXCoord(x,50,globalManager);
-            coord[1] = getYCoord(y,50,globalManager);
+            coord[0] = getXCoord(x,50,size);
+            coord[1] = getYCoord(y,50,size);
 
         }else{
 
@@ -33,7 +34,7 @@ public enum Direction {
 
             for(i2 = 0;i2< globalManager.getSize(); i2++){
 
-                if((getXCoord(x,i2,globalManager) != (x+i2*getxCoeff()))){
+                if((getXCoord(x,i2,size) != (x+i2*getxCoeff()))){
 
                     break;
 
@@ -45,7 +46,7 @@ public enum Direction {
 
             for(i3 = 0;i3< globalManager.getSize(); i3++){
 
-                if((getYCoord(y,i3,globalManager) != (y+i3*getyCoeff()))){
+                if((getYCoord(y,i3,size) != (y+i3*getyCoeff()))){
 
                     break;
 
@@ -55,13 +56,13 @@ public enum Direction {
 
             if(i2 >= i3){
 
-                coord[0] = getXCoord(x,i3,globalManager);
-                coord[1] = getYCoord(y,i3,globalManager);
+                coord[0] = getXCoord(x,i3,size);
+                coord[1] = getYCoord(y,i3,size);
 
             }else if(i2 < i3){
 
-                coord[0] = getXCoord(x,i2,globalManager);
-                coord[1] = getYCoord(y,i2,globalManager);
+                coord[0] = getXCoord(x,i2,size);
+                coord[1] = getYCoord(y,i2,size);
 
             }
 
@@ -79,7 +80,7 @@ public enum Direction {
         return yCoeff;
     }
 
-    public int getXCoord(int x,int i,GlobalManager globalManager){
+    public int getXCoord(int x,int i,int size){
 
         int val = x+(xCoeff*i);
 
@@ -88,9 +89,9 @@ public enum Direction {
             val = 0;
             //x = i-(i3+(direction.getX()*i));
 
-        }else if(val > globalManager.getSize()-1){
+        }else if(val > size-1){
 
-            val = globalManager.getSize()-1;
+            val = size-1;
             // x = i+(49-(i3+(direction.getX()*i)));
 
         }
@@ -98,7 +99,7 @@ public enum Direction {
         return val;
     }
 
-    public int getYCoord(int y,int i,GlobalManager globalManager){
+    public int getYCoord(int y,int i,int size){
 
         int val = y+(yCoeff*i);
 
@@ -107,9 +108,9 @@ public enum Direction {
             val = 0;
             //x = i-(i3+(direction.getX()*i));
 
-        }else if(val > globalManager.getSize()-1){
+        }else if(val > size-1){
 
-            val = globalManager.getSize()-1;
+            val = size-1;
             // x = i+(49-(i3+(direction.getX()*i)));
 
         }

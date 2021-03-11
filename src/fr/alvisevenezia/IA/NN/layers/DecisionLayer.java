@@ -1,6 +1,6 @@
 package fr.alvisevenezia.IA.NN.layers;
 
-import fr.alvisevenezia.IA.IAIteration;
+import fr.alvisevenezia.IA.NN.NeuronalNetworkManager;
 import fr.alvisevenezia.IA.NN.weights.MultipleWeightsData;
 
 import java.util.*;
@@ -8,14 +8,14 @@ import java.util.*;
 public class DecisionLayer extends Layer<DecisionLayer, MultipleWeightsData> {
 
     private int size;
-    private IAIteration iaIteration;
+    private NeuronalNetworkManager neuronalNetworkManager;
     private float[] output;
     private float bias[];
     private MultipleWeightsData weights;
 
-    public DecisionLayer(int size,IAIteration iaIteration){
+    public DecisionLayer(int size, NeuronalNetworkManager neuronalNetworkManager){
 
-        this.iaIteration = iaIteration;
+        this.neuronalNetworkManager = neuronalNetworkManager;
         this.size = size;
         output = new float[size];
         bias = new float[size];
@@ -45,22 +45,29 @@ public class DecisionLayer extends Layer<DecisionLayer, MultipleWeightsData> {
     @Override
     public void generateRandomWeights(){
 
-        Random r = new Random();
+        switch (neuronalNetworkManager.getGlobalManager().getIaType()){
 
-        for(int i = 0;i < size;i++){
+            case GANN:
 
-            List<Float> w = new ArrayList<>(size);
+                for(int i = 0;i < size;i++){
 
-            for(int i2 = 0;i2< iaIteration.getNeuronalNetworkManager().getLayer(iaIteration.getNeuronalNetworkManager().getLayerID(this)).getSize();i2++){
+                    List<Float> w = new ArrayList<>(size);
 
-                w.add(iaIteration.getGlobalManager().getRandom().nextFloat() * ((float) (iaIteration.getGlobalManager().getRandom().nextBoolean() ? 1 : -1)));
+                    for(int i2 = 0;i2< neuronalNetworkManager.getLayer(neuronalNetworkManager.getLayerID(this)).getSize();i2++){
 
-            }
+                        w.add(neuronalNetworkManager.getGlobalManager().getGeneticAlgoritmManager().getRandom().nextFloat() * ((float) (neuronalNetworkManager.getGlobalManager().getGeneticAlgoritmManager().getRandom().nextBoolean() ? 1 : -1)));
 
-            bias[i] = iaIteration.getGlobalManager().getRandom().nextFloat() * ((float) (iaIteration.getGlobalManager().getRandom().nextBoolean() ? 1 : -1));
+                    }
 
-            weights.setAt(i,w);
+                    bias[i] = neuronalNetworkManager.getGlobalManager().getGeneticAlgoritmManager().getRandom().nextFloat() * ((float) (neuronalNetworkManager.getGlobalManager().getGeneticAlgoritmManager().getRandom().nextBoolean() ? 1 : -1));
+
+                    weights.setAt(i,w);
+                }
+                break;
+
         }
+
+
 
 
     }
@@ -68,7 +75,7 @@ public class DecisionLayer extends Layer<DecisionLayer, MultipleWeightsData> {
     @Override
     public void mergeWeights(DecisionLayer decisionLayer1, DecisionLayer decisionLayer2){
 
-        int splitID = iaIteration.getGlobalManager().getRandom().nextInt(decisionLayer1.getSize());
+        int splitID = neuronalNetworkManager.getGlobalManager().getGeneticAlgoritmManager().getRandom().nextInt(decisionLayer1.getSize());
 
         for(int ID = 0;ID<decisionLayer1.getSize();ID++){
 
@@ -87,9 +94,9 @@ public class DecisionLayer extends Layer<DecisionLayer, MultipleWeightsData> {
 
         }
 
-        if(iaIteration.getGlobalManager().getRandom().nextInt(iaIteration.getGlobalManager().getQuantity())<iaIteration.getGlobalManager().getQuantity()*(iaIteration.getGlobalManager().getMutationRate()/100)){
+        if(neuronalNetworkManager.getGlobalManager().getGeneticAlgoritmManager().getRandom().nextInt(neuronalNetworkManager.getGlobalManager().getGeneticAlgoritmManager().getQuantity())<neuronalNetworkManager.getGlobalManager().getGeneticAlgoritmManager().getQuantity()*(neuronalNetworkManager.getGlobalManager().getGeneticAlgoritmManager().getMutationRate()/100)){
 
-            int neuronID = iaIteration.getGlobalManager().getRandom().nextInt((decisionLayer1.getSize()*2)-1);
+            int neuronID = neuronalNetworkManager.getGlobalManager().getGeneticAlgoritmManager().getRandom().nextInt((decisionLayer1.getSize()*2)-1);
 
             if(neuronID <decisionLayer1.getWeights().length()) {
 
@@ -97,7 +104,7 @@ public class DecisionLayer extends Layer<DecisionLayer, MultipleWeightsData> {
 
                 for (int weightID = 0; weightID < decisionLayer1.getWeights().length(); weightID++) {
 
-                    newWeights.set(weightID, iaIteration.getGlobalManager().getRandom().nextFloat() * ((float) (iaIteration.getGlobalManager().getRandom().nextBoolean() ? 1 : -1)));
+                    newWeights.set(weightID, neuronalNetworkManager.getGlobalManager().getGeneticAlgoritmManager().getRandom().nextFloat() * ((float) (neuronalNetworkManager.getGlobalManager().getGeneticAlgoritmManager().getRandom().nextBoolean() ? 1 : -1)));
 
                 }
 
@@ -105,7 +112,7 @@ public class DecisionLayer extends Layer<DecisionLayer, MultipleWeightsData> {
 
             }else{
 
-                bias[neuronID%decisionLayer1.getSize()] = iaIteration.getGlobalManager().getRandom().nextFloat() * ((float) (iaIteration.getGlobalManager().getRandom().nextBoolean() ? 1 : -1));
+                bias[neuronID%decisionLayer1.getSize()] = neuronalNetworkManager.getGlobalManager().getGeneticAlgoritmManager().getRandom().nextFloat() * ((float) (neuronalNetworkManager.getGlobalManager().getGeneticAlgoritmManager().getRandom().nextBoolean() ? 1 : -1));
 
             }
         }
@@ -114,13 +121,13 @@ public class DecisionLayer extends Layer<DecisionLayer, MultipleWeightsData> {
 
     public void compute(){
 
-        float[] input = iaIteration.getNeuronalNetworkManager().getLayer(iaIteration.getNeuronalNetworkManager().getLayerID(this)-1).getOutput();
+        float[] input = neuronalNetworkManager.getLayer(neuronalNetworkManager.getLayerID(this)-1).getOutput();
 
         for(int i = 0;i < size;i++){
 
             float out = 0;
 
-            for(int i2 = 0;i2 < (iaIteration.getNeuronalNetworkManager().getLayer(iaIteration.getNeuronalNetworkManager().getLayerID(this)).getSize());i2++) {
+            for(int i2 = 0;i2 < (neuronalNetworkManager.getLayer(neuronalNetworkManager.getLayerID(this)).getSize());i2++) {
 
                 out = out+input[i2]* weights.getAt(i).get(i2);
 
