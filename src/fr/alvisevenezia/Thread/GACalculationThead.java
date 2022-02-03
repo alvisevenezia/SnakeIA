@@ -23,6 +23,7 @@ public class GACalculationThead extends Thread {
 
             if (geneticAlgoritmManager.getGlobalManager().isStarted() && geneticAlgoritmManager.getSnakeQuantity() > 0 && geneticAlgoritmManager.getSnakeAliveQuantity() < 1) {
 
+                System.out.println("Meilleur score: " + geneticAlgoritmManager.getBestSnakes(1).get(0).calculateFitness());
                 geneticAlgoritmManager.getGlobalManager().setStarted(false);
                 geneticAlgoritmManager.startIA(geneticAlgoritmManager.getQuantity());
 
@@ -46,7 +47,8 @@ public class GACalculationThead extends Thread {
 
                 }
 
-                geneticAlgoritmManager.getGlobalManager().getMainGUI().updateStats(geneticAlgoritmManager.getSnakeQuantity(), geneticAlgoritmManager.getBestSnake().calculateFitness().toString(), geneticAlgoritmManager.getSnakeAliveQuantity(), geneticAlgoritmManager.getGenerationCOunt(), geneticAlgoritmManager.getMoyenne());
+
+                //geneticAlgoritmManager.getGlobalManager().getMainGUI().updateStats(geneticAlgoritmManager.getSnakeQuantity(), geneticAlgoritmManager.getBestSnake().calculateFitness().toString(), geneticAlgoritmManager.getSnakeAliveQuantity(), geneticAlgoritmManager.getGenerationCOunt(), geneticAlgoritmManager.getMoyenne());
 
 
             }

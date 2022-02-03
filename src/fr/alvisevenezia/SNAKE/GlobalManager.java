@@ -21,7 +21,7 @@ public class GlobalManager implements ActionListener {
     private boolean isStarted = false;
     private boolean showLines = false;
     private boolean isLoaded = false;
-    private final int size = 9;
+    private final int size = 31;
     private final String path = "C:\\Users\\wanto\\OneDrive\\Documents\\DEV\\IA\\SnakeIA";
     private int[] layersSize = new int[]{24, 24, 24, 4};
     private GeneticAlgoritmManager geneticAlgoritmManager;
@@ -38,12 +38,30 @@ public class GlobalManager implements ActionListener {
 
     public GlobalManager(){
 
+    }
+
+    public void startWithHead(){
+
         mainGUI = new MainGUI(this);
         mainGUI.createSnakeGUI();
         mainGUI.createMenuGUI();
         currentFrame = mainGUI;
         mainGUI.openFrame(GUIType.Menu);
 
+    }
+
+    public void startHeadless(){
+
+        setGeneticAlgoritmManager(new GeneticAlgoritmManager(this));
+        setIaType(IAType.GANN);
+        geneticAlgoritmManager.generateApple();
+        geneticAlgoritmManager.createFirstGeneration();
+        try {
+            wait(100);
+        } catch (InterruptedException interruptedException) {
+            interruptedException.printStackTrace();
+        }
+        geneticAlgoritmManager.startCalculationThread();
     }
 
     public void setShowLines(boolean showLines) {

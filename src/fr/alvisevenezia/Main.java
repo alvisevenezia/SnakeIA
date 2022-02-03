@@ -6,7 +6,7 @@ public class Main {
 
 
     public static void main(String[] args) {
-        new GlobalManager();
-
+        GlobalManager gl = new GlobalManager();
+        gl.startHeadless();
     }
 }

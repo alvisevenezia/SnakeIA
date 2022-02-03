@@ -316,7 +316,7 @@ public class SnakeManager {
 
         setHeadmooved(false);
 
-        geneticAlgoritmManager.getGlobalManager().getMainGUI().getSnake().repaint();
+        //geneticAlgoritmManager.getGlobalManager().getMainGUI().getSnake().repaint();
 
     }
 
